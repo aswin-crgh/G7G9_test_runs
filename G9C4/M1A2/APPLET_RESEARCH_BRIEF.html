@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Applet Research Brief — G9C4M1A2</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+       font-size: 15px; line-height: 1.6; color: #1a1a1a; background: #f5f5f5; }
+.page { max-width: 1060px; margin: 0 auto; padding: 32px 24px 110px; }
+
+.header { background: #fff; border-radius: 10px; padding: 28px 32px 24px;
+          margin-bottom: 20px; border: 1px solid #e0e0e0; }
+.header-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.file-name { font-size: 13px; color: #888; margin-bottom: 4px; }
+.title { font-size: 22px; font-weight: 700; }
+.meta  { font-size: 13px; color: #666; margin-top: 4px; }
+.gate-badge { display: inline-block; padding: 4px 14px; border-radius: 20px;
+              font-size: 13px; font-weight: 600; margin-top: 10px;
+              background: #eef2ff; color: #4f46e5; }
+
+.card { background: #fff; border-radius: 10px; border: 1px solid #e0e0e0;
+        margin-bottom: 14px; overflow: hidden; }
+.card-body { padding: 16px 20px; }
+
+.section-header { font-size: 16px; font-weight: 700; color: #111;
+                  margin: 28px 0 14px; display: flex; align-items: center; gap: 10px; }
+.section-header::after { content:''; flex:1; height:1px; background:#e0e0e0; }
+
+.gate-section { margin-bottom: 20px; }
+.gate-section-title { font-size: 14px; font-weight: 700; color: #333;
+                       margin-bottom: 8px; padding-bottom: 4px;
+                       border-bottom: 1px solid #e8e8e8; }
+.gate-item { padding: 10px 0; border-bottom: 1px solid #f5f5f5; font-size: 13px; }
+.gate-item:last-child { border-bottom: none; }
+.gate-item-title { font-weight: 600; color: #222; }
+.gate-item-detail { color: #666; margin-top: 2px; }
+.gate-item-meta { display: flex; gap: 6px; margin-top: 4px; flex-wrap: wrap; }
+.gate-narrative { font-size: 13px; color: #444; line-height: 1.7;
+                  white-space: pre-wrap; background: #fafafa;
+                  border-radius: 6px; padding: 14px; }
+
+/* Per-slide / per-screen blueprint enrichment strip */
+.bp-slide-enrich { margin: 6px 0 4px 34px; padding: 8px 10px;
+                   background: #f9fafb; border-left: 2px solid #e5e7eb;
+                   border-radius: 0 4px 4px 0; display: flex;
+                   flex-direction: column; gap: 4px; }
+.bp-enrich-row { display: flex; align-items: flex-start; gap: 8px;
+                 font-size: 11px; line-height: 1.5; flex-wrap: wrap; }
+.bp-enrich-label { flex: 0 0 110px; color: #6b7280; font-weight: 700;
+                   text-transform: uppercase; letter-spacing: 0.4px;
+                   padding-top: 3px; }
+.bp-chip { display: inline-block; padding: 2px 7px; border-radius: 10px;
+           font-size: 11px; line-height: 1.4; cursor: default; position: relative; }
+.bp-chip.vocab    { background: #e6f4ea; color: #1e7e34; }
+.bp-chip.conv     { background: #fff7ed; color: #9a3412; }
+.bp-chip.textbook { background: #ecfeff; color: #0e7490; }
+.bp-chip.applet   { background: #fef3c7; color: #92400e; }
+.bp-chip.video    { background: #fde8e8; color: #c0392b; }
+.bp-chip.vm       { background: #eef2ff; color: #4338ca; }
+/* Phase 2 blueprint chips */
+.bp-chip.concept-intro { background: #d1fae5; color: #064e3b; }
+.bp-chip.concept-reinf { background: #e0f2fe; color: #075985; }
+.bp-chip.misc          { background: #fde8e8; color: #c0392b; }
+.bp-chip.prereq        { background: #fef3c7; color: #78350f;
+                         border: 1px dashed #fcd34d; }
+.bp-chip.vocab-used    { background: #f0fdf4; color: #15803d; }
+.bp-chip.vocab-reinf   { background: #dcfce7; color: #14532d;
+                         font-weight: 600; }
+.bp-concept-tag { display: inline-block; font-size: 9px; text-transform: uppercase;
+                  letter-spacing: 0.4px; opacity: 0.7; margin-right: 3px; }
+.bp-mini-tag { display: inline-block; background: #fff; color: #6b7280;
+               padding: 0 5px; border-radius: 8px; font-size: 9px;
+               border: 1px solid #e5e7eb; margin-left: 2px; }
+
+.tag { display: inline-block; border-radius: 3px; padding: 1px 7px;
+       font-size: 11px; font-weight: 600; }
+.bp-cpa { font-size: 10px; font-weight: 600; border-radius: 3px; padding: 1px 6px; }
+.bp-cpa-c { background: #dbeafe; color: #1d4ed8; }
+.bp-cpa-p { background: #fef3c7; color: #92400e; }
+.bp-cpa-a { background: #ede9fe; color: #6d28d9; }
+.tag-op   { background: #eef2ff; color: #4f46e5; }
+
+/* Module sequence cards */
+.mod-card { background: #fff; border: 1px solid #e0e0e0; border-radius: 10px;
+            padding: 16px 20px; margin-bottom: 12px; position: relative; }
+.mod-pos { font-size: 28px; font-weight: 800; color: #4f46e5; float: left;
+           margin-right: 16px; min-width: 36px; text-align: center; line-height: 1; }
+.mod-body { overflow: hidden; }
+.mod-title { font-size: 15px; font-weight: 700; color: #222; }
+.mod-lo { font-size: 13px; color: #444; margin-top: 4px; }
+.mod-codes { margin-top: 6px; }
+.mod-code { display: inline-block; background: #f0f0f0; color: #555; border-radius: 3px;
+            padding: 1px 6px; font-size: 10px; font-family: monospace; margin: 1px 2px; }
+.mod-notes { font-size: 12px; color: #856404; background: #fffbeb; border-radius: 4px;
+             padding: 4px 8px; margin-top: 6px; }
+.mod-edit-controls { margin-top: 10px; padding-top: 10px; border-top: 1px solid #f0f0f0;
+                     display: flex; gap: 6px; align-items: center; }
+.mod-edit-btn { border: 1px solid #ddd; background: #fff; border-radius: 4px;
+                padding: 2px 8px; font-size: 12px; cursor: pointer; color: #555; }
+.mod-edit-btn:hover { border-color: #999; color: #111; }
+
+/* Refine panel & presets */
+.mod-refine-panel { margin-top: 8px; padding: 8px 0; }
+.refine-presets { display: flex; gap: 6px; flex-wrap: wrap; }
+.refine-preset { border: 1px solid #c7d2fe; background: #eef2ff; border-radius: 5px;
+                 padding: 3px 10px; font-size: 12px; font-weight: 600; cursor: pointer;
+                 color: #4f46e5; transition: all .12s; }
+.refine-preset:hover { background: #dbeafe; border-color: #818cf8; }
+.refine-preset:disabled { opacity: .5; cursor: not-allowed; }
+
+/* Undo bar */
+.undo-bar { display: none; background: #fffbeb; border: 1px solid #f59e0b; border-radius: 8px;
+            padding: 8px 16px; margin-bottom: 12px; align-items: center; gap: 12px;
+            font-size: 13px; color: #856404; }
+.undo-btn { border: 1px solid #f59e0b; background: #fff; border-radius: 4px;
+            padding: 2px 10px; font-size: 12px; cursor: pointer; color: #856404;
+            font-weight: 600; }
+.undo-btn:hover { background: #fffbeb; }
+
+/* Module card states */
+.mod-card.accepted { border-color: #22c55e; background: #f0fdf4; }
+.mod-card.refined  { border-left: 3px solid #4f46e5; }
+.mod-card.refining { opacity: .6; pointer-events: none; }
+
+/* Upgrade map */
+.upgrade-card { background: #fff; border: 1px solid #e0e0e0; border-radius: 8px;
+                padding: 12px 16px; margin-bottom: 8px; }
+.upgrade-target { font-weight: 600; font-size: 14px; color: #333; }
+.upgrade-just { font-size: 13px; color: #666; margin-top: 4px; }
+
+/* Curriculum alignment table */
+.align-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.align-table th { background: #f5f5f5; text-align: left; padding: 8px 12px;
+                  font-weight: 600; color: #555; font-size: 12px;
+                  border-bottom: 2px solid #e0e0e0; }
+.align-table td { padding: 8px 12px; border-bottom: 1px solid #f0f0f0; color: #333; }
+.align-table tr:last-child td { border-bottom: none; }
+
+/* Per-item decision infra */
+.item-decision { margin-top: 9px; padding-top: 8px; border-top: 1px solid rgba(0,0,0,.06); }
+.item-btns { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.ibtn { border: 1px solid #ddd; background: #fff; border-radius: 5px; padding: 3px 10px;
+        font-size: 12px; font-weight: 600; cursor: pointer; color: #555;
+        transition: all .12s; }
+.ibtn:hover { border-color: #999; color: #111; }
+.ibtn.active-accept { background: #e6f4ea; border-color: #22c55e; color: #1e7e34; }
+.ibtn.active-flag   { background: #fff3cd; border-color: #f59e0b; color: #856404; }
+.item-comment-inline { margin-top: 6px; }
+.inline-comment { width: 100%; border: 1px solid #e8e8e8; border-radius: 5px;
+                  padding: 6px 9px; font-size: 12px; resize: none; overflow: hidden;
+                  font-family: inherit; color: #333; background: #fafafa;
+                  transition: border-color .15s, background .15s; }
+.inline-comment:focus { border-color: #818cf8; background: #fff; outline: none; }
+.inline-comment.has-text { border-color: #c7d2fe; background: #f5f3ff; }
+
+/* Validation panel */
+.val-panel { position: fixed; bottom: 0; left: 0; right: 0; background: #fff;
+             border-top: 1px solid #e0e0e0; padding: 12px 24px;
+             display: flex; align-items: center; gap: 14px;
+             box-shadow: 0 -2px 12px rgba(0,0,0,.08); z-index: 100; }
+.val-progress { font-size: 13px; color: #888; flex: 1; }
+.val-progress strong { color: #1a1a1a; }
+.btn { padding: 8px 18px; border-radius: 6px; border: none; cursor: pointer;
+       font-size: 14px; font-weight: 600; transition: opacity .15s; }
+.btn:hover { opacity: .85; }
+.btn-approve { background: #22c55e; color: #fff; }
+.btn-neutral { background: #f0f0f0; color: #333; }
+.btn-rework  { background: #ef4444; color: #fff; }
+.overall-comment-box { display: none; padding: 14px 24px; background: #fafafa;
+                        border-top: 1px solid #e8e8e8;
+                        position: fixed; bottom: 52px; left: 0; right: 0;
+                        z-index: 101; box-shadow: 0 -2px 8px rgba(0,0,0,.1); }
+.overall-comment-box textarea { width: 100%; border: 1px solid #ddd; border-radius: 6px;
+                                  padding: 10px; font-size: 14px; resize: vertical;
+                                  min-height: 80px; font-family: inherit; }
+.overall-comment-box .btn-row { margin-top: 10px; display: flex; gap: 10px; }
+.badge-approved  { background:#e6f4ea; color:#1e7e34; border-radius:6px; padding:6px 14px; font-weight:600; font-size:14px; }
+.badge-rework    { background:#fde8e8; color:#c0392b; border-radius:6px; padding:6px 14px; font-weight:600; font-size:14px; }
+.badge-commented { background:#fff3cd; color:#856404; border-radius:6px; padding:6px 14px; font-weight:600; font-size:14px; }
+
+/* Clickable reference tags — open modal on click */
+.tag-link { cursor: pointer; text-decoration: none; transition: opacity .15s; position: relative; }
+.tag-link:hover { opacity: .8; }
+.tag-tooltip { display: none; }
+
+/* Detail modal (shared — single instance at page bottom) */
+.detail-modal-bg { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+                   background: rgba(0,0,0,.5); z-index: 200; align-items: center; justify-content: center; }
+.detail-modal-bg.open { display: flex; }
+.detail-modal { background: #1a1a1a; color: #fff; border-radius: 12px; padding: 20px 24px;
+                max-width: 560px; width: 90%; max-height: 80vh; overflow-y: auto;
+                box-shadow: 0 8px 32px rgba(0,0,0,.4); font-size: 13px; line-height: 1.6;
+                position: relative; }
+.detail-modal .tt-title { font-weight: 700; font-size: 15px; margin-bottom: 8px; color: #fff; }
+.detail-modal .tt-desc { color: #ddd; margin-bottom: 6px; }
+.detail-modal .tt-row { display: flex; gap: 8px; margin: 4px 0; font-size: 12px; }
+.detail-modal .tt-label { color: #999; min-width: 80px; font-weight: 600; }
+.detail-modal .tt-val { color: #eee; }
+.detail-modal .tt-svg { margin-top: 8px; background: #fff; border-radius: 6px;
+                         padding: 8px; text-align: center; }
+.detail-modal .tt-svg svg { max-width: 300px; max-height: 160px; }
+.detail-modal .tt-close { position: absolute; top: 10px; right: 14px; background: none;
+                           border: none; color: #888; font-size: 20px; cursor: pointer; }
+.detail-modal .tt-close:hover { color: #fff; }
+.detail-modal .tt-codes { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 2px; }
+.detail-modal .tt-code-chip { background: #333; color: #aaa; padding: 1px 6px;
+                               border-radius: 3px; font-family: monospace; font-size: 11px; }
+.gate-item[id] { scroll-margin-top: 80px; }
+.gate-evidence { margin-top: 4px; }
+.gate-evidence summary { font-size: 12px; color: #888; cursor: pointer; font-weight: 600; }
+.gate-evidence summary:hover { color: #4f46e5; }
+.gate-evidence-body { font-size: 13px; color: #666; margin-top: 4px; line-height: 1.6; }
+.highlight-flash { animation: flash-bg .8s ease; }
+@keyframes flash-bg { 0% { background: #eef2ff; } 100% { background: transparent; } }
+
+@media print {
+  body { background: #fff; font-size: 11px; }
+  .page { padding: 0; max-width: none; }
+  .val-panel, .overall-comment-box, .item-decision, .item-btns,
+  .item-comment-inline, .mod-edit-controls { display: none !important; }
+  .card { break-inside: avoid; page-break-inside: avoid; }
+  .mod-card { break-inside: avoid; }
+  a[href]::after { content: none; }
+}
+/* ── Responsive overrides (injected for presentation) ── */
+@media (max-width: 1100px) {
+  .container, .main-content { max-width: 100% !important; padding: 0 12px !important; }
+}
+@media (max-width: 768px) {
+  body { padding: 12px !important; font-size: 13px; }
+  .header-bar { flex-direction: column; gap: 8px; padding: 12px !important; }
+  .header-bar h1, .header-bar .title { font-size: 18px !important; }
+
+  /* Slide rows: stack thumb above annotations */
+  .slide-row { grid-template-columns: 1fr !important; }
+  .slide-thumb, .slide-thumb img { width: 100% !important; max-width: 100% !important; }
+
+  /* Quad strip: 2x2 grid */
+  .quad-strip { grid-template-columns: repeat(2, 1fr) !important; gap: 8px !important; }
+
+  /* Tables: horizontal scroll */
+  .card-body { overflow-x: auto; }
+  table { min-width: 500px; }
+  .align-table { min-width: 400px; }
+
+  /* Cards */
+  .card-body { padding: 12px !important; }
+
+  /* Score badges */
+  .score-badge, .verdict-badge { font-size: 12px !important; }
+
+  /* Gate module cards */
+  .mod-card { padding: 10px !important; }
+  .mod-edit-controls { flex-wrap: wrap; gap: 4px; }
+  .mod-edit-btn { font-size: 11px !important; padding: 3px 6px !important; }
+
+  /* Annotations grid */
+  .ann-grid { grid-template-columns: 1fr !important; }
+
+  /* Overlay panels */
+  .overlay-panel { width: 95vw !important; max-width: 95vw !important; }
+
+  /* Pre blocks */
+  pre { font-size: 11px !important; white-space: pre-wrap !important; word-break: break-word !important; }
+
+  /* Section headers */
+  .section-header { font-size: 12px !important; padding: 10px 12px !important; }
+
+  /* Enrichment row in applet reviews */
+  .enrichment-row { flex-direction: column !important; }
+  .enrichment-col { width: 100% !important; min-width: 0 !important; }
+}
+@media (max-width: 480px) {
+  .quad-strip { grid-template-columns: 1fr !important; }
+  .slide-thumb img { width: 100% !important; }
+  .header-bar h1, .header-bar .title { font-size: 16px !important; }
+}</style>
+</head>
+<body data-run-dir="/Users/aswin/Work/agentic/ACRLDS/outputs/G9C4M1A2/2026-04-12T13-34-38" data-gate-name="APPLET_RESEARCH_BRIEF">
+<div class="page">
+  <div class="header">
+    <div class="header-top">
+      <div>
+        <div class="file-name">G9C4</div>
+        <div class="title">Applet Research Brief — G9C4M1A2</div>
+        <div class="meta">Grade 9 | Probability</div>
+      </div>
+      <div><span class="gate-badge">GATE — Requires Approval</span></div>
+    </div>
+  </div>
+  <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;
+                padding:10px 20px;margin-bottom:16px;display:flex;align-items:center;
+                gap:14px;flex-wrap:wrap;font-size:13px;color:#475569">
+      <span style="color:#94a3b8;font-size:11px;text-transform:uppercase;letter-spacing:.5px;font-weight:600">Context</span>
+      <strong>G9C4</strong> &middot; Grade 9 &middot; Probability
+    </div>
+  
+    <div class="section-header">Applet</div>
+    <div class="card"><div class="card-body">
+      <div style="font-size:15px;font-weight:600;color:#222">G9C4M1A2</div>
+      <div style="font-size:13px;color:#666;margin-top:2px">Module: G9C4M1 — HIGH Chance or LOW Chance?</div>
+      <div style="margin-top:6px">
+        <span class="tag" style="background:#dbeafe;color:#1d4ed8">Learn</span>
+        <span class="tag" style="background:#dbeafe;color:#1d4ed8">Standard</span>
+        <span class="tag" style="background:#f3e8ff;color:#7c3aed">Explore</span>
+      </div>
+    </div></div>
+
+    <div class="section-header">Learning Objective</div>
+    <div class="card"><div class="card-body">
+      <div style="font-size:14px;color:#333">Sort uncertain events into 'HIGH Chance' or 'LOW Chance' categories by dragging event cards, demonstrating that chance varies across situations.</div>
+    </div></div>
+
+    <div class="section-header">LO Misconceptions Checklist (3)</div>
+    <div class="card"><div class="card-body">
+      <table class="align-table">
+        <thead><tr><th>ID</th><th>Topic</th><th>Severity</th></tr></thead>
+        <tbody><tr>
+              <td><a href="javascript:void(0)" onclick="scrollToRef('amisc_280')"
+                     style="font-weight:600;color:#4f46e5">#280</a></td>
+              <td>probability</td>
+              <td><span class="tag" style="color:#856404">medium</span></td>
+            </tr><tr>
+              <td><a href="javascript:void(0)" onclick="scrollToRef('amisc_281')"
+                     style="font-weight:600;color:#4f46e5">#281</a></td>
+              <td>probability</td>
+              <td><span class="tag" style="color:#c0392b">high</span></td>
+            </tr><tr>
+              <td><a href="javascript:void(0)" onclick="scrollToRef('amisc_283')"
+                     style="font-weight:600;color:#4f46e5">#283</a></td>
+              <td>probability</td>
+              <td><span class="tag" style="color:#856404">medium</span></td>
+            </tr></tbody>
+      </table>
+    </div></div>
+
+    <div class="section-header">Misconception Inventory (3)</div>
+    <div class="card"><div class="card-body">
+      
+            <div class="gate-item" id="amisc_280">
+              <div class="gate-item-title">#280 — Students treat chance as a vague linguistic label ('probably', 'maybe', 'unlikely') and resist comparing uncertain events with any precision. In this applet's binary-sort context, the risk is that students drag cards arbitrarily — treating HIGH and LOW as interchangeable labels — rather than reasoning about which situations genuinely have more chance. The applet surfaces this when students place events like 'rain in Bogor in January' in LOW Chance or 'helicopter landing at school tomorrow' in HIGH Chance without any reasoning anchor.</div>
+              <details class="gate-evidence">
+                  <summary>Surfacing strategy</summary>
+                  <div class="gate-evidence-body">Design the feedback flow so that when a card is placed incorrectly, the system does NOT simply say 'wrong' — instead it prompts: 'Think about how often this usually happens. Does it happen most of the time, or almost never?' This forces the student to reason from frequency rather than from vague feeling. The Repair-Guided Feedback archetype (IAS id 34) is the correct vehicle.</div>
+                </details>
+              <div class="gate-item-meta"><span class="tag" style="color:#856404">Severity: medium</span><span class="tag" style="background:#f3e8ff;color:#7c3aed">Repair-Guided Feedback</span><a class="tag tag-link" style="background:#dbeafe;color:#1d4ed8" href="javascript:void(0)">VIR 3 — Binary Chance Sort — Two-Zone Drop Area (HIGH Chance / LOW Chance)<span class="tag-tooltip"><div class="tt-title">VIR 3 — Binary Chance Sort — Two-Zone Drop Area (HIGH Chance / LOW Chance)</div><div class="tt-svg"><svg xmlns="http://www.w3.org/2000/svg" width="360" height="140" viewBox="0 0 360 140" style="font-family:system-ui,sans-serif;font-size:11px;"><rect width="360" height="140" fill="#F8FAFC"/><text x="180" y="132" text-anchor="middle" fill="#64748B" font-size="9" font-style="italic">Counting, addition, subtraction, integers, probability</text><rect x="10" y="25" width="100" height="90" rx="5" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/><text x="60" y="38" text-anchor="middle" fill="#CBD5E1" font-size="9" font-weight="bold">Abstract</text><text x="60" y="60" text-anchor="middle" fill="#1E293B" font-size="10">Abstract</text><line x1="112" y1="70" x2="128" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="133,70 127,67 127,73" fill="#64748B"/><rect x="135" y="25" width="100" height="90" rx="5" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.5"/><text x="185" y="38" text-anchor="middle" fill="#2563EB" font-size="9" font-weight="bold">Model</text><text x="185" y="55" text-anchor="middle" fill="#1E293B" font-size="10">model</text><text x="185" y="78" text-anchor="middle" fill="#1E293B" font-size="10">concrete rep</text><line x1="237" y1="70" x2="253" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="258,70 252,67 252,73" fill="#64748B"/><rect x="260" y="25" width="100" height="90" rx="5" fill="#ECFDF5" stroke="#059669" stroke-width="1.5"/><text x="310" y="38" text-anchor="middle" fill="#059669" font-size="9" font-weight="bold">Clarified</text><text x="310" y="60" text-anchor="middle" fill="#1E293B" font-size="10">Concrete cla…</text></svg></div><div class="tt-desc">A number line from 0 to 1 labels probability as a continuous quantity between 'impossible' (0) and 'certain' (1). Students place events at their approximate probability positions, developing probability as a measurable quantity rather than a linguistic label (likely, unlikely). The number line also shows how complementary events (P(A) + P(not A) = 1) sit symmetrically around 0.5.</div><div class="tt-row"><span class="tt-label">CPA</span><span class="tt-val">concrete</span></div></span></a></div>
+              <div class="item-decision" data-item-id="amisc_0">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_amisc_0_accept" onclick="itemDecide('amisc_0','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('amisc_0')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-amisc_0" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('amisc_0','rescope')">Re-scope</button>
+      <button class="refine-preset" onclick="refineEntry('amisc_0','add_detail')">Add detail</button>
+      <button class="refine-preset" onclick="refineEntry('amisc_0','adjust_severity')">Adjust severity</button>
+      <button class="refine-preset" onclick="refineEntry('amisc_0','remove')">Remove</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_amisc_0" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('amisc_0')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item" id="amisc_281">
+              <div class="gate-item-title">#281 — Students believe all uncertain events are equally likely — if something can happen or not happen, they default to 50/50. In a binary HIGH/LOW sort, this manifests as students placing all uncertain events in the same category (typically HIGH, since 'it could happen') or expressing that the sort is arbitrary because 'both could happen'. This is the highest-severity misconception for this applet and the primary reason the binary sort interaction was designed.</div>
+              <details class="gate-evidence">
+                  <summary>Surfacing strategy</summary>
+                  <div class="gate-evidence-body">Include at least two event-card pairs in the sort set where one event is clearly HIGH and the other clearly LOW, drawn from the same domain (e.g., 'It will rain in Bogor tomorrow in January' vs 'A helicopter will land at your school tomorrow'). When a student places both in the same category, the feedback should contrast the two: 'Both are uncertain — but are they equally likely? Think about how often each one actually happens.' The Contrastive Feedback archetype (IAS id 32) is the correct vehicle for this pair-level feedback.</div>
+                </details>
+              <div class="gate-item-meta"><span class="tag" style="color:#c0392b">Severity: high</span><span class="tag" style="background:#f3e8ff;color:#7c3aed">Contrastive Feedback</span><a class="tag tag-link" style="background:#dbeafe;color:#1d4ed8" href="javascript:void(0)">VIR 3 — Binary Chance Sort — Two-Zone Drop Area (HIGH Chance / LOW Chance)<span class="tag-tooltip"><div class="tt-title">VIR 3 — Binary Chance Sort — Two-Zone Drop Area (HIGH Chance / LOW Chance)</div><div class="tt-svg"><svg xmlns="http://www.w3.org/2000/svg" width="360" height="140" viewBox="0 0 360 140" style="font-family:system-ui,sans-serif;font-size:11px;"><rect width="360" height="140" fill="#F8FAFC"/><text x="180" y="132" text-anchor="middle" fill="#64748B" font-size="9" font-style="italic">Counting, addition, subtraction, integers, probability</text><rect x="10" y="25" width="100" height="90" rx="5" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/><text x="60" y="38" text-anchor="middle" fill="#CBD5E1" font-size="9" font-weight="bold">Abstract</text><text x="60" y="60" text-anchor="middle" fill="#1E293B" font-size="10">Abstract</text><line x1="112" y1="70" x2="128" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="133,70 127,67 127,73" fill="#64748B"/><rect x="135" y="25" width="100" height="90" rx="5" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.5"/><text x="185" y="38" text-anchor="middle" fill="#2563EB" font-size="9" font-weight="bold">Model</text><text x="185" y="55" text-anchor="middle" fill="#1E293B" font-size="10">model</text><text x="185" y="78" text-anchor="middle" fill="#1E293B" font-size="10">concrete rep</text><line x1="237" y1="70" x2="253" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="258,70 252,67 252,73" fill="#64748B"/><rect x="260" y="25" width="100" height="90" rx="5" fill="#ECFDF5" stroke="#059669" stroke-width="1.5"/><text x="310" y="38" text-anchor="middle" fill="#059669" font-size="9" font-weight="bold">Clarified</text><text x="310" y="60" text-anchor="middle" fill="#1E293B" font-size="10">Concrete cla…</text></svg></div><div class="tt-desc">A number line from 0 to 1 labels probability as a continuous quantity between 'impossible' (0) and 'certain' (1). Students place events at their approximate probability positions, developing probability as a measurable quantity rather than a linguistic label (likely, unlikely). The number line also shows how complementary events (P(A) + P(not A) = 1) sit symmetrically around 0.5.</div><div class="tt-row"><span class="tt-label">CPA</span><span class="tt-val">concrete</span></div></span></a></div>
+              <div class="item-decision" data-item-id="amisc_1">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_amisc_1_accept" onclick="itemDecide('amisc_1','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('amisc_1')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-amisc_1" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('amisc_1','rescope')">Re-scope</button>
+      <button class="refine-preset" onclick="refineEntry('amisc_1','add_detail')">Add detail</button>
+      <button class="refine-preset" onclick="refineEntry('amisc_1','adjust_severity')">Adjust severity</button>
+      <button class="refine-preset" onclick="refineEntry('amisc_1','remove')">Remove</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_amisc_1" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('amisc_1')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item" id="amisc_283">
+              <div class="gate-item-title">#283 — Students can identify impossible and certain events but treat all uncertain events as vague and undifferentiated — they cannot reason about relative likelihood between uncertain events. In the binary sort, this surfaces as random placement of uncertain events, or as students correctly placing the extreme cases (if any appear) but failing on the middle-range events. The applet's binary sort is a simplified version of the full ordering task — it reduces the cognitive demand to a two-category decision, which is the appropriate scaffold at this concrete phase.</div>
+              <details class="gate-evidence">
+                  <summary>Surfacing strategy</summary>
+                  <div class="gate-evidence-body">Include 2–3 event cards that are 'borderline' (e.g., 'You will eat rice for lunch today' — HIGH for most Indonesian students; 'You will score 100% on your next test' — LOW but not impossible). These borderline cards force students to reason rather than rely on extreme-case recognition. Feedback for borderline cards should acknowledge the reasoning challenge: 'This one is tricky! Think about how often this happens for most students your age.' The Repair-Guided Feedback archetype (IAS id 34) handles this.</div>
+                </details>
+              <div class="gate-item-meta"><span class="tag" style="color:#856404">Severity: medium</span><span class="tag" style="background:#f3e8ff;color:#7c3aed">Repair-Guided Feedback</span><a class="tag tag-link" style="background:#dbeafe;color:#1d4ed8" href="javascript:void(0)">VIR 3 — Binary Chance Sort — Two-Zone Drop Area (HIGH Chance / LOW Chance)<span class="tag-tooltip"><div class="tt-title">VIR 3 — Binary Chance Sort — Two-Zone Drop Area (HIGH Chance / LOW Chance)</div><div class="tt-svg"><svg xmlns="http://www.w3.org/2000/svg" width="360" height="140" viewBox="0 0 360 140" style="font-family:system-ui,sans-serif;font-size:11px;"><rect width="360" height="140" fill="#F8FAFC"/><text x="180" y="132" text-anchor="middle" fill="#64748B" font-size="9" font-style="italic">Counting, addition, subtraction, integers, probability</text><rect x="10" y="25" width="100" height="90" rx="5" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/><text x="60" y="38" text-anchor="middle" fill="#CBD5E1" font-size="9" font-weight="bold">Abstract</text><text x="60" y="60" text-anchor="middle" fill="#1E293B" font-size="10">Abstract</text><line x1="112" y1="70" x2="128" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="133,70 127,67 127,73" fill="#64748B"/><rect x="135" y="25" width="100" height="90" rx="5" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.5"/><text x="185" y="38" text-anchor="middle" fill="#2563EB" font-size="9" font-weight="bold">Model</text><text x="185" y="55" text-anchor="middle" fill="#1E293B" font-size="10">model</text><text x="185" y="78" text-anchor="middle" fill="#1E293B" font-size="10">concrete rep</text><line x1="237" y1="70" x2="253" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="258,70 252,67 252,73" fill="#64748B"/><rect x="260" y="25" width="100" height="90" rx="5" fill="#ECFDF5" stroke="#059669" stroke-width="1.5"/><text x="310" y="38" text-anchor="middle" fill="#059669" font-size="9" font-weight="bold">Clarified</text><text x="310" y="60" text-anchor="middle" fill="#1E293B" font-size="10">Concrete cla…</text></svg></div><div class="tt-desc">A number line from 0 to 1 labels probability as a continuous quantity between 'impossible' (0) and 'certain' (1). Students place events at their approximate probability positions, developing probability as a measurable quantity rather than a linguistic label (likely, unlikely). The number line also shows how complementary events (P(A) + P(not A) = 1) sit symmetrically around 0.5.</div><div class="tt-row"><span class="tt-label">CPA</span><span class="tt-val">concrete</span></div></span></a></div>
+              <div class="item-decision" data-item-id="amisc_2">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_amisc_2_accept" onclick="itemDecide('amisc_2','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('amisc_2')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-amisc_2" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('amisc_2','rescope')">Re-scope</button>
+      <button class="refine-preset" onclick="refineEntry('amisc_2','add_detail')">Add detail</button>
+      <button class="refine-preset" onclick="refineEntry('amisc_2','adjust_severity')">Adjust severity</button>
+      <button class="refine-preset" onclick="refineEntry('amisc_2','remove')">Remove</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_amisc_2" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('amisc_2')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+    </div></div>
+
+    <div class="section-header">Visual Model Recommendations (1)</div>
+    <div class="card"><div class="card-body">
+      
+            <div class="gate-item" id="avir_3">
+              <div class="gate-item-title">VIR 3 — Binary Chance Sort — Two-Zone Drop Area (HIGH Chance / LOW Chance)</div>
+              <div style="margin:8px 0;background:#fafafa;border-radius:6px;padding:10px;text-align:center;border:1px solid #e8e8e8"><div style="max-width:300px;margin:0 auto"><svg xmlns="http://www.w3.org/2000/svg" width="360" height="140" viewBox="0 0 360 140" style="font-family:system-ui,sans-serif;font-size:11px;"><rect width="360" height="140" fill="#F8FAFC"/><text x="180" y="132" text-anchor="middle" fill="#64748B" font-size="9" font-style="italic">Counting, addition, subtraction, integers, probability</text><rect x="10" y="25" width="100" height="90" rx="5" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/><text x="60" y="38" text-anchor="middle" fill="#CBD5E1" font-size="9" font-weight="bold">Abstract</text><text x="60" y="60" text-anchor="middle" fill="#1E293B" font-size="10">Abstract</text><line x1="112" y1="70" x2="128" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="133,70 127,67 127,73" fill="#64748B"/><rect x="135" y="25" width="100" height="90" rx="5" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.5"/><text x="185" y="38" text-anchor="middle" fill="#2563EB" font-size="9" font-weight="bold">Model</text><text x="185" y="55" text-anchor="middle" fill="#1E293B" font-size="10">model</text><text x="185" y="78" text-anchor="middle" fill="#1E293B" font-size="10">concrete rep</text><line x1="237" y1="70" x2="253" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="258,70 252,67 252,73" fill="#64748B"/><rect x="260" y="25" width="100" height="90" rx="5" fill="#ECFDF5" stroke="#059669" stroke-width="1.5"/><text x="310" y="38" text-anchor="middle" fill="#059669" font-size="9" font-weight="bold">Clarified</text><text x="310" y="60" text-anchor="middle" fill="#1E293B" font-size="10">Concrete cla…</text></svg></div></div>
+              <details class="gate-evidence">
+                  <summary>Rationale</summary>
+                  <div class="gate-evidence-body">The applet's primary visual structure: two clearly labelled drop zones (HIGH Chance in green, LOW Chance in orange/red) with a stack of draggable event cards. Students drag each card to the zone they judge correct. This is a simplified, two-category instantiation of the qualitative chance strip introduced in the parent module (VIR 3 precursor). The binary structure reduces cognitive load compared to the full ordering task (M2's chance line) while still requiring students to discriminate between uncertain events — directly targeting M281 (equally-likely default). The colour coding (green = HIGH, orange = LOW) should be consistent with the parent module's Slide 9 reveal (high chance in green, low chance in orange).</div>
+                </details>
+              <div class="gate-item-meta">
+                <span class="bp-cpa bp-cpa-c">Concrete</span>
+                <span class="tag">consolidate</span>
+                <span class="tag" style="color:#856404">moderate</span>
+              </div>
+              <div class="item-decision" data-item-id="avir_0">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_avir_0_accept" onclick="itemDecide('avir_0','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('avir_0')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-avir_0" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('avir_0','reassess')">Re-assess</button>
+      <button class="refine-preset" onclick="refineEntry('avir_0','adjust_scope')">Adjust scope</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_avir_0" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('avir_0')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+    </div></div>
+
+    <div class="section-header">IAS Patterns (4)</div>
+    <div class="card"><div class="card-body">
+      
+            <div class="gate-item">
+              <div class="gate-item-title">Constrained Drag — Card-to-Zone Sort</div>
+              <div class="gate-item-detail">Cognitive actions: Students pick up an event card and drag it to either the HIGH Chance or LOW Chance drop zone. Cards snap into the target zone on release; invalid drops (outside both zones) return the card to the stack. The dragging_vs_resting visual state (IAS id 49) governs the drag affordance: card enlarges to 1.1x, gains shadow, and the valid drop zones pulse with a highlighted border when the card is in flight. This is the primary interaction mechanic for the entire applet.</div>
+              <div class="gate-item-detail">When to use: For every event card in the sort set — this is the core interaction loop. Used throughout the applet from first card to last.</div>
+              <div class="item-decision" data-item-id="aias_0">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_aias_0_accept" onclick="itemDecide('aias_0','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('aias_0')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-aias_0" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('aias_0','clarify')">Clarify usage</button>
+      <button class="refine-preset" onclick="refineEntry('aias_0','custom')">Custom…</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_aias_0" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('aias_0')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item">
+              <div class="gate-item-title">Repair-Guided Feedback — Frequency Prompt</div>
+              <div class="gate-item-detail">Cognitive actions: When a card is placed in the wrong zone, the system does not simply mark it incorrect. Instead, it displays a targeted prompt tied to the specific event: 'Think about how often this usually happens — does it happen most of the time, or almost never?' The card is returned to the stack (or held in the zone with an orange incorrect indicator) and the student must re-place it. This directly addresses M280 (vague linguistic labelling) and M283 (inability to reason between extremes) by anchoring the correction to frequency reasoning rather than abstract correctness.</div>
+              <div class="gate-item-detail">When to use: On every incorrect placement. The prompt text is event-specific (pre-authored for each card in the set) to maximise relevance. Do not use generic 'Try again' feedback.</div>
+              <div class="item-decision" data-item-id="aias_1">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_aias_1_accept" onclick="itemDecide('aias_1','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('aias_1')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-aias_1" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('aias_1','clarify')">Clarify usage</button>
+      <button class="refine-preset" onclick="refineEntry('aias_1','custom')">Custom…</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_aias_1" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('aias_1')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item">
+              <div class="gate-item-title">Contrastive Feedback — Pair Reveal</div>
+              <div class="gate-item-detail">Cognitive actions: After the student has sorted all cards, the applet reveals a side-by-side comparison of the two most contrasting card pair (e.g., 'Rain in Bogor in January' vs 'Helicopter landing at school tomorrow') with their correct zones highlighted and a brief explanation: 'Both are uncertain — but rain in Bogor in January happens very often, while a helicopter landing at school almost never does. That is why their chance is different.' This directly targets M281 (equally-likely default) at the consolidation stage.</div>
+              <div class="gate-item-detail">When to use: At the end of the sort, after all cards have been placed and the student has received individual card feedback. This is the applet's closing consolidation moment before the parent module's Exit_Question.</div>
+              <div class="item-decision" data-item-id="aias_2">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_aias_2_accept" onclick="itemDecide('aias_2','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('aias_2')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-aias_2" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('aias_2','clarify')">Clarify usage</button>
+      <button class="refine-preset" onclick="refineEntry('aias_2','custom')">Custom…</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_aias_2" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('aias_2')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item">
+              <div class="gate-item-title">Highlight / Pulse / Emphasis — Drop Zone Activation</div>
+              <div class="gate-item-detail">Cognitive actions: When a card is being dragged, both drop zones pulse with a coloured border (green pulse for HIGH Chance zone, orange pulse for LOW Chance zone) to signal valid drop targets. This reduces the cognitive overhead of remembering where to drop and keeps attention on the reasoning task (which zone?) rather than the motor task (where is the zone?).</div>
+              <div class="gate-item-detail">When to use: During every drag operation — triggered by card pickup, deactivated on card release.</div>
+              <div class="item-decision" data-item-id="aias_3">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_aias_3_accept" onclick="itemDecide('aias_3','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('aias_3')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-aias_3" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('aias_3','clarify')">Clarify usage</button>
+      <button class="refine-preset" onclick="refineEntry('aias_3','custom')">Custom…</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_aias_3" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('aias_3')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+    </div></div>
+
+    <div class="section-header" style="color:#c0392b">Convention Flags &amp; False Friends (4)</div>
+    <div class="card" style="border-color:#f5c6cb"><div class="card-body">
+      <div style="font-size:12px;color:#856404;background:#fff3cd;border-radius:4px;padding:8px;margin-bottom:12px">
+        These language and convention items require explicit attention in the applet
+        design. False friends and notation conventions directly affect student comprehension
+        in the target curriculum and geography.
+      </div>
+      
+            <div class="gate-item" style="border-left:3px solid #666;padding-left:12px">
+              <div class="gate-item-title">chance vs probability — applet feedback strings</div>
+              <div class="gate-item-detail" style="color:#666;font-weight:600">Risk: Applet feedback strings are the most likely place for 'probability' to leak into student-facing content. Auto-generated or templated feedback may default to 'the probability of this event is high' rather than 'this event has a high chance of happening'. This would undermine the module's deliberate deferral of the formal term to M8.</div>
+              <div class="gate-item-detail">Mitigation: All applet feedback strings must use 'chance' exclusively. Review every feedback string before publication. Acceptable: 'This event has a HIGH chance of happening.' Not acceptable: 'The probability of this event is high.' This applies to correct feedback, incorrect feedback, and the closing contrastive reveal.</div>
+              <div class="item-decision" data-item-id="aconv_0">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_aconv_0_accept" onclick="itemDecide('aconv_0','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('aconv_0')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-aconv_0" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('aconv_0','reassess')">Re-assess risk</button>
+      <button class="refine-preset" onclick="refineEntry('aconv_0','update_mitigation')">Update mitigation</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_aconv_0" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('aconv_0')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item" style="border-left:3px solid #666;padding-left:12px">
+              <div class="gate-item-title">HIGH / LOW as binary labels — risk of false precision</div>
+              <div class="gate-item-detail" style="color:#666;font-weight:600">Risk: Students may leave the applet believing that all events are either HIGH or LOW with no middle ground, contradicting the chance strip's continuous spectrum established in the parent module. The binary sort is a scaffold, not the final model — but if the applet does not acknowledge the simplification, it may create a new misconception.</div>
+              <div class="gate-item-detail">Mitigation: Include a brief framing note at the start of the applet (or as a closing summary): 'We are sorting into HIGH and LOW to practise comparing chance — but remember, chance is a spectrum from impossible to certain. HIGH and LOW are not the only options!' This bridges back to the parent module's Slide 12 chance strip and forward to M2's chance line.</div>
+              <div class="item-decision" data-item-id="aconv_1">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_aconv_1_accept" onclick="itemDecide('aconv_1','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('aconv_1')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-aconv_1" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('aconv_1','reassess')">Re-assess risk</button>
+      <button class="refine-preset" onclick="refineEntry('aconv_1','update_mitigation')">Update mitigation</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_aconv_1" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('aconv_1')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item" style="border-left:3px solid #666;padding-left:12px">
+              <div class="gate-item-title">Indonesian event card contexts</div>
+              <div class="gate-item-detail" style="color:#666;font-weight:600">Risk: If event cards use generic Western contexts (e.g., 'It will snow tomorrow', 'You will win the lottery'), they will be culturally inauthentic and may confuse Indonesian students who have no experiential reference for snow probability.</div>
+              <div class="gate-item-detail">Mitigation: All event cards must use Indonesian everyday contexts. Recommended card set: (1) 'It will rain in Bogor tomorrow in January' — HIGH; (2) 'A helicopter will land at your school tomorrow' — LOW; (3) 'You will eat rice for lunch today' — HIGH; (4) 'You will score 100% on your next maths test' — LOW; (5) 'At least one student in your class will be absent this week' — HIGH; (6) 'You will find a 50,000 rupiah note on the ground today' — LOW; (7) 'The sun will rise tomorrow morning' — note: this is CERTAIN, not HIGH — use with care or replace; (8) 'Your school will be visited by the President tomorrow' — LOW. Avoid snow, lottery tickets, and other non-Indonesian contexts.</div>
+              <div class="item-decision" data-item-id="aconv_2">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_aconv_2_accept" onclick="itemDecide('aconv_2','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('aconv_2')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-aconv_2" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('aconv_2','reassess')">Re-assess risk</button>
+      <button class="refine-preset" onclick="refineEntry('aconv_2','update_mitigation')">Update mitigation</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_aconv_2" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('aconv_2')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item" style="border-left:3px solid #666;padding-left:12px">
+              <div class="gate-item-title">Colour coding consistency with parent module</div>
+              <div class="gate-item-detail" style="color:#666;font-weight:600">Risk: If the applet uses different colours for HIGH/LOW than the parent module used for high/low chance labels (Slide 9: green = high, orange = low), students will experience visual discontinuity that increases cognitive load.</div>
+              <div class="gate-item-detail">Mitigation: Use green for the HIGH Chance drop zone and orange/amber for the LOW Chance drop zone, matching the colour coding established in the parent module's Slide 9 reveal. Do not use red for LOW Chance — red carries a punitive connotation (IAS id 42 convention: incorrect state uses orange/yellow, not red).</div>
+              <div class="item-decision" data-item-id="aconv_3">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_aconv_3_accept" onclick="itemDecide('aconv_3','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('aconv_3')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-aconv_3" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('aconv_3','reassess')">Re-assess risk</button>
+      <button class="refine-preset" onclick="refineEntry('aconv_3','update_mitigation')">Update mitigation</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_aconv_3" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('aconv_3')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+    </div></div>
+
+    <div class="section-header">Research Gaps (3)</div>
+    <div class="card"><div class="card-body">
+      
+            <div class="gate-item" style="border-left:3px solid #ef4444;padding-left:12px">
+              <div class="gate-item-meta" style="margin-bottom:4px">
+                <span class="tag" style="background:#fde8e8;color:#c0392b">visual_model</span>
+              </div>
+              <div class="gate-item-title" style="color:#c0392b">No KB VIR exists for a binary two-zone card sort at the concrete/introductory probability level. VIR 3 (Probability Number Line) is used as the closest proxy, but the actual visual model — two labelled drop zones with draggable event cards — is a gap in the KB. The applet design must be built from scratch without a KB-grounded visual model template.</div>
+              <div class="gate-item-detail">The blueprint builder must design the two-zone sort layout without KB VIR grounding. Flag for KB insertion as a new VIR: 'Binary Chance Sort — Two-Zone Drop Area', concrete phase, probability_development domain, grade range [6,9).</div>
+              <div class="item-decision" data-item-id="agap_0">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_agap_0_accept" onclick="itemDecide('agap_0','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('agap_0')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-agap_0" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('agap_0','clarify')">Clarify</button>
+      <button class="refine-preset" onclick="refineEntry('agap_0','propose_mitigation')">Propose mitigation</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_agap_0" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('agap_0')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item" style="border-left:3px solid #ef4444;padding-left:12px">
+              <div class="gate-item-meta" style="margin-bottom:4px">
+                <span class="tag" style="background:#fde8e8;color:#c0392b">interactive</span>
+              </div>
+              <div class="gate-item-title" style="color:#c0392b">No KB IAS pattern exists specifically for a probability card-sort interaction at the concrete phase. The Constrained Drag archetype (IAS id 16) provides the drag mechanic, and Repair-Guided Feedback (IAS id 34) and Contrastive Feedback (IAS id 32) provide the feedback archetypes, but no integrated 'card sort with misconception-targeted feedback' pattern exists in the KB for this use case.</div>
+              <div class="gate-item-detail">The blueprint builder must compose the interaction from multiple IAS archetypes (Constrained Drag + Repair-Guided Feedback + Contrastive Feedback) without a single KB-grounded pattern for the full interaction. This is a gap-fill design task.</div>
+              <div class="item-decision" data-item-id="agap_1">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_agap_1_accept" onclick="itemDecide('agap_1','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('agap_1')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-agap_1" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('agap_1','clarify')">Clarify</button>
+      <button class="refine-preset" onclick="refineEntry('agap_1','propose_mitigation')">Propose mitigation</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_agap_1" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('agap_1')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item" style="border-left:3px solid #ef4444;padding-left:12px">
+              <div class="gate-item-meta" style="margin-bottom:4px">
+                <span class="tag" style="background:#fde8e8;color:#c0392b">misconception</span>
+              </div>
+              <div class="gate-item-title" style="color:#c0392b">The KB misconception records for M280, M281, and M283 remain misaligned with the introductory qualitative level of this applet (as noted in module research). M281 in the KB describes adding probabilities for compound events — not the equally-likely default for uncertain events at the qualitative sorting level. The applet-level misconception descriptions above are inferred from curriculum context and module research, not directly grounded in KB records.</div>
+              <div class="gate-item-detail">Downstream scorers should note that KB M280/M281/M283 IDs are proxies. The actual misconceptions addressed are qualitative precursors. No new KB IDs are available — the gap is carried forward from module research.</div>
+              <div class="item-decision" data-item-id="agap_2">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_agap_2_accept" onclick="itemDecide('agap_2','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('agap_2')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-agap_2" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('agap_2','clarify')">Clarify</button>
+      <button class="refine-preset" onclick="refineEntry('agap_2','propose_mitigation')">Propose mitigation</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_agap_2" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('agap_2')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+    </div></div>
+
+    <div class="section-header">Synthesis Narrative</div>
+    <div class="card"><div class="card-body">
+      <div class="gate-narrative">This applet is the primary interactive vehicle for M281 — the equally-likely default misconception — and its design logic flows directly from the productive conflict established in the parent module's Slides 8–9 (Bogor rain vs helicopter contrast). Where the parent module showed students that two uncertain events can have different amounts of chance, this applet requires students to act on that insight: they must sort a set of uncertain event cards into HIGH Chance and LOW Chance zones by dragging, making the discrimination active rather than passive. The binary sort is a deliberate scaffold — it reduces the ordering task from a continuous spectrum (which belongs to M2's chance line) to a two-category decision, keeping cognitive load appropriate for the concrete CPA phase while still forcing students to reason about relative likelihood rather than treating all uncertain events as equivalent.
+
+The three misconceptions converge on a single interaction design principle: feedback must be frequency-anchored, not correctness-labelled. M280 (vague linguistic labelling) is addressed by Repair-Guided Feedback that asks 'how often does this usually happen?' rather than simply marking the placement wrong. M281 (equally-likely default) is addressed by the Contrastive Feedback pair reveal at the end of the sort, which places the two most contrasting cards side by side and explicitly names the difference in frequency. M283 (inability to reason between extremes) is addressed by including 2–3 borderline cards in the set — events that are genuinely HIGH or LOW but require reasoning rather than extreme-case recognition. The visual state requirements (IAS ids 41, 42, 49) govern the drag affordance and feedback colours: green for HIGH Chance, orange for LOW Chance, consistent with the parent module's Slide 9 colour coding.
+
+The applet's scope discipline is tight: it does not introduce the chance line (M2), does not use numerical probability (M8), and does not introduce the terms 'more likely', 'less likely', or 'equally likely' (M2 vocabulary). Its sole job is to consolidate the binary discrimination between HIGH and LOW chance using Indonesian everyday contexts, surface M281 through the contrastive pair reveal, and prepare students for the Exit_Question in the parent module's final slide. The parent module should ensure the Exit_Question (Pak Budi's two bags) follows this applet directly — the applet's closing contrastive reveal is the conceptual bridge to that diagnostic question. No Math_Trap trope belongs inside this applet; if a Math_Trap is warranted for M281 at the qualitative level, it should be placed as a module-level slide before this applet, not within the applet's interaction flow.</div>
+      <div class="item-decision" data-item-id="asynthesis">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_asynthesis_accept" onclick="itemDecide('asynthesis','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('asynthesis')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-asynthesis" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('asynthesis','rescope')">Re-scope</button>
+      <button class="refine-preset" onclick="refineEntry('asynthesis','sharpen')">Sharpen</button>
+      <button class="refine-preset" onclick="refineEntry('asynthesis','expand')">Expand</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_asynthesis" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('asynthesis')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+    </div></div>
+
+    <div class="section-header">Inheritance Notes (from module)</div>
+    <div class="card"><div class="card-body">
+      <div class="gate-narrative">Module research confirmed: (1) The parent module (G9C4M1) established 'chance' via Math_Vault (Slide 7) and introduced the qualitative chance strip concept via Slide 12's four-position spectrum — this applet consolidates both. (2) The Bogor rain vs helicopter contrast (Slides 8–9) is the productive-conflict anchor that this applet extends into active sorting — students have already seen the contrast; now they must apply the reasoning to new events. (3) The module research identified 'uncertain outcome' as a vocabulary gap (not_introduced in the knowledge_trace) — this applet should reinforce the concept in framing text without re-vaulting. (4) The false-friend risk for 'probability' (KB id 155) is inherited and active — all applet feedback strings must use 'chance' exclusively. (5) The module research confirmed that M281's structured surfacing (Two-Bag Contrast applet) was absent from the delivered module — this applet (G9C4M1A2) is the primary vehicle for that surfacing, making it a gap-fill for the module's missing interaction. (6) The sibling applet G9C4M1A1 (Three-Category Sort) handled certain/impossible/uncertain classification — this applet assumes that classification is established and focuses exclusively on discriminating within the uncertain category.</div>
+    </div></div>
+</div>
+
+<div class="val-panel">
+  <div class="val-progress" id="val-progress"></div>
+  <div id="val-btns"></div>
+  <div id="val-overall"></div>
+</div>
+<div class="overall-comment-box" id="ocb">
+  <textarea id="oca" placeholder="Directives for downstream agents (e.g. 'use balance-scale model for equations', 'prioritize misconception M250')..."></textarea>
+  <div class="btn-row">
+    <button class="btn btn-approve" onclick="submitOverall()">Submit</button>
+    <button class="btn btn-neutral" onclick="cancelOverallComment()">Cancel</button>
+  </div>
+</div>
+
+<div class="detail-modal-bg" id="detail-modal-bg" onclick="if(event.target===this)closeDetailModal()">
+  <div class="detail-modal" id="detail-modal">
+    <button class="tt-close" onclick="closeDetailModal()">&times;</button>
+    <div id="detail-modal-content"></div>
+  </div>
+</div>
+
+<script>
+// RKEY must be run-scoped, not just title-scoped, or state from a previous
+// review cycle (different run_dir, same gate name) leaks into a freshly
+// generated HTML via localStorage and shows a stale "Approved · <old date>"
+// decision on a gate the user has never touched in this session.
+// We derive run_dir from <body data-run-dir="..."> which render_gate always
+// sets. basename() keeps the key short — the run_dir basename is already
+// timestamp-unique (e.g. 2026-04-10T11-58-20).
+const RKEY = (function() {
+  var title = document.title.replace(/[^a-z0-9]/gi,'_');
+  var rd = (document.body && document.body.dataset && document.body.dataset.runDir) || '';
+  var rdBase = rd ? rd.split(/[\\/]/).filter(Boolean).pop() : '';
+  rdBase = rdBase.replace(/[^a-z0-9]/gi,'_');
+  return 'acrlds_gate_' + (rdBase ? rdBase + '_' : '') + title;
+})();
+
+// One-time garbage collection: sweep any legacy title-only acrlds_gate_* keys
+// that match this gate's title but have no run_dir component. Prevents stale
+// entries from accumulating in the browser forever.
+(function() {
+  try {
+    var title = document.title.replace(/[^a-z0-9]/gi,'_');
+    var legacyKey = 'acrlds_gate_' + title;
+    if (legacyKey !== RKEY && localStorage.getItem(legacyKey) !== null) {
+      localStorage.removeItem(legacyKey);
+    }
+  } catch(e) {}
+})();
+
+const load  = () => { try { return JSON.parse(localStorage.getItem(RKEY)||'{}'); } catch(e) { return {}; } };
+const save  = (d) => { try { localStorage.setItem(RKEY, JSON.stringify(d)); } catch(e) {} };
+const esc   = (s) => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+function autoGrow(el) {
+  el.style.height = 'auto';
+  el.style.height = el.scrollHeight + 'px';
+  el.classList.toggle('has-text', !!el.value.trim());
+}
+
+function itemDecide(id, type) {
+  var state = load();
+  if (!state.items) state.items = {};
+  var current = (state.items[id] || {}).type;
+  if (current === type) {
+    // Toggle off
+    if (state.items[id]) { delete state.items[id].type; }
+    if (state.items[id] && !state.items[id].type && !state.items[id].comment) delete state.items[id];
+  } else {
+    if (!state.items[id]) state.items[id] = {};
+    state.items[id].type = type;
+  }
+  save(state); renderItem(id); renderProgress(); renderOverall();
+}
+
+function saveItemComment(id) {
+  var area = document.getElementById('ca_' + id);
+  if (!area) return;
+  var state = load();
+  if (!state.items) state.items = {};
+  if (!state.items[id]) state.items[id] = {};
+  state.items[id].comment = area.value.trim();
+  // Clean up empty entries
+  if (!state.items[id].type && !state.items[id].comment) delete state.items[id];
+  save(state); renderProgress();
+}
+
+function renderItem(id) {
+  var state = load();
+  var item  = (state.items || {})[id] || {};
+  var activeType = item.type || null;
+  ['accept','flag'].forEach(function(t) {
+    var el = document.getElementById('ibtn_' + id + '_' + t);
+    if (el) el.className = 'ibtn' + (activeType === t ? ' active-' + t : '');
+  });
+  // Restore comment text
+  var area = document.getElementById('ca_' + id);
+  if (area && item.comment && !area.value) {
+    area.value = item.comment;
+    autoGrow(area);
+  }
+}
+
+function _countFlags() {
+  var state = load();
+  var items = state.items || {};
+  return Object.values(items).filter(function(i) { return i.type === 'flag'; }).length;
+}
+
+function renderProgress() {
+  const state = load();
+  const items = state.items || {};
+  const total = document.querySelectorAll('[data-item-id]').length;
+  const accepted = Object.values(items).filter(i => i.type === 'accept').length;
+  const flagged  = Object.values(items).filter(i => i.type === 'flag').length;
+  const commented = Object.values(items).filter(i => i.comment && !i.type).length;
+  const el = document.getElementById('val-progress');
+  if (!el) return;
+  var parts = [];
+  if (accepted > 0) parts.push('<span style="color:#1e7e34">' + accepted + ' accepted</span>');
+  if (flagged > 0) parts.push('<span style="color:#856404">' + flagged + ' flagged</span>');
+  if (commented > 0) parts.push(commented + ' commented');
+  var remaining = total - accepted - flagged;
+  if (remaining > 0) parts.push(remaining + ' pending');
+  el.innerHTML = '<strong>' + parts.join(' &middot; ') + '</strong> of ' + total + ' items';
+}
+
+function openOverallComment(pending) {
+  document.getElementById('ocb').style.display = 'block';
+  document.getElementById('ocb')._p = pending || 'rework';
+  document.getElementById('oca').focus();
+}
+function submitOverall() {
+  var pending = document.getElementById('ocb')._p || 'rework';
+  var comment = document.getElementById('oca').value.trim();
+  var state = load();
+  state.overall = { type: pending, comment: comment, timestamp: Date.now() };
+  save(state);
+  document.getElementById('ocb').style.display = 'none';
+  if (pending === 'rework') {
+    _submitGateDecision('rework_llm');
+  } else if (pending === 'approve_comments') {
+    _submitGateDecision('approved_with_comments');
+  } else {
+    _submitGateDecision('approved_with_flags');
+  }
+}
+
+function renderOverall() {
+  const state   = load();
+  const overall = state.overall || {};
+  const btns    = document.getElementById('val-btns');
+  const status  = document.getElementById('val-overall');
+  const flags   = _countFlags();
+
+  if (overall.type) {
+    const lbl = {approve:'Approved', approve_flags:'Approved with flags', rework:'Rework requested'};
+    const cls = {approve:'badge-approved', approve_flags:'badge-commented', rework:'badge-rework'};
+    const ts  = overall.timestamp ? ' \u00b7 '+new Date(overall.timestamp).toLocaleString() : '';
+    status.innerHTML = '<span class="'+(cls[overall.type]||'badge-approved')+'">'+
+      (lbl[overall.type]||overall.type)+'</span>'
+      + (overall.comment ? ' &mdash; <em>'+esc(overall.comment.slice(0,80))+'</em>' : '')
+      + ts;
+    btns.innerHTML = '<button class="btn btn-neutral" onclick="resetOverall()">Change decision</button>';
+  } else {
+    status.innerHTML = '';
+    if (flags > 0) {
+      btns.innerHTML =
+        '<button class="btn btn-approve" disabled title="'+flags+' items flagged — unflag or use Approve with Flags" style="opacity:.5;cursor:not-allowed">Approve</button>'+
+        '<button class="btn btn-neutral" style="background:#fff3cd;color:#856404;border:1px solid #f59e0b" onclick="openOverallComment(\'approve_flags\')">Approve with Flags ('+flags+')</button>'+
+        '<button class="btn btn-rework"  onclick="openOverallComment(\'rework\')">Request Rework</button>'+
+        '<button class="btn btn-neutral" onclick="editJsonAndExport()" style="font-size:12px">Edit JSON</button>';
+    } else {
+      btns.innerHTML =
+        '<button class="btn btn-approve" onclick="approveAndExport()">Approve</button>'+
+        '<button class="btn btn-neutral" onclick="approveWithCommentsAndExport()">Approve with Directives</button>'+
+        '<button class="btn btn-rework"  onclick="openOverallComment(\'rework\')">Request Rework</button>'+
+        '<button class="btn btn-neutral" onclick="editJsonAndExport()" style="font-size:12px">Edit JSON</button>';
+    }
+  }
+}
+function resetOverall() {
+  const state = load(); delete state.overall; save(state);
+  document.getElementById('oca').value = '';
+  renderOverall();
+}
+function exportAll() {
+  const state = load();
+  const blob = new Blob([JSON.stringify(state,null,2)],{type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = RKEY + '_decisions.json';
+  a.click();
+}
+function _getGateName() {
+  // Derive gate name from page title for standardized filename
+  var t = document.title;
+  if (t.match(/module.*sequence/i)) return 'CHAPTER_MODULE_SEQUENCE';
+  if (t.match(/lo.*brief/i) && t.match(/chapter/i)) return 'CHAPTER_LO_BRIEF';
+  if (t.match(/chapter.*research.*brief/i)) return 'CHAPTER_RESEARCH_BRIEF';
+  if (t.match(/applet.*research.*brief/i)) return 'APPLET_RESEARCH_BRIEF';
+  if (t.match(/applet.*ideal.*screen/i)) return 'APPLET_IDEAL_SCREENS';
+  if (t.match(/module.*research.*brief/i)) return 'MODULE_RESEARCH_BRIEF';
+  if (t.match(/module.*blueprint/i)) return 'IDEAL_MODULE_BLUEPRINT';
+  if (t.match(/research.*brief/i)) return 'MODULE_RESEARCH_BRIEF';
+  return t.replace(/[^a-zA-Z0-9]/g, '_').toUpperCase();
+}
+
+function _getGateType() {
+  // Hard gates: CHAPTER_MODULE_SEQUENCE, APPLET_IDEAL_SCREENS
+  var name = _getGateName();
+  return (name === 'CHAPTER_MODULE_SEQUENCE' || name === 'APPLET_IDEAL_SCREENS') ? 'hard' : 'soft';
+}
+
+function _captureEditedSequence() {
+  // For module sequence page: capture edited module list from DOM
+  var seqCards = document.querySelectorAll('#mod-list > .mod-card[data-pos]');
+  if (seqCards.length === 0) return null;
+  var state = load();
+  var items = state.items || {};
+  var seq = [];
+  seqCards.forEach(function(c) {
+    var pos = parseInt(c.dataset.pos);
+    var titleEl = c.querySelector('.mod-title-input') || c.querySelector('.mod-title');
+    var loEl = c.querySelector('.mod-lo-input') || c.querySelector('.mod-lo');
+    var ctEl = c.querySelector('.mod-ct-select');
+    var itemId = 'mod_' + pos;
+    var comment = (items[itemId] || {}).comment || '';
+    // Also check the textarea directly (may not be saved to localStorage yet)
+    var ta = document.getElementById('ca_' + itemId);
+    if (ta && ta.value.trim()) comment = ta.value.trim();
+    var entry = {
+      position: pos,
+      module_title: titleEl ? (titleEl.value || titleEl.textContent || '').trim() : '',
+      content_type: ctEl ? ctEl.value : (c.dataset.ct || 'Learn'),
+      lo: loEl ? (loEl.value || loEl.textContent || '').trim() : '',
+      lo_codes: JSON.parse(c.dataset.codes || '[]'),
+    };
+    if (comment) entry.entry_comments = comment;
+    seq.push(entry);
+  });
+  return { module_sequence: seq };
+}
+
+function _submitGateDecision(status) {
+  var runDir = document.body.dataset.runDir || '';
+  var gateName = document.body.dataset.gateName || _getGateName();
+  var state = load();
+  var comment = (state.overall || {}).comment || '';
+  var editedSeq = _captureEditedSequence();
+
+  // Separate flagged items for downstream consumption
+  var items = state.items || {};
+  var flags = {};
+  Object.keys(items).forEach(function(k) {
+    if (items[k].type === 'flag') {
+      flags[k] = { comment: items[k].comment || '' };
+    }
+  });
+
+  var payload = {
+    type: 'gate_decision',
+    run_dir: runDir,
+    gate_name: gateName,
+    status: status,
+    comment: comment,
+    decisions: items,
+    flags_for_downstream: flags,
+    approved_sequence: editedSeq,
+  };
+
+  // Update badge immediately
+  var badge = document.querySelector('.gate-badge');
+  if (badge) {
+    badge.textContent = status === 'rework_llm' ? 'REWORK REQUESTED' : 'APPROVED';
+    badge.style.background = status === 'rework_llm' ? '#f59e0b' : '#22c55e';
+  }
+
+  // If inside an iframe (LMS viewer), send to parent via postMessage
+  if (window.parent !== window) {
+    window.parent.postMessage(payload, '*');
+    return;
+  }
+
+  // If top-level (direct URL), POST to LMS API directly
+  fetch('/api/gates/submit', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(payload),
+  }).then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (data.error) { alert('Gate submission failed: ' + data.error); return; }
+      var msg = status === 'rework_llm'
+        ? 'Rework requested.'
+        : 'Gate approved' + (data.all_gates_approved ? ' — all gates done, finalizing...' : '.');
+      alert(msg);
+    })
+    .catch(function(err) {
+      // Fallback: download the file
+      console.warn('LMS API unavailable, falling back to file download:', err);
+      var decision = Object.assign({}, payload, { timestamp: new Date().toISOString() });
+      delete decision.type;
+      var blob = new Blob([JSON.stringify(decision,null,2)], {type:'application/json'});
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = gateName + '.gate.json';
+      a.click();
+    });
+}
+
+function approveAndExport() {
+  if (_countFlags() > 0) { renderOverall(); return; }
+  const state = load();
+  state.overall = { type: 'approve', comment: '', timestamp: Date.now() };
+  save(state);
+  renderOverall();
+  _submitGateDecision('approved');
+}
+
+function editJsonAndExport() {
+  // Open a textarea with the source JSON for manual editing
+  var jsonArea = document.getElementById('json-edit-area');
+  if (!jsonArea) {
+    var panel = document.createElement('div');
+    panel.id = 'json-edit-panel';
+    panel.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:200;display:flex;align-items:center;justify-content:center';
+    panel.innerHTML = '<div style="background:#fff;border-radius:12px;padding:24px;max-width:800px;width:90%;max-height:80vh;display:flex;flex-direction:column">'
+      + '<div style="font-size:16px;font-weight:700;margin-bottom:12px">Edit Source JSON</div>'
+      + '<textarea id="json-edit-area" style="flex:1;min-height:400px;font-family:monospace;font-size:13px;border:1px solid #ddd;border-radius:6px;padding:12px;resize:vertical"></textarea>'
+      + '<div style="margin-top:12px;display:flex;gap:10px">'
+      + '<button class="btn btn-approve" onclick="submitEditedJson()">Save &amp; Export</button>'
+      + '<button class="btn btn-neutral" onclick="cancelJsonEdit()">Cancel</button>'
+      + '</div></div>';
+    document.body.appendChild(panel);
+  }
+  // Load the source JSON file content (look for the backing .json file)
+  var srcEl = document.getElementById('gate-source-json');
+  if (srcEl) {
+    document.getElementById('json-edit-area').value = srcEl.textContent;
+  } else {
+    document.getElementById('json-edit-area').value = '// Source JSON not embedded. Paste your edited version here.';
+  }
+}
+
+function submitEditedJson() {
+  var area = document.getElementById('json-edit-area');
+  if (!area) return;
+  try {
+    var edited = JSON.parse(area.value);
+    const state = load();
+    state.overall = { type: 'rework', comment: 'Manual JSON edit', timestamp: Date.now() };
+    save(state);
+    // Export with edited_data
+    const gateName = _getGateName();
+    const gateType = _getGateType();
+    const decision = {
+      gate_name: gateName,
+      gate_type: gateType,
+      status: 'rework_manual',
+      timestamp: new Date().toISOString(),
+      overall_comment: 'Manual JSON edit',
+      decisions: state.items || {},
+      edited_data: edited,
+    };
+    var filename = gateName + '.gate.json';
+    var blob = new Blob([JSON.stringify(decision,null,2)],{type:'application/json'});
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = filename;
+    a.click();
+    document.getElementById('json-edit-panel').remove();
+    renderOverall();
+  } catch(e) {
+    alert('Invalid JSON: ' + e.message);
+  }
+}
+
+function cancelOverallComment() {
+  document.getElementById('ocb').style.display = 'none';
+}
+
+function cancelJsonEdit() {
+  var panel = document.getElementById('json-edit-panel');
+  if (panel) panel.remove();
+}
+
+// Detail modal — replaces hover tooltips
+function openDetailModal(html) {
+  document.getElementById('detail-modal-content').innerHTML = html;
+  document.getElementById('detail-modal-bg').classList.add('open');
+}
+function closeDetailModal() {
+  document.getElementById('detail-modal-bg').classList.remove('open');
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeDetailModal();
+});
+// Click handler for .tag-link elements — read nested .tag-tooltip content
+document.addEventListener('click', function(e) {
+  var link = e.target.closest('.tag-link');
+  if (!link) return;
+  var tip = link.querySelector('.tag-tooltip');
+  if (tip) { e.preventDefault(); e.stopPropagation(); openDetailModal(tip.innerHTML); }
+});
+
+function scrollToRef(id) {
+  var el = document.getElementById(id);
+  if (el) { el.scrollIntoView({behavior:'smooth',block:'center'});
+             el.classList.add('highlight-flash');
+             setTimeout(function(){el.classList.remove('highlight-flash')},900); }
+}
+
+/* ── Generalized entry refine (all gate types) ──────────────────── */
+function toggleEntryRefinePanel(entryId) {
+  var panel = document.getElementById('refine-panel-' + entryId);
+  if (!panel) return;
+  document.querySelectorAll('.mod-refine-panel').forEach(function(p) { if (p !== panel) p.style.display = 'none'; });
+  panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+}
+
+function refineEntry(entryId, preset) {
+  var decDiv = document.querySelector('[data-item-id="' + entryId + '"]');
+  if (!decDiv) return;
+
+  var promptMessages = {
+    'rescope': 'How should this entry be re-scoped?',
+    'add_detail': 'What detail should be added?',
+    'adjust_severity': 'What should the severity be changed to and why?',
+    'remove': 'Confirm removal — why should this entry be removed?',
+    'reassess': 'How should the confidence/evidence be re-assessed?',
+    'adjust_scope': 'How should the scope be adjusted?',
+    'clarify': 'What needs clarification?',
+    'update_mitigation': 'What is the updated mitigation strategy?',
+    'propose_mitigation': 'Propose a mitigation for this gap:',
+    'change_trope': 'Which trope should be used instead?',
+    'adjust_cpa': 'What CPA phase should this be?',
+    'change_interaction': 'What interaction mode should be used?',
+    'adjust_scaffolding': 'What scaffolding level should this be?',
+    'adjust_placement': 'How should the placement be adjusted?',
+    'sharpen': 'How should this be sharpened?',
+    'expand': 'What should be expanded?',
+    'add': 'What entry should be added?',
+    'split': 'How should this be split?',
+    'custom': 'Describe the refinement:'
+  };
+
+  var instruction = prompt(promptMessages[preset] || 'Instruction for ' + preset + ':');
+  if (instruction === null) return;
+  if (!instruction.trim() && preset !== 'remove') return;
+
+  var runDir = document.body.dataset.runDir || '';
+  var gateName = document.body.dataset.gateName || _getGateName();
+  if (!runDir) { alert('Cannot refine: run_dir not set. Open this page via LMS.'); return; }
+
+  // Find the entry's parent card/section for loading state
+  var card = decDiv.closest('.card, .mod-card, .gate-item, [id^="gate-"]') || decDiv.parentElement;
+  if (card) card.style.opacity = '0.5';
+
+  // Close refine panel
+  var panel = document.getElementById('refine-panel-' + entryId);
+  if (panel) panel.style.display = 'none';
+
+  fetch(_lmsApiBase() + '/api/gates/refine-entry', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      run_dir: runDir,
+      gate_name: gateName,
+      entry_id: entryId,
+      preset: preset,
+      instruction: instruction
+    }),
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (card) card.style.opacity = '1';
+    if (data.error) { alert('Refine failed: ' + data.error); return; }
+    // Reload the page to show updated gate HTML (re-rendered server-side)
+    window.location.reload();
+  })
+  .catch(function(e) {
+    if (card) card.style.opacity = '1';
+    alert('Refine failed: ' + e + '\n\nMake sure LMS is running.');
+  });
+}
+
+function _lmsApiBase() {
+  if (window.location.protocol === 'file:') return 'http://localhost:8420';
+  return '';
+}
+
+/* ── Shared read-helper: prime local UI from server gate state ───────
+ * Both entry points to gate approval (the chapter-page table buttons and
+ * this page's own Approve/Rework buttons) POST through the same
+ * /api/gates/submit endpoint. But until now only the in-page flow wrote
+ * to this HTML's localStorage, so when a reviewer approved via the
+ * chapter-page table the gate HTML would still show "Approve" buttons
+ * at the bottom — disconnected from the server's .gate.json.
+ *
+ * This function is the read-side equivalent of submitGateDecision: one
+ * place that fetches /api/gates/status and reconciles the UI with the
+ * server's decision. Called once on DOMContentLoaded. Silent on any
+ * failure (no LMS, CORS, offline file:// review) — renderOverall will
+ * still show whatever localStorage has.
+ * ────────────────────────────────────────────────────────────────────*/
+function primeStateFromServer() {
+  var runDir = (document.body && document.body.dataset && document.body.dataset.runDir) || '';
+  var gateName = (document.body && document.body.dataset && document.body.dataset.gateName)
+                 || (typeof _getGateName === 'function' ? _getGateName() : '');
+  if (!runDir || !gateName) return;
+
+  var url = _lmsApiBase() + '/api/gates/status?run_dir=' + encodeURIComponent(runDir);
+  fetch(url)
+    .then(function(r) { return r.ok ? r.json() : null; })
+    .then(function(data) {
+      if (!data || !data.gates) return;
+      var serverGate = data.gates[gateName];
+      if (!serverGate || serverGate.status === 'not_found') return;
+
+      // Map server status → local overall.type vocabulary
+      var typeMap = {
+        'approved':               'approve',
+        'approved_with_comments': 'approve',
+        'approved_with_flags':    'approve_flags',
+        'rework_llm':             'rework',
+        'rework_manual':          'rework'
+      };
+      var overallType = typeMap[serverGate.status];
+      if (!overallType) return;
+
+      var state = load();
+      var existing = state.overall || {};
+      // If the user has an unsynced local decision, leave it alone.
+      // A `fromServer: true` marker lets us tell "primed from server"
+      // apart from "user clicked something and hasn't pushed yet".
+      if (existing.type && !existing.fromServer) return;
+
+      state.overall = {
+        type: overallType,
+        comment: serverGate.comment || '',
+        timestamp: serverGate.submitted_at || null,
+        fromServer: true
+      };
+      save(state);
+      renderOverall();
+    })
+    .catch(function() { /* silent — not fatal */ });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('[data-item-id]').forEach(el => renderItem(el.dataset.itemId));
+  renderProgress(); renderOverall();
+  primeStateFromServer();
+});
+</script>
+</body>
+</html>

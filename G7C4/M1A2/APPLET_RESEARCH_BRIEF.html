@@ -1,0 +1,1340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Applet Research Brief — G7C4M1A2</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+       font-size: 15px; line-height: 1.6; color: #1a1a1a; background: #f5f5f5; }
+.page { max-width: 1060px; margin: 0 auto; padding: 32px 24px 110px; }
+
+.header { background: #fff; border-radius: 10px; padding: 28px 32px 24px;
+          margin-bottom: 20px; border: 1px solid #e0e0e0; }
+.header-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.file-name { font-size: 13px; color: #888; margin-bottom: 4px; }
+.title { font-size: 22px; font-weight: 700; }
+.meta  { font-size: 13px; color: #666; margin-top: 4px; }
+.gate-badge { display: inline-block; padding: 4px 14px; border-radius: 20px;
+              font-size: 13px; font-weight: 600; margin-top: 10px;
+              background: #eef2ff; color: #4f46e5; }
+
+.card { background: #fff; border-radius: 10px; border: 1px solid #e0e0e0;
+        margin-bottom: 14px; overflow: hidden; }
+.card-body { padding: 16px 20px; }
+
+.section-header { font-size: 16px; font-weight: 700; color: #111;
+                  margin: 28px 0 14px; display: flex; align-items: center; gap: 10px; }
+.section-header::after { content:''; flex:1; height:1px; background:#e0e0e0; }
+
+.gate-section { margin-bottom: 20px; }
+.gate-section-title { font-size: 14px; font-weight: 700; color: #333;
+                       margin-bottom: 8px; padding-bottom: 4px;
+                       border-bottom: 1px solid #e8e8e8; }
+.gate-item { padding: 10px 0; border-bottom: 1px solid #f5f5f5; font-size: 13px; }
+.gate-item:last-child { border-bottom: none; }
+.gate-item-title { font-weight: 600; color: #222; }
+.gate-item-detail { color: #666; margin-top: 2px; }
+.gate-item-meta { display: flex; gap: 6px; margin-top: 4px; flex-wrap: wrap; }
+.gate-narrative { font-size: 13px; color: #444; line-height: 1.7;
+                  white-space: pre-wrap; background: #fafafa;
+                  border-radius: 6px; padding: 14px; }
+
+/* Per-slide / per-screen blueprint enrichment strip */
+.bp-slide-enrich { margin: 6px 0 4px 34px; padding: 8px 10px;
+                   background: #f9fafb; border-left: 2px solid #e5e7eb;
+                   border-radius: 0 4px 4px 0; display: flex;
+                   flex-direction: column; gap: 4px; }
+.bp-enrich-row { display: flex; align-items: flex-start; gap: 8px;
+                 font-size: 11px; line-height: 1.5; flex-wrap: wrap; }
+.bp-enrich-label { flex: 0 0 110px; color: #6b7280; font-weight: 700;
+                   text-transform: uppercase; letter-spacing: 0.4px;
+                   padding-top: 3px; }
+.bp-chip { display: inline-block; padding: 2px 7px; border-radius: 10px;
+           font-size: 11px; line-height: 1.4; cursor: default; position: relative; }
+.bp-chip.vocab    { background: #e6f4ea; color: #1e7e34; }
+.bp-chip.conv     { background: #fff7ed; color: #9a3412; }
+.bp-chip.textbook { background: #ecfeff; color: #0e7490; }
+.bp-chip.applet   { background: #fef3c7; color: #92400e; }
+.bp-chip.video    { background: #fde8e8; color: #c0392b; }
+.bp-chip.vm       { background: #eef2ff; color: #4338ca; }
+/* Phase 2 blueprint chips */
+.bp-chip.concept-intro { background: #d1fae5; color: #064e3b; }
+.bp-chip.concept-reinf { background: #e0f2fe; color: #075985; }
+.bp-chip.misc          { background: #fde8e8; color: #c0392b; }
+.bp-chip.prereq        { background: #fef3c7; color: #78350f;
+                         border: 1px dashed #fcd34d; }
+.bp-chip.vocab-used    { background: #f0fdf4; color: #15803d; }
+.bp-chip.vocab-reinf   { background: #dcfce7; color: #14532d;
+                         font-weight: 600; }
+.bp-concept-tag { display: inline-block; font-size: 9px; text-transform: uppercase;
+                  letter-spacing: 0.4px; opacity: 0.7; margin-right: 3px; }
+.bp-mini-tag { display: inline-block; background: #fff; color: #6b7280;
+               padding: 0 5px; border-radius: 8px; font-size: 9px;
+               border: 1px solid #e5e7eb; margin-left: 2px; }
+
+.tag { display: inline-block; border-radius: 3px; padding: 1px 7px;
+       font-size: 11px; font-weight: 600; }
+.bp-cpa { font-size: 10px; font-weight: 600; border-radius: 3px; padding: 1px 6px; }
+.bp-cpa-c { background: #dbeafe; color: #1d4ed8; }
+.bp-cpa-p { background: #fef3c7; color: #92400e; }
+.bp-cpa-a { background: #ede9fe; color: #6d28d9; }
+.tag-op   { background: #eef2ff; color: #4f46e5; }
+
+/* Module sequence cards */
+.mod-card { background: #fff; border: 1px solid #e0e0e0; border-radius: 10px;
+            padding: 16px 20px; margin-bottom: 12px; position: relative; }
+.mod-pos { font-size: 28px; font-weight: 800; color: #4f46e5; float: left;
+           margin-right: 16px; min-width: 36px; text-align: center; line-height: 1; }
+.mod-body { overflow: hidden; }
+.mod-title { font-size: 15px; font-weight: 700; color: #222; }
+.mod-lo { font-size: 13px; color: #444; margin-top: 4px; }
+.mod-codes { margin-top: 6px; }
+.mod-code { display: inline-block; background: #f0f0f0; color: #555; border-radius: 3px;
+            padding: 1px 6px; font-size: 10px; font-family: monospace; margin: 1px 2px; }
+.mod-notes { font-size: 12px; color: #856404; background: #fffbeb; border-radius: 4px;
+             padding: 4px 8px; margin-top: 6px; }
+.mod-edit-controls { margin-top: 10px; padding-top: 10px; border-top: 1px solid #f0f0f0;
+                     display: flex; gap: 6px; align-items: center; }
+.mod-edit-btn { border: 1px solid #ddd; background: #fff; border-radius: 4px;
+                padding: 2px 8px; font-size: 12px; cursor: pointer; color: #555; }
+.mod-edit-btn:hover { border-color: #999; color: #111; }
+
+/* Refine panel & presets */
+.mod-refine-panel { margin-top: 8px; padding: 8px 0; }
+.refine-presets { display: flex; gap: 6px; flex-wrap: wrap; }
+.refine-preset { border: 1px solid #c7d2fe; background: #eef2ff; border-radius: 5px;
+                 padding: 3px 10px; font-size: 12px; font-weight: 600; cursor: pointer;
+                 color: #4f46e5; transition: all .12s; }
+.refine-preset:hover { background: #dbeafe; border-color: #818cf8; }
+.refine-preset:disabled { opacity: .5; cursor: not-allowed; }
+
+/* Undo bar */
+.undo-bar { display: none; background: #fffbeb; border: 1px solid #f59e0b; border-radius: 8px;
+            padding: 8px 16px; margin-bottom: 12px; align-items: center; gap: 12px;
+            font-size: 13px; color: #856404; }
+.undo-btn { border: 1px solid #f59e0b; background: #fff; border-radius: 4px;
+            padding: 2px 10px; font-size: 12px; cursor: pointer; color: #856404;
+            font-weight: 600; }
+.undo-btn:hover { background: #fffbeb; }
+
+/* Module card states */
+.mod-card.accepted { border-color: #22c55e; background: #f0fdf4; }
+.mod-card.refined  { border-left: 3px solid #4f46e5; }
+.mod-card.refining { opacity: .6; pointer-events: none; }
+
+/* Upgrade map */
+.upgrade-card { background: #fff; border: 1px solid #e0e0e0; border-radius: 8px;
+                padding: 12px 16px; margin-bottom: 8px; }
+.upgrade-target { font-weight: 600; font-size: 14px; color: #333; }
+.upgrade-just { font-size: 13px; color: #666; margin-top: 4px; }
+
+/* Curriculum alignment table */
+.align-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.align-table th { background: #f5f5f5; text-align: left; padding: 8px 12px;
+                  font-weight: 600; color: #555; font-size: 12px;
+                  border-bottom: 2px solid #e0e0e0; }
+.align-table td { padding: 8px 12px; border-bottom: 1px solid #f0f0f0; color: #333; }
+.align-table tr:last-child td { border-bottom: none; }
+
+/* Per-item decision infra */
+.item-decision { margin-top: 9px; padding-top: 8px; border-top: 1px solid rgba(0,0,0,.06); }
+.item-btns { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.ibtn { border: 1px solid #ddd; background: #fff; border-radius: 5px; padding: 3px 10px;
+        font-size: 12px; font-weight: 600; cursor: pointer; color: #555;
+        transition: all .12s; }
+.ibtn:hover { border-color: #999; color: #111; }
+.ibtn.active-accept { background: #e6f4ea; border-color: #22c55e; color: #1e7e34; }
+.ibtn.active-flag   { background: #fff3cd; border-color: #f59e0b; color: #856404; }
+.item-comment-inline { margin-top: 6px; }
+.inline-comment { width: 100%; border: 1px solid #e8e8e8; border-radius: 5px;
+                  padding: 6px 9px; font-size: 12px; resize: none; overflow: hidden;
+                  font-family: inherit; color: #333; background: #fafafa;
+                  transition: border-color .15s, background .15s; }
+.inline-comment:focus { border-color: #818cf8; background: #fff; outline: none; }
+.inline-comment.has-text { border-color: #c7d2fe; background: #f5f3ff; }
+
+/* Validation panel */
+.val-panel { position: fixed; bottom: 0; left: 0; right: 0; background: #fff;
+             border-top: 1px solid #e0e0e0; padding: 12px 24px;
+             display: flex; align-items: center; gap: 14px;
+             box-shadow: 0 -2px 12px rgba(0,0,0,.08); z-index: 100; }
+.val-progress { font-size: 13px; color: #888; flex: 1; }
+.val-progress strong { color: #1a1a1a; }
+.btn { padding: 8px 18px; border-radius: 6px; border: none; cursor: pointer;
+       font-size: 14px; font-weight: 600; transition: opacity .15s; }
+.btn:hover { opacity: .85; }
+.btn-approve { background: #22c55e; color: #fff; }
+.btn-neutral { background: #f0f0f0; color: #333; }
+.btn-rework  { background: #ef4444; color: #fff; }
+.overall-comment-box { display: none; padding: 14px 24px; background: #fafafa;
+                        border-top: 1px solid #e8e8e8;
+                        position: fixed; bottom: 52px; left: 0; right: 0;
+                        z-index: 101; box-shadow: 0 -2px 8px rgba(0,0,0,.1); }
+.overall-comment-box textarea { width: 100%; border: 1px solid #ddd; border-radius: 6px;
+                                  padding: 10px; font-size: 14px; resize: vertical;
+                                  min-height: 80px; font-family: inherit; }
+.overall-comment-box .btn-row { margin-top: 10px; display: flex; gap: 10px; }
+.badge-approved  { background:#e6f4ea; color:#1e7e34; border-radius:6px; padding:6px 14px; font-weight:600; font-size:14px; }
+.badge-rework    { background:#fde8e8; color:#c0392b; border-radius:6px; padding:6px 14px; font-weight:600; font-size:14px; }
+.badge-commented { background:#fff3cd; color:#856404; border-radius:6px; padding:6px 14px; font-weight:600; font-size:14px; }
+
+/* Clickable reference tags — open modal on click */
+.tag-link { cursor: pointer; text-decoration: none; transition: opacity .15s; position: relative; }
+.tag-link:hover { opacity: .8; }
+.tag-tooltip { display: none; }
+
+/* Detail modal (shared — single instance at page bottom) */
+.detail-modal-bg { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+                   background: rgba(0,0,0,.5); z-index: 200; align-items: center; justify-content: center; }
+.detail-modal-bg.open { display: flex; }
+.detail-modal { background: #1a1a1a; color: #fff; border-radius: 12px; padding: 20px 24px;
+                max-width: 560px; width: 90%; max-height: 80vh; overflow-y: auto;
+                box-shadow: 0 8px 32px rgba(0,0,0,.4); font-size: 13px; line-height: 1.6;
+                position: relative; }
+.detail-modal .tt-title { font-weight: 700; font-size: 15px; margin-bottom: 8px; color: #fff; }
+.detail-modal .tt-desc { color: #ddd; margin-bottom: 6px; }
+.detail-modal .tt-row { display: flex; gap: 8px; margin: 4px 0; font-size: 12px; }
+.detail-modal .tt-label { color: #999; min-width: 80px; font-weight: 600; }
+.detail-modal .tt-val { color: #eee; }
+.detail-modal .tt-svg { margin-top: 8px; background: #fff; border-radius: 6px;
+                         padding: 8px; text-align: center; }
+.detail-modal .tt-svg svg { max-width: 300px; max-height: 160px; }
+.detail-modal .tt-close { position: absolute; top: 10px; right: 14px; background: none;
+                           border: none; color: #888; font-size: 20px; cursor: pointer; }
+.detail-modal .tt-close:hover { color: #fff; }
+.detail-modal .tt-codes { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 2px; }
+.detail-modal .tt-code-chip { background: #333; color: #aaa; padding: 1px 6px;
+                               border-radius: 3px; font-family: monospace; font-size: 11px; }
+.gate-item[id] { scroll-margin-top: 80px; }
+.gate-evidence { margin-top: 4px; }
+.gate-evidence summary { font-size: 12px; color: #888; cursor: pointer; font-weight: 600; }
+.gate-evidence summary:hover { color: #4f46e5; }
+.gate-evidence-body { font-size: 13px; color: #666; margin-top: 4px; line-height: 1.6; }
+.highlight-flash { animation: flash-bg .8s ease; }
+@keyframes flash-bg { 0% { background: #eef2ff; } 100% { background: transparent; } }
+
+@media print {
+  body { background: #fff; font-size: 11px; }
+  .page { padding: 0; max-width: none; }
+  .val-panel, .overall-comment-box, .item-decision, .item-btns,
+  .item-comment-inline, .mod-edit-controls { display: none !important; }
+  .card { break-inside: avoid; page-break-inside: avoid; }
+  .mod-card { break-inside: avoid; }
+  a[href]::after { content: none; }
+}
+/* ── Responsive overrides (injected for presentation) ── */
+@media (max-width: 1100px) {
+  .container, .main-content { max-width: 100% !important; padding: 0 12px !important; }
+}
+@media (max-width: 768px) {
+  body { padding: 12px !important; font-size: 13px; }
+  .header-bar { flex-direction: column; gap: 8px; padding: 12px !important; }
+  .header-bar h1, .header-bar .title { font-size: 18px !important; }
+
+  /* Slide rows: stack thumb above annotations */
+  .slide-row { grid-template-columns: 1fr !important; }
+  .slide-thumb, .slide-thumb img { width: 100% !important; max-width: 100% !important; }
+
+  /* Quad strip: 2x2 grid */
+  .quad-strip { grid-template-columns: repeat(2, 1fr) !important; gap: 8px !important; }
+
+  /* Tables: horizontal scroll */
+  .card-body { overflow-x: auto; }
+  table { min-width: 500px; }
+  .align-table { min-width: 400px; }
+
+  /* Cards */
+  .card-body { padding: 12px !important; }
+
+  /* Score badges */
+  .score-badge, .verdict-badge { font-size: 12px !important; }
+
+  /* Gate module cards */
+  .mod-card { padding: 10px !important; }
+  .mod-edit-controls { flex-wrap: wrap; gap: 4px; }
+  .mod-edit-btn { font-size: 11px !important; padding: 3px 6px !important; }
+
+  /* Annotations grid */
+  .ann-grid { grid-template-columns: 1fr !important; }
+
+  /* Overlay panels */
+  .overlay-panel { width: 95vw !important; max-width: 95vw !important; }
+
+  /* Pre blocks */
+  pre { font-size: 11px !important; white-space: pre-wrap !important; word-break: break-word !important; }
+
+  /* Section headers */
+  .section-header { font-size: 12px !important; padding: 10px 12px !important; }
+
+  /* Enrichment row in applet reviews */
+  .enrichment-row { flex-direction: column !important; }
+  .enrichment-col { width: 100% !important; min-width: 0 !important; }
+}
+@media (max-width: 480px) {
+  .quad-strip { grid-template-columns: 1fr !important; }
+  .slide-thumb img { width: 100% !important; }
+  .header-bar h1, .header-bar .title { font-size: 16px !important; }
+}</style>
+</head>
+<body data-run-dir="/Users/aswin/Work/agentic/ACRLDS/outputs/G7C4M1A2/2026-04-12T13-40-59" data-gate-name="APPLET_RESEARCH_BRIEF">
+<div class="page">
+  <div class="header">
+    <div class="header-top">
+      <div>
+        <div class="file-name">G7C4</div>
+        <div class="title">Applet Research Brief — G7C4M1A2</div>
+        <div class="meta">Grade 7 | Algebra</div>
+      </div>
+      <div><span class="gate-badge">GATE — Requires Approval</span></div>
+    </div>
+  </div>
+  <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;
+                padding:10px 20px;margin-bottom:16px;display:flex;align-items:center;
+                gap:14px;flex-wrap:wrap;font-size:13px;color:#475569">
+      <span style="color:#94a3b8;font-size:11px;text-transform:uppercase;letter-spacing:.5px;font-weight:600">Context</span>
+      <strong>G7C4</strong> &middot; Grade 7 &middot; Algebra
+    </div>
+  
+    <div class="section-header">Applet</div>
+    <div class="card"><div class="card-body">
+      <div style="font-size:15px;font-weight:600;color:#222">G7C4M1A2</div>
+      <div style="font-size:13px;color:#666;margin-top:2px">Module: G7C4M1 — Storyboard Link:
+
+https://drive.google.com/file/d/1RBESHJ3cu_Q50VKgGZFiepJG5twe8d_s/view?usp=drive_link</div>
+      <div style="margin-top:6px">
+        <span class="tag" style="background:#dbeafe;color:#1d4ed8">Learn</span>
+        <span class="tag" style="background:#dbeafe;color:#1d4ed8">Standard</span>
+        <span class="tag" style="background:#f3e8ff;color:#7c3aed">Explore</span>
+      </div>
+    </div></div>
+
+    <div class="section-header">Learning Objective</div>
+    <div class="card"><div class="card-body">
+      <div style="font-size:14px;color:#333">Identify a changing quantity in a concrete everyday context (apples on a plate) and distinguish it from a fixed quantity, as the first step toward representing changing quantities with a letter (variable).</div>
+    </div></div>
+
+    <div class="section-header">LO Misconceptions Checklist (3)</div>
+    <div class="card"><div class="card-body">
+      <table class="align-table">
+        <thead><tr><th>ID</th><th>Topic</th><th>Severity</th></tr></thead>
+        <tbody><tr>
+              <td><a href="javascript:void(0)" onclick="scrollToRef('amisc_250')"
+                     style="font-weight:600;color:#4f46e5">#250</a></td>
+              <td>equations and inequalities</td>
+              <td><span class="tag" style="color:#856404">medium</span></td>
+            </tr><tr>
+              <td><a href="javascript:void(0)" onclick="scrollToRef('amisc_251')"
+                     style="font-weight:600;color:#4f46e5">#251</a></td>
+              <td>algebraic thinking and expressions</td>
+              <td><span class="tag" style="color:#c0392b">high</span></td>
+            </tr><tr>
+              <td><a href="javascript:void(0)" onclick="scrollToRef('amisc_252')"
+                     style="font-weight:600;color:#4f46e5">#252</a></td>
+              <td>algebraic thinking and expressions</td>
+              <td><span class="tag" style="color:#856404">medium</span></td>
+            </tr></tbody>
+      </table>
+    </div></div>
+
+    <div class="section-header">Misconception Inventory (3)</div>
+    <div class="card"><div class="card-body">
+      
+            <div class="gate-item" id="amisc_252">
+              <div class="gate-item-title">#252 — At this applet's concrete scope, the M252 precursor is the tendency to treat the letter 'a' (for apples in the sack) as a name for the fruit rather than a count of the fruit — i.e., 'a means apple, not how many apples.' The module trace confirms this is explicitly addressed at Slide 8 with the callout 'The letter a tells us HOW MANY apples are in the sack — it is not a name for the apples.' This applet is the source of that correction. The deeper M252 form (variable as mystery unknown to solve for) is not yet activatable at this applet's scope because no algebraic notation or equation is present.</div>
+              <details class="gate-evidence">
+                  <summary>Surfacing strategy</summary>
+                  <div class="gate-evidence-body">Within the applet interaction: after the student assigns the letter 'a' to the sack of apples, present a distractor choice — 'Does a mean: (A) the apple fruit, or (B) how many apples are in the sack?' If the student selects (A), deploy Counterexample Feedback: 'a is not the name of the fruit — we already know it's an apple! a tells us HOW MANY apples are in the sack.' This is the concrete-phase surface of M252.</div>
+                </details>
+              <div class="gate-item-meta"><span class="tag" style="color:#856404">Severity: medium</span><span class="tag" style="background:#f3e8ff;color:#7c3aed">Counterexample Feedback</span><a class="tag tag-link" style="background:#dbeafe;color:#1d4ed8" href="javascript:void(0)">VIR 161 — Variable as Pattern Continuation<span class="tag-tooltip"><div class="tt-title">VIR 161 — Variable as Pattern Continuation</div><div class="tt-svg"><svg xmlns="http://www.w3.org/2000/svg" width="360" height="140" viewBox="0 0 360 140" style="font-family:system-ui,sans-serif;font-size:11px;"><rect width="360" height="140" fill="#F8FAFC"/><text x="180" y="132" text-anchor="middle" fill="#64748B" font-size="9" font-style="italic">Variable as Pattern Continuation</text><rect x="10" y="25" width="100" height="90" rx="5" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.5"/><text x="60" y="38" text-anchor="middle" fill="#2563EB" font-size="9" font-weight="bold">Framing 1</text><text x="60" y="60" text-anchor="middle" fill="#1E293B" font-size="10">View 1</text><line x1="112" y1="70" x2="128" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="133,70 127,67 127,73" fill="#64748B"/><rect x="135" y="25" width="100" height="90" rx="5" fill="#FFFBEB" stroke="#D97706" stroke-width="1.5"/><text x="185" y="38" text-anchor="middle" fill="#D97706" font-size="9" font-weight="bold">Same Object</text><text x="185" y="55" text-anchor="middle" fill="#1E293B" font-size="10">same object</text><text x="185" y="78" text-anchor="middle" fill="#1E293B" font-size="10">—reframed—</text><line x1="237" y1="70" x2="253" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="258,70 252,67 252,73" fill="#64748B"/><rect x="260" y="25" width="100" height="90" rx="5" fill="#ECFDF5" stroke="#059669" stroke-width="1.5"/><text x="310" y="38" text-anchor="middle" fill="#059669" font-size="9" font-weight="bold">Framing 2</text><text x="310" y="60" text-anchor="middle" fill="#1E293B" font-size="10">View 2</text></svg></div><div class="tt-desc">A variable isn't a mysterious 'x' to solve for — it's the rule that describes a pattern. If the pattern is 2, 4, 6, 8, ..., the variable expression is 2n. Students discover variables by generalizing patterns they already see.</div><div class="tt-row"><span class="tt-label">CPA</span><span class="tt-val">concrete</span></div></span></a></div>
+              <div class="item-decision" data-item-id="amisc_0">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_amisc_0_accept" onclick="itemDecide('amisc_0','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('amisc_0')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-amisc_0" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('amisc_0','rescope')">Re-scope</button>
+      <button class="refine-preset" onclick="refineEntry('amisc_0','add_detail')">Add detail</button>
+      <button class="refine-preset" onclick="refineEntry('amisc_0','adjust_severity')">Adjust severity</button>
+      <button class="refine-preset" onclick="refineEntry('amisc_0','remove')">Remove</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_amisc_0" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('amisc_0')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item" id="amisc_251">
+              <div class="gate-item-title">#251 — M251 is not activatable at this applet's scope. The applet does not introduce algebraic expressions, coefficients, or the notation 3n — it operates entirely at the concrete level of distinguishing a known quantity (3 apples on the plate) from an unknown quantity (apples in the sack). The order-of-operations error (treating 2 + 3x as 5x) and the precursor form (combining 1 + 3n into 4n) both require algebraic notation that is absent here. Included for completeness per checklist requirement; no instructional action in this applet.</div>
+              <details class="gate-evidence">
+                  <summary>Surfacing strategy</summary>
+                  <div class="gate-evidence-body">Not applicable at this applet's scope. M251 (and its precursor form) is activated only when students encounter the expression 1 + 3n, which is introduced later in the module sequence. Monitor in the module's Math_Trap slides and in sibling applets G7C4M1A1 and G7C4M1A3.</div>
+                </details>
+              <div class="gate-item-meta"><span class="tag" style="color:#c0392b">Severity: high</span><span class="tag" style="background:#f3e8ff;color:#7c3aed">none</span></div>
+              <div class="item-decision" data-item-id="amisc_1">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_amisc_1_accept" onclick="itemDecide('amisc_1','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('amisc_1')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-amisc_1" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('amisc_1','rescope')">Re-scope</button>
+      <button class="refine-preset" onclick="refineEntry('amisc_1','add_detail')">Add detail</button>
+      <button class="refine-preset" onclick="refineEntry('amisc_1','adjust_severity')">Adjust severity</button>
+      <button class="refine-preset" onclick="refineEntry('amisc_1','remove')">Remove</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_amisc_1" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('amisc_1')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item" id="amisc_250">
+              <div class="gate-item-title">#250 — M250 (guess-and-check as the only equation-solving strategy) is not activatable at this applet's scope. The applet does not ask students to solve equations. Included for completeness per checklist requirement; no instructional action in this applet.</div>
+              <details class="gate-evidence">
+                  <summary>Surfacing strategy</summary>
+                  <div class="gate-evidence-body">Not applicable at this applet's scope. M250 is activated only when students are asked to solve equations (e.g., 3x + 7 = 28). Monitor in later equation-focused modules.</div>
+                </details>
+              <div class="gate-item-meta"><span class="tag" style="color:#856404">Severity: medium</span><span class="tag" style="background:#f3e8ff;color:#7c3aed">none</span></div>
+              <div class="item-decision" data-item-id="amisc_2">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_amisc_2_accept" onclick="itemDecide('amisc_2','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('amisc_2')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-amisc_2" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('amisc_2','rescope')">Re-scope</button>
+      <button class="refine-preset" onclick="refineEntry('amisc_2','add_detail')">Add detail</button>
+      <button class="refine-preset" onclick="refineEntry('amisc_2','adjust_severity')">Adjust severity</button>
+      <button class="refine-preset" onclick="refineEntry('amisc_2','remove')">Remove</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_amisc_2" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('amisc_2')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+    </div></div>
+
+    <div class="section-header">Visual Model Recommendations (1)</div>
+    <div class="card"><div class="card-body">
+      
+            <div class="gate-item" id="avir_161">
+              <div class="gate-item-title">VIR 161 — Variable as Pattern Continuation</div>
+              <div style="margin:8px 0;background:#fafafa;border-radius:6px;padding:10px;text-align:center;border:1px solid #e8e8e8"><div style="max-width:300px;margin:0 auto"><svg xmlns="http://www.w3.org/2000/svg" width="360" height="140" viewBox="0 0 360 140" style="font-family:system-ui,sans-serif;font-size:11px;"><rect width="360" height="140" fill="#F8FAFC"/><text x="180" y="132" text-anchor="middle" fill="#64748B" font-size="9" font-style="italic">Variable as Pattern Continuation</text><rect x="10" y="25" width="100" height="90" rx="5" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.5"/><text x="60" y="38" text-anchor="middle" fill="#2563EB" font-size="9" font-weight="bold">Framing 1</text><text x="60" y="60" text-anchor="middle" fill="#1E293B" font-size="10">View 1</text><line x1="112" y1="70" x2="128" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="133,70 127,67 127,73" fill="#64748B"/><rect x="135" y="25" width="100" height="90" rx="5" fill="#FFFBEB" stroke="#D97706" stroke-width="1.5"/><text x="185" y="38" text-anchor="middle" fill="#D97706" font-size="9" font-weight="bold">Same Object</text><text x="185" y="55" text-anchor="middle" fill="#1E293B" font-size="10">same object</text><text x="185" y="78" text-anchor="middle" fill="#1E293B" font-size="10">—reframed—</text><line x1="237" y1="70" x2="253" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="258,70 252,67 252,73" fill="#64748B"/><rect x="260" y="25" width="100" height="90" rx="5" fill="#ECFDF5" stroke="#059669" stroke-width="1.5"/><text x="310" y="38" text-anchor="middle" fill="#059669" font-size="9" font-weight="bold">Framing 2</text><text x="310" y="60" text-anchor="middle" fill="#1E293B" font-size="10">View 2</text></svg></div></div>
+              <details class="gate-evidence">
+                  <summary>Rationale</summary>
+                  <div class="gate-evidence-body">Primary visual anchor for this applet. Ground the distinction between a fixed quantity (3 apples on the plate — countable, visible, known) and a changing/unknown quantity (apples in the sack — not countable, not visible, unknown). The fruit-sack scenario is the concrete instantiation of VIR 161's core insight: a letter is not a mystery to solve but a label for 'how many' — a quantity that could be any number. Position at the opening moment of the applet, before any letter is introduced, so students perceive the fixed/changing distinction in the physical scenario first.</div>
+                </details>
+              <div class="gate-item-meta">
+                <span class="bp-cpa bp-cpa-c">Concrete</span>
+                <span class="tag">introduce_concept</span>
+                <span class="tag" style="color:#856404">moderate</span>
+              </div>
+              <div class="item-decision" data-item-id="avir_0">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_avir_0_accept" onclick="itemDecide('avir_0','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('avir_0')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-avir_0" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('avir_0','reassess')">Re-assess</button>
+      <button class="refine-preset" onclick="refineEntry('avir_0','adjust_scope')">Adjust scope</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_avir_0" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('avir_0')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+    </div></div>
+
+    <div class="section-header">IAS Patterns (5)</div>
+    <div class="card"><div class="card-body">
+      
+            <div class="gate-item">
+              <div class="gate-item-title">Progressive Reveal</div>
+              <div class="gate-item-detail">Cognitive actions: Attend, Perceive Structure</div>
+              <div class="gate-item-detail">When to use: Use to introduce the two quantities sequentially: first show the plate with 3 apples (fixed, countable), then reveal the sack (unknown, not countable). The sequential reveal forces students to perceive the contrast before they are asked to classify. This is the concrete-phase entry into the fixed/changing distinction.</div>
+              <div class="item-decision" data-item-id="aias_0">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_aias_0_accept" onclick="itemDecide('aias_0','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('aias_0')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-aias_0" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('aias_0','clarify')">Clarify usage</button>
+      <button class="refine-preset" onclick="refineEntry('aias_0','custom')">Custom…</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_aias_0" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('aias_0')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item">
+              <div class="gate-item-title">Side-by-Side Contrast</div>
+              <div class="gate-item-detail">Cognitive actions: Compare, Map Representations, Perceive Structure</div>
+              <div class="gate-item-detail">When to use: Use to display the plate (known quantity = 3) alongside the sack (unknown quantity = a) after the reveal, so students can directly compare the two types of quantity. The two-column known-vs-unknown layout from the module trace (Slide 8) is the correct realisation of this archetype at concrete phase.</div>
+              <div class="item-decision" data-item-id="aias_1">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_aias_1_accept" onclick="itemDecide('aias_1','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('aias_1')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-aias_1" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('aias_1','clarify')">Clarify usage</button>
+      <button class="refine-preset" onclick="refineEntry('aias_1','custom')">Custom…</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_aias_1" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('aias_1')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item">
+              <div class="gate-item-title">Counterexample Feedback</div>
+              <div class="gate-item-detail">Cognitive actions: Demonstrate a case that breaks a false rule the learner proposed</div>
+              <div class="gate-item-detail">When to use: Deploy when a student selects the distractor 'a means the apple fruit' — show that the fruit already has a name ('apple') and that the letter a must therefore mean something else: how many. This is the concrete-phase surface of M252 and should fire as immediate corrective feedback within the applet interaction.</div>
+              <div class="item-decision" data-item-id="aias_2">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_aias_2_accept" onclick="itemDecide('aias_2','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('aias_2')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-aias_2" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('aias_2','clarify')">Clarify usage</button>
+      <button class="refine-preset" onclick="refineEntry('aias_2','custom')">Custom…</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_aias_2" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('aias_2')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item">
+              <div class="gate-item-title">Commit-Before-Reveal</div>
+              <div class="gate-item-detail">Cognitive actions: Predict, Commit</div>
+              <div class="gate-item-detail">When to use: Use at the classification moment: ask the student to tap/select whether the number of apples on the plate is a 'fixed quantity' or a 'changing quantity' before the answer is confirmed. Locks in the student's reasoning and increases engagement with the distinction. Repeat for the sack quantity.</div>
+              <div class="item-decision" data-item-id="aias_3">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_aias_3_accept" onclick="itemDecide('aias_3','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('aias_3')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-aias_3" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('aias_3','clarify')">Clarify usage</button>
+      <button class="refine-preset" onclick="refineEntry('aias_3','custom')">Custom…</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_aias_3" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('aias_3')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item">
+              <div class="gate-item-title">Match Pairs</div>
+              <div class="gate-item-detail">Cognitive actions: Map Representations, Compare, Classify</div>
+              <div class="gate-item-detail">When to use: Use as the applet's consolidation interaction: present two or three quantity descriptions (e.g., '3 apples on the plate', 'apples in the sack', 'oranges in Candra's father's sack') and ask students to drag each to the correct column (Fixed / Changing). This is the Shout_Out_Loud moment in the applet and directly prepares students for the module's variable/constant vocabulary formalisation.</div>
+              <div class="item-decision" data-item-id="aias_4">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_aias_4_accept" onclick="itemDecide('aias_4','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('aias_4')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-aias_4" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('aias_4','clarify')">Clarify usage</button>
+      <button class="refine-preset" onclick="refineEntry('aias_4','custom')">Custom…</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_aias_4" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('aias_4')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+    </div></div>
+
+    <div class="section-header" style="color:#c0392b">Convention Flags &amp; False Friends (4)</div>
+    <div class="card" style="border-color:#f5c6cb"><div class="card-body">
+      <div style="font-size:12px;color:#856404;background:#fff3cd;border-radius:4px;padding:8px;margin-bottom:12px">
+        These language and convention items require explicit attention in the applet
+        design. False friends and notation conventions directly affect student comprehension
+        in the target curriculum and geography.
+      </div>
+      
+            <div class="gate-item" style="border-left:3px solid #666;padding-left:12px">
+              <div class="gate-item-title">Letter 'a' as quantity label vs. fruit name</div>
+              <div class="gate-item-detail" style="color:#666;font-weight:600">Risk: When students first see 'a apples', they may read 'a' as an abbreviation for 'apple' (the fruit) rather than as a label for the count of apples. This is the concrete-phase surface of M252 and is the single most important convention to establish in this applet. The module trace confirms this risk is real — the Slide 8 callout was specifically designed to address it.</div>
+              <div class="gate-item-detail">Mitigation: Introduce the letter 'a' only after the sack scenario is established and the question 'how many apples are in the sack?' has been posed. Frame the letter explicitly as answering the question 'how many?' — not as a name. Use the callout: 'a tells us HOW MANY apples are in the sack — it is not the name of the fruit.'</div>
+              <div class="item-decision" data-item-id="aconv_0">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_aconv_0_accept" onclick="itemDecide('aconv_0','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('aconv_0')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-aconv_0" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('aconv_0','reassess')">Re-assess risk</button>
+      <button class="refine-preset" onclick="refineEntry('aconv_0','update_mitigation')">Update mitigation</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_aconv_0" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('aconv_0')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item" style="border-left:3px solid #666;padding-left:12px">
+              <div class="gate-item-title">Fixed quantity vs. constant — vocabulary sequencing</div>
+              <div class="gate-item-detail" style="color:#666;font-weight:600">Risk: The applet operates at the concrete phase and uses the everyday language 'fixed quantity' and 'changing quantity'. The formal vocabulary 'constant' and 'variable' is introduced in the module's Math_Vault (Slide 9 in the module trace). If the applet introduces 'constant' and 'variable' prematurely, it front-loads abstract vocabulary before the concrete distinction is secure.</div>
+              <div class="gate-item-detail">Mitigation: Use only 'fixed quantity' and 'changing quantity' (or 'known quantity' and 'unknown quantity') as the student-facing labels in this applet. Reserve 'constant' and 'variable' for the module's Math_Vault slide that follows this applet in the sequence. The applet's summary slide (Slide 31 in the topic) uses 'b means THE NUMBER of oranges' — this phrasing is correct and should be preserved.</div>
+              <div class="item-decision" data-item-id="aconv_1">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_aconv_1_accept" onclick="itemDecide('aconv_1','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('aconv_1')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-aconv_1" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('aconv_1','reassess')">Re-assess risk</button>
+      <button class="refine-preset" onclick="refineEntry('aconv_1','update_mitigation')">Update mitigation</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_aconv_1" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('aconv_1')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item" style="border-left:3px solid #666;padding-left:12px">
+              <div class="gate-item-title">Letter choice: 'a' for apples, 'b' for oranges</div>
+              <div class="gate-item-detail" style="color:#666;font-weight:600">Risk: Using 'a' for apples and 'b' for oranges risks reinforcing the misconception that variable letters are abbreviations for the object's name (a = apple, b = banana/orange). The module trace confirms this risk and addresses it with the 'HOW MANY' callout. The applet's summary (Slide 31) correctly states 'Any letter except a can be used for number of oranges' — this is the right message but must be delivered carefully.</div>
+              <div class="gate-item-detail">Mitigation: After establishing 'a' for the apple sack, explicitly demonstrate that any letter (not just 'a') could have been used — the choice of letter is arbitrary. When introducing 'b' for oranges, state: 'We use b here, but we could use any letter — as long as it is different from a, because a and b represent different quantities.' This directly addresses the abbreviation misconception.</div>
+              <div class="item-decision" data-item-id="aconv_2">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_aconv_2_accept" onclick="itemDecide('aconv_2','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('aconv_2')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-aconv_2" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('aconv_2','reassess')">Re-assess risk</button>
+      <button class="refine-preset" onclick="refineEntry('aconv_2','update_mitigation')">Update mitigation</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_aconv_2" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('aconv_2')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item" style="border-left:3px solid #666;padding-left:12px">
+              <div class="gate-item-title">Shout_Out_Loud interaction — oranges in the sack</div>
+              <div class="gate-item-detail" style="color:#666;font-weight:600">Risk: The applet summary (Slide 31) shows a Shout_Out_Loud template asking 'How many oranges are in the sack Candra's father brought?' with the answer 'We don't know — that's why we use a letter!' This is the correct concrete framing. The risk is that the Shout_Out_Loud fires before the fixed/changing distinction is secure, making the letter introduction feel arbitrary.</div>
+              <div class="gate-item-detail">Mitigation: Sequence the Shout_Out_Loud after the fixed/changing classification interaction is complete. The question 'How many oranges?' should feel like a natural extension of the established pattern: 'We couldn't count the apples in the sack, and we can't count the oranges either — so we use a different letter, b, to represent how many oranges there are.'</div>
+              <div class="item-decision" data-item-id="aconv_3">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_aconv_3_accept" onclick="itemDecide('aconv_3','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('aconv_3')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-aconv_3" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('aconv_3','reassess')">Re-assess risk</button>
+      <button class="refine-preset" onclick="refineEntry('aconv_3','update_mitigation')">Update mitigation</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_aconv_3" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('aconv_3')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+    </div></div>
+
+    <div class="section-header">Research Gaps (3)</div>
+    <div class="card"><div class="card-body">
+      
+            <div class="gate-item" style="border-left:3px solid #ef4444;padding-left:12px">
+              <div class="gate-item-meta" style="margin-bottom:4px">
+                <span class="tag" style="background:#fde8e8;color:#c0392b">visual_model</span>
+              </div>
+              <div class="gate-item-title" style="color:#c0392b">No KB VIR exists for the two-column fixed-vs-changing quantity table that is the primary concrete scaffold for this applet. VIR 161 (Variable as Pattern Continuation) is the closest KB record but describes a growing pattern context, not the static fruit-sack scenario used here. The applet's visual model is novel (confirmed by the module trace as 'scorer_observed_novel') and has no KB evidence anchor.</div>
+              <div class="gate-item-detail">Medium. The applet's core visual is well-designed (confirmed by the module trace) but lacks KB evidence grounding. Blueprint builders must design this without a VIR anchor. Recommend KB insertion of a VIR for 'Fixed vs. Changing Quantity — Concrete Object Contrast' at concrete CPA phase.</div>
+              <div class="item-decision" data-item-id="agap_0">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_agap_0_accept" onclick="itemDecide('agap_0','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('agap_0')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-agap_0" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('agap_0','clarify')">Clarify</button>
+      <button class="refine-preset" onclick="refineEntry('agap_0','propose_mitigation')">Propose mitigation</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_agap_0" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('agap_0')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item" style="border-left:3px solid #ef4444;padding-left:12px">
+              <div class="gate-item-meta" style="margin-bottom:4px">
+                <span class="tag" style="background:#fde8e8;color:#c0392b">interactive</span>
+              </div>
+              <div class="gate-item-title" style="color:#c0392b">No KB IAS entry exists for a 'classify-and-label' interactive at the concrete phase — where students observe two physical objects (plate vs. sack), classify each as fixed or changing, and then assign a letter to the changing quantity. IAS 21 (Match Pairs) is the closest available archetype and is recommended, but a dedicated 'quantity classification' archetype would better capture the pedagogical intent of this applet.</div>
+              <div class="gate-item-detail">Low-medium. The Match Pairs archetype is sufficient for the consolidation interaction, but the opening classification moment (Commit-Before-Reveal on fixed vs. changing) lacks a formally evidenced IAS archetype. The Progressive Reveal + Commit-Before-Reveal combination is recommended as the best available fit.</div>
+              <div class="item-decision" data-item-id="agap_1">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_agap_1_accept" onclick="itemDecide('agap_1','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('agap_1')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-agap_1" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('agap_1','clarify')">Clarify</button>
+      <button class="refine-preset" onclick="refineEntry('agap_1','propose_mitigation')">Propose mitigation</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_agap_1" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('agap_1')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item" style="border-left:3px solid #ef4444;padding-left:12px">
+              <div class="gate-item-meta" style="margin-bottom:4px">
+                <span class="tag" style="background:#fde8e8;color:#c0392b">misconception</span>
+              </div>
+              <div class="gate-item-title" style="color:#c0392b">The concrete-phase surface of M252 — 'a means the apple fruit, not how many apples' — is not explicitly described in the KB misconception record for M252. The KB record describes the deeper form (variable as mystery unknown to solve for), not the letter-as-abbreviation confusion that arises at the concrete phase when letters are first introduced alongside physical objects.</div>
+              <div class="gate-item-detail">Medium. The applet's Counterexample Feedback for this surface form must be designed from first principles. The module trace confirms the 'HOW MANY' callout is effective at the surface level, but the KB does not provide a formally evidenced surfacing strategy for this concrete-phase variant. Recommend KB refinement of M252 to include the letter-as-abbreviation precursor.</div>
+              <div class="item-decision" data-item-id="agap_2">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_agap_2_accept" onclick="itemDecide('agap_2','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('agap_2')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-agap_2" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('agap_2','clarify')">Clarify</button>
+      <button class="refine-preset" onclick="refineEntry('agap_2','propose_mitigation')">Propose mitigation</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_agap_2" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('agap_2')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+    </div></div>
+
+    <div class="section-header">Synthesis Narrative</div>
+    <div class="card"><div class="card-body">
+      <div class="gate-narrative">This applet is the module's concrete-phase entry point — the moment when students first encounter the idea that some quantities can be counted (fixed) and some cannot (changing/unknown), and that a letter can stand in for the count of the latter. Its instructional job is narrow and precise: establish the perceptual distinction between a fixed quantity and a changing quantity using a familiar Indonesian everyday context (Candra's fruit scenario), and introduce the letter 'a' as a label for 'how many apples are in the sack' — not as a name for the fruit. Everything that follows in the module (the Math_Vault formalisation of 'variable' and 'constant', the Math_Trap for M252, the notation 3n) depends on this perceptual foundation being secure.
+
+The recommended interaction sequence flows directly from the KB evidence. VIR 161 (Variable as Pattern Continuation) is the primary visual anchor, adapted here to the static fruit-sack scenario rather than a growing pattern: the plate of 3 apples is the 'fixed' element (like the constant in a pattern), and the sack of unknown apples is the 'changing' element (like the variable). The Progressive Reveal archetype establishes the contrast sequentially — plate first, then sack — before any classification is demanded. The Side-by-Side Contrast archetype then holds both quantities in view simultaneously, enabling the Commit-Before-Reveal classification interaction: students tap to identify which quantity is fixed and which is changing before the answer is confirmed. This sequence mirrors the Exploration 4.1 table structure from the textbook (p.127) at the most concrete level, before any table or notation is introduced.
+
+The applet's single most important convention risk is the letter-as-abbreviation confusion: students seeing 'a apples' may read 'a' as shorthand for 'apple' rather than as a count. The Counterexample Feedback archetype is the correct response mechanism — 'We already know it's an apple; a tells us HOW MANY.' The Shout_Out_Loud moment (oranges in Candra's father's sack) extends the pattern to a second unknown quantity and introduces 'b', reinforcing that letter choice is arbitrary and that different unknowns need different letters. This is the applet's consolidation moment and directly prepares students for the module's Math_Vault formalisation of 'variable'. M251 and M250 are not activatable at this applet's scope and require no instructional action here; the parent module's Math_Trap slides are the correct venue for those misconceptions once algebraic notation is introduced.</div>
+      <div class="item-decision" data-item-id="asynthesis">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_asynthesis_accept" onclick="itemDecide('asynthesis','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('asynthesis')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-asynthesis" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('asynthesis','rescope')">Re-scope</button>
+      <button class="refine-preset" onclick="refineEntry('asynthesis','sharpen')">Sharpen</button>
+      <button class="refine-preset" onclick="refineEntry('asynthesis','expand')">Expand</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_asynthesis" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('asynthesis')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+    </div></div>
+
+    <div class="section-header">Inheritance Notes (from module)</div>
+    <div class="card"><div class="card-body">
+      <div class="gate-narrative">Module research confirmed: (1) VIR 161 (Variable as Pattern Continuation) is the chapter's recommended concrete-phase entry point for the variable concept — this applet is the module's first concrete-phase touchpoint and should deploy VIR 161 as its primary visual anchor. (2) VIR 203 (Function Machines) is confirmed as the CPA bridge from concrete pattern to abstract notation — not yet needed at this applet's scope, which is purely concrete. (3) The implicit multiplication convention flag (3 × n = 3n) is the module's highest-priority notation shift — not yet in scope for this applet, which precedes notation introduction. (4) M252 (variable as mystery unknown) is the module's primary misconception target — this applet's concrete framing of 'changing vs. fixed quantity' is the prerequisite scaffold for the M252 Math_Trap that will fire later in the module. (5) The fixed-vs-changing quantity table gap (no KB VIR) was confirmed at module scope — this applet's two-column known-vs-unknown layout is the concrete realisation of that gap. (6) The module knowledge trace confirms that the parent module (G7C4M1) already establishes 'variable' and 'constant' via the fruit-sack scenario (Candra's apples/oranges) — this applet IS that concrete scenario and is the source of those established concepts. (7) The module trace confirms that M252 and M251 are NOT yet surfaced in the module as reviewed — this applet's interaction design must lay the perceptual groundwork (changing vs. fixed) that makes the later Math_Trap slides coherent. (8) All translation notes from module research are carried forward in full.</div>
+    </div></div>
+</div>
+
+<div class="val-panel">
+  <div class="val-progress" id="val-progress"></div>
+  <div id="val-btns"></div>
+  <div id="val-overall"></div>
+</div>
+<div class="overall-comment-box" id="ocb">
+  <textarea id="oca" placeholder="Directives for downstream agents (e.g. 'use balance-scale model for equations', 'prioritize misconception M250')..."></textarea>
+  <div class="btn-row">
+    <button class="btn btn-approve" onclick="submitOverall()">Submit</button>
+    <button class="btn btn-neutral" onclick="cancelOverallComment()">Cancel</button>
+  </div>
+</div>
+
+<div class="detail-modal-bg" id="detail-modal-bg" onclick="if(event.target===this)closeDetailModal()">
+  <div class="detail-modal" id="detail-modal">
+    <button class="tt-close" onclick="closeDetailModal()">&times;</button>
+    <div id="detail-modal-content"></div>
+  </div>
+</div>
+
+<script>
+// RKEY must be run-scoped, not just title-scoped, or state from a previous
+// review cycle (different run_dir, same gate name) leaks into a freshly
+// generated HTML via localStorage and shows a stale "Approved · <old date>"
+// decision on a gate the user has never touched in this session.
+// We derive run_dir from <body data-run-dir="..."> which render_gate always
+// sets. basename() keeps the key short — the run_dir basename is already
+// timestamp-unique (e.g. 2026-04-10T11-58-20).
+const RKEY = (function() {
+  var title = document.title.replace(/[^a-z0-9]/gi,'_');
+  var rd = (document.body && document.body.dataset && document.body.dataset.runDir) || '';
+  var rdBase = rd ? rd.split(/[\\/]/).filter(Boolean).pop() : '';
+  rdBase = rdBase.replace(/[^a-z0-9]/gi,'_');
+  return 'acrlds_gate_' + (rdBase ? rdBase + '_' : '') + title;
+})();
+
+// One-time garbage collection: sweep any legacy title-only acrlds_gate_* keys
+// that match this gate's title but have no run_dir component. Prevents stale
+// entries from accumulating in the browser forever.
+(function() {
+  try {
+    var title = document.title.replace(/[^a-z0-9]/gi,'_');
+    var legacyKey = 'acrlds_gate_' + title;
+    if (legacyKey !== RKEY && localStorage.getItem(legacyKey) !== null) {
+      localStorage.removeItem(legacyKey);
+    }
+  } catch(e) {}
+})();
+
+const load  = () => { try { return JSON.parse(localStorage.getItem(RKEY)||'{}'); } catch(e) { return {}; } };
+const save  = (d) => { try { localStorage.setItem(RKEY, JSON.stringify(d)); } catch(e) {} };
+const esc   = (s) => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+function autoGrow(el) {
+  el.style.height = 'auto';
+  el.style.height = el.scrollHeight + 'px';
+  el.classList.toggle('has-text', !!el.value.trim());
+}
+
+function itemDecide(id, type) {
+  var state = load();
+  if (!state.items) state.items = {};
+  var current = (state.items[id] || {}).type;
+  if (current === type) {
+    // Toggle off
+    if (state.items[id]) { delete state.items[id].type; }
+    if (state.items[id] && !state.items[id].type && !state.items[id].comment) delete state.items[id];
+  } else {
+    if (!state.items[id]) state.items[id] = {};
+    state.items[id].type = type;
+  }
+  save(state); renderItem(id); renderProgress(); renderOverall();
+}
+
+function saveItemComment(id) {
+  var area = document.getElementById('ca_' + id);
+  if (!area) return;
+  var state = load();
+  if (!state.items) state.items = {};
+  if (!state.items[id]) state.items[id] = {};
+  state.items[id].comment = area.value.trim();
+  // Clean up empty entries
+  if (!state.items[id].type && !state.items[id].comment) delete state.items[id];
+  save(state); renderProgress();
+}
+
+function renderItem(id) {
+  var state = load();
+  var item  = (state.items || {})[id] || {};
+  var activeType = item.type || null;
+  ['accept','flag'].forEach(function(t) {
+    var el = document.getElementById('ibtn_' + id + '_' + t);
+    if (el) el.className = 'ibtn' + (activeType === t ? ' active-' + t : '');
+  });
+  // Restore comment text
+  var area = document.getElementById('ca_' + id);
+  if (area && item.comment && !area.value) {
+    area.value = item.comment;
+    autoGrow(area);
+  }
+}
+
+function _countFlags() {
+  var state = load();
+  var items = state.items || {};
+  return Object.values(items).filter(function(i) { return i.type === 'flag'; }).length;
+}
+
+function renderProgress() {
+  const state = load();
+  const items = state.items || {};
+  const total = document.querySelectorAll('[data-item-id]').length;
+  const accepted = Object.values(items).filter(i => i.type === 'accept').length;
+  const flagged  = Object.values(items).filter(i => i.type === 'flag').length;
+  const commented = Object.values(items).filter(i => i.comment && !i.type).length;
+  const el = document.getElementById('val-progress');
+  if (!el) return;
+  var parts = [];
+  if (accepted > 0) parts.push('<span style="color:#1e7e34">' + accepted + ' accepted</span>');
+  if (flagged > 0) parts.push('<span style="color:#856404">' + flagged + ' flagged</span>');
+  if (commented > 0) parts.push(commented + ' commented');
+  var remaining = total - accepted - flagged;
+  if (remaining > 0) parts.push(remaining + ' pending');
+  el.innerHTML = '<strong>' + parts.join(' &middot; ') + '</strong> of ' + total + ' items';
+}
+
+function openOverallComment(pending) {
+  document.getElementById('ocb').style.display = 'block';
+  document.getElementById('ocb')._p = pending || 'rework';
+  document.getElementById('oca').focus();
+}
+function submitOverall() {
+  var pending = document.getElementById('ocb')._p || 'rework';
+  var comment = document.getElementById('oca').value.trim();
+  var state = load();
+  state.overall = { type: pending, comment: comment, timestamp: Date.now() };
+  save(state);
+  document.getElementById('ocb').style.display = 'none';
+  if (pending === 'rework') {
+    _submitGateDecision('rework_llm');
+  } else if (pending === 'approve_comments') {
+    _submitGateDecision('approved_with_comments');
+  } else {
+    _submitGateDecision('approved_with_flags');
+  }
+}
+
+function renderOverall() {
+  const state   = load();
+  const overall = state.overall || {};
+  const btns    = document.getElementById('val-btns');
+  const status  = document.getElementById('val-overall');
+  const flags   = _countFlags();
+
+  if (overall.type) {
+    const lbl = {approve:'Approved', approve_flags:'Approved with flags', rework:'Rework requested'};
+    const cls = {approve:'badge-approved', approve_flags:'badge-commented', rework:'badge-rework'};
+    const ts  = overall.timestamp ? ' \u00b7 '+new Date(overall.timestamp).toLocaleString() : '';
+    status.innerHTML = '<span class="'+(cls[overall.type]||'badge-approved')+'">'+
+      (lbl[overall.type]||overall.type)+'</span>'
+      + (overall.comment ? ' &mdash; <em>'+esc(overall.comment.slice(0,80))+'</em>' : '')
+      + ts;
+    btns.innerHTML = '<button class="btn btn-neutral" onclick="resetOverall()">Change decision</button>';
+  } else {
+    status.innerHTML = '';
+    if (flags > 0) {
+      btns.innerHTML =
+        '<button class="btn btn-approve" disabled title="'+flags+' items flagged — unflag or use Approve with Flags" style="opacity:.5;cursor:not-allowed">Approve</button>'+
+        '<button class="btn btn-neutral" style="background:#fff3cd;color:#856404;border:1px solid #f59e0b" onclick="openOverallComment(\'approve_flags\')">Approve with Flags ('+flags+')</button>'+
+        '<button class="btn btn-rework"  onclick="openOverallComment(\'rework\')">Request Rework</button>'+
+        '<button class="btn btn-neutral" onclick="editJsonAndExport()" style="font-size:12px">Edit JSON</button>';
+    } else {
+      btns.innerHTML =
+        '<button class="btn btn-approve" onclick="approveAndExport()">Approve</button>'+
+        '<button class="btn btn-neutral" onclick="approveWithCommentsAndExport()">Approve with Directives</button>'+
+        '<button class="btn btn-rework"  onclick="openOverallComment(\'rework\')">Request Rework</button>'+
+        '<button class="btn btn-neutral" onclick="editJsonAndExport()" style="font-size:12px">Edit JSON</button>';
+    }
+  }
+}
+function resetOverall() {
+  const state = load(); delete state.overall; save(state);
+  document.getElementById('oca').value = '';
+  renderOverall();
+}
+function exportAll() {
+  const state = load();
+  const blob = new Blob([JSON.stringify(state,null,2)],{type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = RKEY + '_decisions.json';
+  a.click();
+}
+function _getGateName() {
+  // Derive gate name from page title for standardized filename
+  var t = document.title;
+  if (t.match(/module.*sequence/i)) return 'CHAPTER_MODULE_SEQUENCE';
+  if (t.match(/lo.*brief/i) && t.match(/chapter/i)) return 'CHAPTER_LO_BRIEF';
+  if (t.match(/chapter.*research.*brief/i)) return 'CHAPTER_RESEARCH_BRIEF';
+  if (t.match(/applet.*research.*brief/i)) return 'APPLET_RESEARCH_BRIEF';
+  if (t.match(/applet.*ideal.*screen/i)) return 'APPLET_IDEAL_SCREENS';
+  if (t.match(/module.*research.*brief/i)) return 'MODULE_RESEARCH_BRIEF';
+  if (t.match(/module.*blueprint/i)) return 'IDEAL_MODULE_BLUEPRINT';
+  if (t.match(/research.*brief/i)) return 'MODULE_RESEARCH_BRIEF';
+  return t.replace(/[^a-zA-Z0-9]/g, '_').toUpperCase();
+}
+
+function _getGateType() {
+  // Hard gates: CHAPTER_MODULE_SEQUENCE, APPLET_IDEAL_SCREENS
+  var name = _getGateName();
+  return (name === 'CHAPTER_MODULE_SEQUENCE' || name === 'APPLET_IDEAL_SCREENS') ? 'hard' : 'soft';
+}
+
+function _captureEditedSequence() {
+  // For module sequence page: capture edited module list from DOM
+  var seqCards = document.querySelectorAll('#mod-list > .mod-card[data-pos]');
+  if (seqCards.length === 0) return null;
+  var state = load();
+  var items = state.items || {};
+  var seq = [];
+  seqCards.forEach(function(c) {
+    var pos = parseInt(c.dataset.pos);
+    var titleEl = c.querySelector('.mod-title-input') || c.querySelector('.mod-title');
+    var loEl = c.querySelector('.mod-lo-input') || c.querySelector('.mod-lo');
+    var ctEl = c.querySelector('.mod-ct-select');
+    var itemId = 'mod_' + pos;
+    var comment = (items[itemId] || {}).comment || '';
+    // Also check the textarea directly (may not be saved to localStorage yet)
+    var ta = document.getElementById('ca_' + itemId);
+    if (ta && ta.value.trim()) comment = ta.value.trim();
+    var entry = {
+      position: pos,
+      module_title: titleEl ? (titleEl.value || titleEl.textContent || '').trim() : '',
+      content_type: ctEl ? ctEl.value : (c.dataset.ct || 'Learn'),
+      lo: loEl ? (loEl.value || loEl.textContent || '').trim() : '',
+      lo_codes: JSON.parse(c.dataset.codes || '[]'),
+    };
+    if (comment) entry.entry_comments = comment;
+    seq.push(entry);
+  });
+  return { module_sequence: seq };
+}
+
+function _submitGateDecision(status) {
+  var runDir = document.body.dataset.runDir || '';
+  var gateName = document.body.dataset.gateName || _getGateName();
+  var state = load();
+  var comment = (state.overall || {}).comment || '';
+  var editedSeq = _captureEditedSequence();
+
+  // Separate flagged items for downstream consumption
+  var items = state.items || {};
+  var flags = {};
+  Object.keys(items).forEach(function(k) {
+    if (items[k].type === 'flag') {
+      flags[k] = { comment: items[k].comment || '' };
+    }
+  });
+
+  var payload = {
+    type: 'gate_decision',
+    run_dir: runDir,
+    gate_name: gateName,
+    status: status,
+    comment: comment,
+    decisions: items,
+    flags_for_downstream: flags,
+    approved_sequence: editedSeq,
+  };
+
+  // Update badge immediately
+  var badge = document.querySelector('.gate-badge');
+  if (badge) {
+    badge.textContent = status === 'rework_llm' ? 'REWORK REQUESTED' : 'APPROVED';
+    badge.style.background = status === 'rework_llm' ? '#f59e0b' : '#22c55e';
+  }
+
+  // If inside an iframe (LMS viewer), send to parent via postMessage
+  if (window.parent !== window) {
+    window.parent.postMessage(payload, '*');
+    return;
+  }
+
+  // If top-level (direct URL), POST to LMS API directly
+  fetch('/api/gates/submit', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(payload),
+  }).then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (data.error) { alert('Gate submission failed: ' + data.error); return; }
+      var msg = status === 'rework_llm'
+        ? 'Rework requested.'
+        : 'Gate approved' + (data.all_gates_approved ? ' — all gates done, finalizing...' : '.');
+      alert(msg);
+    })
+    .catch(function(err) {
+      // Fallback: download the file
+      console.warn('LMS API unavailable, falling back to file download:', err);
+      var decision = Object.assign({}, payload, { timestamp: new Date().toISOString() });
+      delete decision.type;
+      var blob = new Blob([JSON.stringify(decision,null,2)], {type:'application/json'});
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = gateName + '.gate.json';
+      a.click();
+    });
+}
+
+function approveAndExport() {
+  if (_countFlags() > 0) { renderOverall(); return; }
+  const state = load();
+  state.overall = { type: 'approve', comment: '', timestamp: Date.now() };
+  save(state);
+  renderOverall();
+  _submitGateDecision('approved');
+}
+
+function editJsonAndExport() {
+  // Open a textarea with the source JSON for manual editing
+  var jsonArea = document.getElementById('json-edit-area');
+  if (!jsonArea) {
+    var panel = document.createElement('div');
+    panel.id = 'json-edit-panel';
+    panel.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:200;display:flex;align-items:center;justify-content:center';
+    panel.innerHTML = '<div style="background:#fff;border-radius:12px;padding:24px;max-width:800px;width:90%;max-height:80vh;display:flex;flex-direction:column">'
+      + '<div style="font-size:16px;font-weight:700;margin-bottom:12px">Edit Source JSON</div>'
+      + '<textarea id="json-edit-area" style="flex:1;min-height:400px;font-family:monospace;font-size:13px;border:1px solid #ddd;border-radius:6px;padding:12px;resize:vertical"></textarea>'
+      + '<div style="margin-top:12px;display:flex;gap:10px">'
+      + '<button class="btn btn-approve" onclick="submitEditedJson()">Save &amp; Export</button>'
+      + '<button class="btn btn-neutral" onclick="cancelJsonEdit()">Cancel</button>'
+      + '</div></div>';
+    document.body.appendChild(panel);
+  }
+  // Load the source JSON file content (look for the backing .json file)
+  var srcEl = document.getElementById('gate-source-json');
+  if (srcEl) {
+    document.getElementById('json-edit-area').value = srcEl.textContent;
+  } else {
+    document.getElementById('json-edit-area').value = '// Source JSON not embedded. Paste your edited version here.';
+  }
+}
+
+function submitEditedJson() {
+  var area = document.getElementById('json-edit-area');
+  if (!area) return;
+  try {
+    var edited = JSON.parse(area.value);
+    const state = load();
+    state.overall = { type: 'rework', comment: 'Manual JSON edit', timestamp: Date.now() };
+    save(state);
+    // Export with edited_data
+    const gateName = _getGateName();
+    const gateType = _getGateType();
+    const decision = {
+      gate_name: gateName,
+      gate_type: gateType,
+      status: 'rework_manual',
+      timestamp: new Date().toISOString(),
+      overall_comment: 'Manual JSON edit',
+      decisions: state.items || {},
+      edited_data: edited,
+    };
+    var filename = gateName + '.gate.json';
+    var blob = new Blob([JSON.stringify(decision,null,2)],{type:'application/json'});
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = filename;
+    a.click();
+    document.getElementById('json-edit-panel').remove();
+    renderOverall();
+  } catch(e) {
+    alert('Invalid JSON: ' + e.message);
+  }
+}
+
+function cancelOverallComment() {
+  document.getElementById('ocb').style.display = 'none';
+}
+
+function cancelJsonEdit() {
+  var panel = document.getElementById('json-edit-panel');
+  if (panel) panel.remove();
+}
+
+// Detail modal — replaces hover tooltips
+function openDetailModal(html) {
+  document.getElementById('detail-modal-content').innerHTML = html;
+  document.getElementById('detail-modal-bg').classList.add('open');
+}
+function closeDetailModal() {
+  document.getElementById('detail-modal-bg').classList.remove('open');
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeDetailModal();
+});
+// Click handler for .tag-link elements — read nested .tag-tooltip content
+document.addEventListener('click', function(e) {
+  var link = e.target.closest('.tag-link');
+  if (!link) return;
+  var tip = link.querySelector('.tag-tooltip');
+  if (tip) { e.preventDefault(); e.stopPropagation(); openDetailModal(tip.innerHTML); }
+});
+
+function scrollToRef(id) {
+  var el = document.getElementById(id);
+  if (el) { el.scrollIntoView({behavior:'smooth',block:'center'});
+             el.classList.add('highlight-flash');
+             setTimeout(function(){el.classList.remove('highlight-flash')},900); }
+}
+
+/* ── Generalized entry refine (all gate types) ──────────────────── */
+function toggleEntryRefinePanel(entryId) {
+  var panel = document.getElementById('refine-panel-' + entryId);
+  if (!panel) return;
+  document.querySelectorAll('.mod-refine-panel').forEach(function(p) { if (p !== panel) p.style.display = 'none'; });
+  panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+}
+
+function refineEntry(entryId, preset) {
+  var decDiv = document.querySelector('[data-item-id="' + entryId + '"]');
+  if (!decDiv) return;
+
+  var promptMessages = {
+    'rescope': 'How should this entry be re-scoped?',
+    'add_detail': 'What detail should be added?',
+    'adjust_severity': 'What should the severity be changed to and why?',
+    'remove': 'Confirm removal — why should this entry be removed?',
+    'reassess': 'How should the confidence/evidence be re-assessed?',
+    'adjust_scope': 'How should the scope be adjusted?',
+    'clarify': 'What needs clarification?',
+    'update_mitigation': 'What is the updated mitigation strategy?',
+    'propose_mitigation': 'Propose a mitigation for this gap:',
+    'change_trope': 'Which trope should be used instead?',
+    'adjust_cpa': 'What CPA phase should this be?',
+    'change_interaction': 'What interaction mode should be used?',
+    'adjust_scaffolding': 'What scaffolding level should this be?',
+    'adjust_placement': 'How should the placement be adjusted?',
+    'sharpen': 'How should this be sharpened?',
+    'expand': 'What should be expanded?',
+    'add': 'What entry should be added?',
+    'split': 'How should this be split?',
+    'custom': 'Describe the refinement:'
+  };
+
+  var instruction = prompt(promptMessages[preset] || 'Instruction for ' + preset + ':');
+  if (instruction === null) return;
+  if (!instruction.trim() && preset !== 'remove') return;
+
+  var runDir = document.body.dataset.runDir || '';
+  var gateName = document.body.dataset.gateName || _getGateName();
+  if (!runDir) { alert('Cannot refine: run_dir not set. Open this page via LMS.'); return; }
+
+  // Find the entry's parent card/section for loading state
+  var card = decDiv.closest('.card, .mod-card, .gate-item, [id^="gate-"]') || decDiv.parentElement;
+  if (card) card.style.opacity = '0.5';
+
+  // Close refine panel
+  var panel = document.getElementById('refine-panel-' + entryId);
+  if (panel) panel.style.display = 'none';
+
+  fetch(_lmsApiBase() + '/api/gates/refine-entry', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      run_dir: runDir,
+      gate_name: gateName,
+      entry_id: entryId,
+      preset: preset,
+      instruction: instruction
+    }),
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (card) card.style.opacity = '1';
+    if (data.error) { alert('Refine failed: ' + data.error); return; }
+    // Reload the page to show updated gate HTML (re-rendered server-side)
+    window.location.reload();
+  })
+  .catch(function(e) {
+    if (card) card.style.opacity = '1';
+    alert('Refine failed: ' + e + '\n\nMake sure LMS is running.');
+  });
+}
+
+function _lmsApiBase() {
+  if (window.location.protocol === 'file:') return 'http://localhost:8420';
+  return '';
+}
+
+/* ── Shared read-helper: prime local UI from server gate state ───────
+ * Both entry points to gate approval (the chapter-page table buttons and
+ * this page's own Approve/Rework buttons) POST through the same
+ * /api/gates/submit endpoint. But until now only the in-page flow wrote
+ * to this HTML's localStorage, so when a reviewer approved via the
+ * chapter-page table the gate HTML would still show "Approve" buttons
+ * at the bottom — disconnected from the server's .gate.json.
+ *
+ * This function is the read-side equivalent of submitGateDecision: one
+ * place that fetches /api/gates/status and reconciles the UI with the
+ * server's decision. Called once on DOMContentLoaded. Silent on any
+ * failure (no LMS, CORS, offline file:// review) — renderOverall will
+ * still show whatever localStorage has.
+ * ────────────────────────────────────────────────────────────────────*/
+function primeStateFromServer() {
+  var runDir = (document.body && document.body.dataset && document.body.dataset.runDir) || '';
+  var gateName = (document.body && document.body.dataset && document.body.dataset.gateName)
+                 || (typeof _getGateName === 'function' ? _getGateName() : '');
+  if (!runDir || !gateName) return;
+
+  var url = _lmsApiBase() + '/api/gates/status?run_dir=' + encodeURIComponent(runDir);
+  fetch(url)
+    .then(function(r) { return r.ok ? r.json() : null; })
+    .then(function(data) {
+      if (!data || !data.gates) return;
+      var serverGate = data.gates[gateName];
+      if (!serverGate || serverGate.status === 'not_found') return;
+
+      // Map server status → local overall.type vocabulary
+      var typeMap = {
+        'approved':               'approve',
+        'approved_with_comments': 'approve',
+        'approved_with_flags':    'approve_flags',
+        'rework_llm':             'rework',
+        'rework_manual':          'rework'
+      };
+      var overallType = typeMap[serverGate.status];
+      if (!overallType) return;
+
+      var state = load();
+      var existing = state.overall || {};
+      // If the user has an unsynced local decision, leave it alone.
+      // A `fromServer: true` marker lets us tell "primed from server"
+      // apart from "user clicked something and hasn't pushed yet".
+      if (existing.type && !existing.fromServer) return;
+
+      state.overall = {
+        type: overallType,
+        comment: serverGate.comment || '',
+        timestamp: serverGate.submitted_at || null,
+        fromServer: true
+      };
+      save(state);
+      renderOverall();
+    })
+    .catch(function() { /* silent — not fatal */ });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('[data-item-id]').forEach(el => renderItem(el.dataset.itemId));
+  renderProgress(); renderOverall();
+  primeStateFromServer();
+});
+</script>
+</body>
+</html>

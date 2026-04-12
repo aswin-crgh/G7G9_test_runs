@@ -1,0 +1,1386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Applet Ideal Screens — G7C4M1A2</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+       font-size: 15px; line-height: 1.6; color: #1a1a1a; background: #f5f5f5; }
+.page { max-width: 1060px; margin: 0 auto; padding: 32px 24px 110px; }
+
+.header { background: #fff; border-radius: 10px; padding: 28px 32px 24px;
+          margin-bottom: 20px; border: 1px solid #e0e0e0; }
+.header-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.file-name { font-size: 13px; color: #888; margin-bottom: 4px; }
+.title { font-size: 22px; font-weight: 700; }
+.meta  { font-size: 13px; color: #666; margin-top: 4px; }
+.gate-badge { display: inline-block; padding: 4px 14px; border-radius: 20px;
+              font-size: 13px; font-weight: 600; margin-top: 10px;
+              background: #eef2ff; color: #4f46e5; }
+
+.card { background: #fff; border-radius: 10px; border: 1px solid #e0e0e0;
+        margin-bottom: 14px; overflow: hidden; }
+.card-body { padding: 16px 20px; }
+
+.section-header { font-size: 16px; font-weight: 700; color: #111;
+                  margin: 28px 0 14px; display: flex; align-items: center; gap: 10px; }
+.section-header::after { content:''; flex:1; height:1px; background:#e0e0e0; }
+
+.gate-section { margin-bottom: 20px; }
+.gate-section-title { font-size: 14px; font-weight: 700; color: #333;
+                       margin-bottom: 8px; padding-bottom: 4px;
+                       border-bottom: 1px solid #e8e8e8; }
+.gate-item { padding: 10px 0; border-bottom: 1px solid #f5f5f5; font-size: 13px; }
+.gate-item:last-child { border-bottom: none; }
+.gate-item-title { font-weight: 600; color: #222; }
+.gate-item-detail { color: #666; margin-top: 2px; }
+.gate-item-meta { display: flex; gap: 6px; margin-top: 4px; flex-wrap: wrap; }
+.gate-narrative { font-size: 13px; color: #444; line-height: 1.7;
+                  white-space: pre-wrap; background: #fafafa;
+                  border-radius: 6px; padding: 14px; }
+
+/* Per-slide / per-screen blueprint enrichment strip */
+.bp-slide-enrich { margin: 6px 0 4px 34px; padding: 8px 10px;
+                   background: #f9fafb; border-left: 2px solid #e5e7eb;
+                   border-radius: 0 4px 4px 0; display: flex;
+                   flex-direction: column; gap: 4px; }
+.bp-enrich-row { display: flex; align-items: flex-start; gap: 8px;
+                 font-size: 11px; line-height: 1.5; flex-wrap: wrap; }
+.bp-enrich-label { flex: 0 0 110px; color: #6b7280; font-weight: 700;
+                   text-transform: uppercase; letter-spacing: 0.4px;
+                   padding-top: 3px; }
+.bp-chip { display: inline-block; padding: 2px 7px; border-radius: 10px;
+           font-size: 11px; line-height: 1.4; cursor: default; position: relative; }
+.bp-chip.vocab    { background: #e6f4ea; color: #1e7e34; }
+.bp-chip.conv     { background: #fff7ed; color: #9a3412; }
+.bp-chip.textbook { background: #ecfeff; color: #0e7490; }
+.bp-chip.applet   { background: #fef3c7; color: #92400e; }
+.bp-chip.video    { background: #fde8e8; color: #c0392b; }
+.bp-chip.vm       { background: #eef2ff; color: #4338ca; }
+/* Phase 2 blueprint chips */
+.bp-chip.concept-intro { background: #d1fae5; color: #064e3b; }
+.bp-chip.concept-reinf { background: #e0f2fe; color: #075985; }
+.bp-chip.misc          { background: #fde8e8; color: #c0392b; }
+.bp-chip.prereq        { background: #fef3c7; color: #78350f;
+                         border: 1px dashed #fcd34d; }
+.bp-chip.vocab-used    { background: #f0fdf4; color: #15803d; }
+.bp-chip.vocab-reinf   { background: #dcfce7; color: #14532d;
+                         font-weight: 600; }
+.bp-concept-tag { display: inline-block; font-size: 9px; text-transform: uppercase;
+                  letter-spacing: 0.4px; opacity: 0.7; margin-right: 3px; }
+.bp-mini-tag { display: inline-block; background: #fff; color: #6b7280;
+               padding: 0 5px; border-radius: 8px; font-size: 9px;
+               border: 1px solid #e5e7eb; margin-left: 2px; }
+
+.tag { display: inline-block; border-radius: 3px; padding: 1px 7px;
+       font-size: 11px; font-weight: 600; }
+.bp-cpa { font-size: 10px; font-weight: 600; border-radius: 3px; padding: 1px 6px; }
+.bp-cpa-c { background: #dbeafe; color: #1d4ed8; }
+.bp-cpa-p { background: #fef3c7; color: #92400e; }
+.bp-cpa-a { background: #ede9fe; color: #6d28d9; }
+.tag-op   { background: #eef2ff; color: #4f46e5; }
+
+/* Module sequence cards */
+.mod-card { background: #fff; border: 1px solid #e0e0e0; border-radius: 10px;
+            padding: 16px 20px; margin-bottom: 12px; position: relative; }
+.mod-pos { font-size: 28px; font-weight: 800; color: #4f46e5; float: left;
+           margin-right: 16px; min-width: 36px; text-align: center; line-height: 1; }
+.mod-body { overflow: hidden; }
+.mod-title { font-size: 15px; font-weight: 700; color: #222; }
+.mod-lo { font-size: 13px; color: #444; margin-top: 4px; }
+.mod-codes { margin-top: 6px; }
+.mod-code { display: inline-block; background: #f0f0f0; color: #555; border-radius: 3px;
+            padding: 1px 6px; font-size: 10px; font-family: monospace; margin: 1px 2px; }
+.mod-notes { font-size: 12px; color: #856404; background: #fffbeb; border-radius: 4px;
+             padding: 4px 8px; margin-top: 6px; }
+.mod-edit-controls { margin-top: 10px; padding-top: 10px; border-top: 1px solid #f0f0f0;
+                     display: flex; gap: 6px; align-items: center; }
+.mod-edit-btn { border: 1px solid #ddd; background: #fff; border-radius: 4px;
+                padding: 2px 8px; font-size: 12px; cursor: pointer; color: #555; }
+.mod-edit-btn:hover { border-color: #999; color: #111; }
+
+/* Refine panel & presets */
+.mod-refine-panel { margin-top: 8px; padding: 8px 0; }
+.refine-presets { display: flex; gap: 6px; flex-wrap: wrap; }
+.refine-preset { border: 1px solid #c7d2fe; background: #eef2ff; border-radius: 5px;
+                 padding: 3px 10px; font-size: 12px; font-weight: 600; cursor: pointer;
+                 color: #4f46e5; transition: all .12s; }
+.refine-preset:hover { background: #dbeafe; border-color: #818cf8; }
+.refine-preset:disabled { opacity: .5; cursor: not-allowed; }
+
+/* Undo bar */
+.undo-bar { display: none; background: #fffbeb; border: 1px solid #f59e0b; border-radius: 8px;
+            padding: 8px 16px; margin-bottom: 12px; align-items: center; gap: 12px;
+            font-size: 13px; color: #856404; }
+.undo-btn { border: 1px solid #f59e0b; background: #fff; border-radius: 4px;
+            padding: 2px 10px; font-size: 12px; cursor: pointer; color: #856404;
+            font-weight: 600; }
+.undo-btn:hover { background: #fffbeb; }
+
+/* Module card states */
+.mod-card.accepted { border-color: #22c55e; background: #f0fdf4; }
+.mod-card.refined  { border-left: 3px solid #4f46e5; }
+.mod-card.refining { opacity: .6; pointer-events: none; }
+
+/* Upgrade map */
+.upgrade-card { background: #fff; border: 1px solid #e0e0e0; border-radius: 8px;
+                padding: 12px 16px; margin-bottom: 8px; }
+.upgrade-target { font-weight: 600; font-size: 14px; color: #333; }
+.upgrade-just { font-size: 13px; color: #666; margin-top: 4px; }
+
+/* Curriculum alignment table */
+.align-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.align-table th { background: #f5f5f5; text-align: left; padding: 8px 12px;
+                  font-weight: 600; color: #555; font-size: 12px;
+                  border-bottom: 2px solid #e0e0e0; }
+.align-table td { padding: 8px 12px; border-bottom: 1px solid #f0f0f0; color: #333; }
+.align-table tr:last-child td { border-bottom: none; }
+
+/* Per-item decision infra */
+.item-decision { margin-top: 9px; padding-top: 8px; border-top: 1px solid rgba(0,0,0,.06); }
+.item-btns { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.ibtn { border: 1px solid #ddd; background: #fff; border-radius: 5px; padding: 3px 10px;
+        font-size: 12px; font-weight: 600; cursor: pointer; color: #555;
+        transition: all .12s; }
+.ibtn:hover { border-color: #999; color: #111; }
+.ibtn.active-accept { background: #e6f4ea; border-color: #22c55e; color: #1e7e34; }
+.ibtn.active-flag   { background: #fff3cd; border-color: #f59e0b; color: #856404; }
+.item-comment-inline { margin-top: 6px; }
+.inline-comment { width: 100%; border: 1px solid #e8e8e8; border-radius: 5px;
+                  padding: 6px 9px; font-size: 12px; resize: none; overflow: hidden;
+                  font-family: inherit; color: #333; background: #fafafa;
+                  transition: border-color .15s, background .15s; }
+.inline-comment:focus { border-color: #818cf8; background: #fff; outline: none; }
+.inline-comment.has-text { border-color: #c7d2fe; background: #f5f3ff; }
+
+/* Validation panel */
+.val-panel { position: fixed; bottom: 0; left: 0; right: 0; background: #fff;
+             border-top: 1px solid #e0e0e0; padding: 12px 24px;
+             display: flex; align-items: center; gap: 14px;
+             box-shadow: 0 -2px 12px rgba(0,0,0,.08); z-index: 100; }
+.val-progress { font-size: 13px; color: #888; flex: 1; }
+.val-progress strong { color: #1a1a1a; }
+.btn { padding: 8px 18px; border-radius: 6px; border: none; cursor: pointer;
+       font-size: 14px; font-weight: 600; transition: opacity .15s; }
+.btn:hover { opacity: .85; }
+.btn-approve { background: #22c55e; color: #fff; }
+.btn-neutral { background: #f0f0f0; color: #333; }
+.btn-rework  { background: #ef4444; color: #fff; }
+.overall-comment-box { display: none; padding: 14px 24px; background: #fafafa;
+                        border-top: 1px solid #e8e8e8;
+                        position: fixed; bottom: 52px; left: 0; right: 0;
+                        z-index: 101; box-shadow: 0 -2px 8px rgba(0,0,0,.1); }
+.overall-comment-box textarea { width: 100%; border: 1px solid #ddd; border-radius: 6px;
+                                  padding: 10px; font-size: 14px; resize: vertical;
+                                  min-height: 80px; font-family: inherit; }
+.overall-comment-box .btn-row { margin-top: 10px; display: flex; gap: 10px; }
+.badge-approved  { background:#e6f4ea; color:#1e7e34; border-radius:6px; padding:6px 14px; font-weight:600; font-size:14px; }
+.badge-rework    { background:#fde8e8; color:#c0392b; border-radius:6px; padding:6px 14px; font-weight:600; font-size:14px; }
+.badge-commented { background:#fff3cd; color:#856404; border-radius:6px; padding:6px 14px; font-weight:600; font-size:14px; }
+
+/* Clickable reference tags — open modal on click */
+.tag-link { cursor: pointer; text-decoration: none; transition: opacity .15s; position: relative; }
+.tag-link:hover { opacity: .8; }
+.tag-tooltip { display: none; }
+
+/* Detail modal (shared — single instance at page bottom) */
+.detail-modal-bg { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+                   background: rgba(0,0,0,.5); z-index: 200; align-items: center; justify-content: center; }
+.detail-modal-bg.open { display: flex; }
+.detail-modal { background: #1a1a1a; color: #fff; border-radius: 12px; padding: 20px 24px;
+                max-width: 560px; width: 90%; max-height: 80vh; overflow-y: auto;
+                box-shadow: 0 8px 32px rgba(0,0,0,.4); font-size: 13px; line-height: 1.6;
+                position: relative; }
+.detail-modal .tt-title { font-weight: 700; font-size: 15px; margin-bottom: 8px; color: #fff; }
+.detail-modal .tt-desc { color: #ddd; margin-bottom: 6px; }
+.detail-modal .tt-row { display: flex; gap: 8px; margin: 4px 0; font-size: 12px; }
+.detail-modal .tt-label { color: #999; min-width: 80px; font-weight: 600; }
+.detail-modal .tt-val { color: #eee; }
+.detail-modal .tt-svg { margin-top: 8px; background: #fff; border-radius: 6px;
+                         padding: 8px; text-align: center; }
+.detail-modal .tt-svg svg { max-width: 300px; max-height: 160px; }
+.detail-modal .tt-close { position: absolute; top: 10px; right: 14px; background: none;
+                           border: none; color: #888; font-size: 20px; cursor: pointer; }
+.detail-modal .tt-close:hover { color: #fff; }
+.detail-modal .tt-codes { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 2px; }
+.detail-modal .tt-code-chip { background: #333; color: #aaa; padding: 1px 6px;
+                               border-radius: 3px; font-family: monospace; font-size: 11px; }
+.gate-item[id] { scroll-margin-top: 80px; }
+.gate-evidence { margin-top: 4px; }
+.gate-evidence summary { font-size: 12px; color: #888; cursor: pointer; font-weight: 600; }
+.gate-evidence summary:hover { color: #4f46e5; }
+.gate-evidence-body { font-size: 13px; color: #666; margin-top: 4px; line-height: 1.6; }
+.highlight-flash { animation: flash-bg .8s ease; }
+@keyframes flash-bg { 0% { background: #eef2ff; } 100% { background: transparent; } }
+
+@media print {
+  body { background: #fff; font-size: 11px; }
+  .page { padding: 0; max-width: none; }
+  .val-panel, .overall-comment-box, .item-decision, .item-btns,
+  .item-comment-inline, .mod-edit-controls { display: none !important; }
+  .card { break-inside: avoid; page-break-inside: avoid; }
+  .mod-card { break-inside: avoid; }
+  a[href]::after { content: none; }
+}
+/* ── Responsive overrides (injected for presentation) ── */
+@media (max-width: 1100px) {
+  .container, .main-content { max-width: 100% !important; padding: 0 12px !important; }
+}
+@media (max-width: 768px) {
+  body { padding: 12px !important; font-size: 13px; }
+  .header-bar { flex-direction: column; gap: 8px; padding: 12px !important; }
+  .header-bar h1, .header-bar .title { font-size: 18px !important; }
+
+  /* Slide rows: stack thumb above annotations */
+  .slide-row { grid-template-columns: 1fr !important; }
+  .slide-thumb, .slide-thumb img { width: 100% !important; max-width: 100% !important; }
+
+  /* Quad strip: 2x2 grid */
+  .quad-strip { grid-template-columns: repeat(2, 1fr) !important; gap: 8px !important; }
+
+  /* Tables: horizontal scroll */
+  .card-body { overflow-x: auto; }
+  table { min-width: 500px; }
+  .align-table { min-width: 400px; }
+
+  /* Cards */
+  .card-body { padding: 12px !important; }
+
+  /* Score badges */
+  .score-badge, .verdict-badge { font-size: 12px !important; }
+
+  /* Gate module cards */
+  .mod-card { padding: 10px !important; }
+  .mod-edit-controls { flex-wrap: wrap; gap: 4px; }
+  .mod-edit-btn { font-size: 11px !important; padding: 3px 6px !important; }
+
+  /* Annotations grid */
+  .ann-grid { grid-template-columns: 1fr !important; }
+
+  /* Overlay panels */
+  .overlay-panel { width: 95vw !important; max-width: 95vw !important; }
+
+  /* Pre blocks */
+  pre { font-size: 11px !important; white-space: pre-wrap !important; word-break: break-word !important; }
+
+  /* Section headers */
+  .section-header { font-size: 12px !important; padding: 10px 12px !important; }
+
+  /* Enrichment row in applet reviews */
+  .enrichment-row { flex-direction: column !important; }
+  .enrichment-col { width: 100% !important; min-width: 0 !important; }
+}
+@media (max-width: 480px) {
+  .quad-strip { grid-template-columns: 1fr !important; }
+  .slide-thumb img { width: 100% !important; }
+  .header-bar h1, .header-bar .title { font-size: 16px !important; }
+}</style>
+</head>
+<body data-run-dir="/Users/aswin/Work/agentic/ACRLDS/outputs/G7C4M1A2/2026-04-12T13-40-59" data-gate-name="APPLET_IDEAL_SCREENS">
+<div class="page">
+  <div class="header">
+    <div class="header-top">
+      <div>
+        <div class="file-name">G7C4</div>
+        <div class="title">Applet Ideal Screens — G7C4M1A2</div>
+        <div class="meta">Grade 7 | Algebra</div>
+      </div>
+      <div><span class="gate-badge">GATE — Requires Approval</span></div>
+    </div>
+  </div>
+  <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;
+                padding:10px 20px;margin-bottom:16px;display:flex;align-items:center;
+                gap:14px;flex-wrap:wrap;font-size:13px;color:#475569">
+      <span style="color:#94a3b8;font-size:11px;text-transform:uppercase;letter-spacing:.5px;font-weight:600">Context</span>
+      <strong>G7C4</strong> &middot; Grade 7 &middot; Algebra
+    </div>
+  
+    <div class="section-header">Applet Blueprint</div>
+    <div class="card"><div class="card-body">
+      <div style="font-size:15px;font-weight:600;color:#222">G7C4M1A2 — <span class="tag" style="background:#dbeafe;color:#1d4ed8">Learn</span></div>
+      <div style="font-size:14px;color:#333;margin-top:6px">Identify a changing quantity in a concrete everyday context (apples on a plate vs. apples in a sack) and distinguish it from a fixed quantity, as the first step toward representing changing quantities with a letter (variable).</div>
+      <div style="margin-top:8px">
+        <span class="tag" style="background:#dbeafe;color:#1d4ed8">Standard</span>
+        <span class='tag' style='background:#f3e8ff;color:#7c3aed'>Progressive Reveal</span>
+        <span class='tag' style='background:#fde8e8;color:#c0392b'>Target: M252 — concrete-phase precursor: students read the letter 'a' as an abbreviation for the fruit name ('apple') rather than as a label for the count of apples ('how many apples are in the sack').</span>
+      </div>
+    </div></div>
+
+    <div class="section-header">Applet Screen Stages (6 stages, 6-stage IAS progression)</div>
+    <div class="card"><div class="card-body">
+      <div style="font-size:12px;color:#666;margin-bottom:12px">
+        <b>These are stage-level plans, not 1:1 PPTX frames.</b> Each entry below
+        describes ONE stage of the IAS progression (Launch → Explore → Notice →
+        Explain → Apply → Consolidate). In the actual PPTX, each stage typically
+        expands into multiple frames for interaction states (initial, after-prediction,
+        after-reveal), feedback variants (happy/unhappy flows), animation beats, and
+        start→mid→end visual progressions. Scorers match PPTX sections to stages,
+        not 1:1.
+      </div>
+      
+            <div class="gate-item">
+              <div style="display:flex;gap:10px;align-items:baseline">
+                <span style="font-weight:800;color:#4f46e5;font-size:16px;min-width:24px">1</span>
+                <div>
+                  <span class="tag" style="background:#4f46e51a;color:#4f46e5;font-weight:700">Launch</span>
+                  <div style="font-size:13px;color:#333;margin-top:4px">The screen opens on a warm Indonesian kitchen scene. Candra is preparing a fruit plate for guests. A narrated caption reads: 'Candra puts 3 apples on a plate for his guests. His father also brought home a sack of apples — but the sack is tied shut.' Two objects appear on screen: a plate with 3 clearly visible apples, and a tied cloth sack beside it. No interaction is required. The purpose is to establish the scenario and create a felt sense of contrast: one quantity is visible and countable, the other is hidden and unknown. A prompt at the bottom reads: 'Look carefully at the plate and the sack. What do you notice?'</div>
+                </div>
+              </div>
+              <div class="gate-item-meta" style="margin-left:34px"><span class="bp-cpa bp-cpa-c">Concrete</span><span class="tag" style="background:#f0f0f0;color:#555">Observe</span><span class="tag" style="color:#6b7280">Observe</span><span class="tag" style="background:#dbeafe;color:#1d4ed8">Full scaffolding</span><a class="tag tag-link" style="background:#dbeafe;color:#1d4ed8" href="javascript:void(0)">VIR 161 — Variable as Pattern Continuation — Letter-as-Quantity-Label adaptation<span class="tag-tooltip"><div class="tt-title">VIR 161 — Variable as Pattern Continuation — Letter-as-Quantity-Label adaptation</div><div class="tt-svg"><svg xmlns="http://www.w3.org/2000/svg" width="360" height="140" viewBox="0 0 360 140" style="font-family:system-ui,sans-serif;font-size:11px;"><rect width="360" height="140" fill="#F8FAFC"/><text x="180" y="132" text-anchor="middle" fill="#64748B" font-size="9" font-style="italic">Variable as Pattern Continuation</text><rect x="10" y="25" width="100" height="90" rx="5" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.5"/><text x="60" y="38" text-anchor="middle" fill="#2563EB" font-size="9" font-weight="bold">Framing 1</text><text x="60" y="60" text-anchor="middle" fill="#1E293B" font-size="10">View 1</text><line x1="112" y1="70" x2="128" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="133,70 127,67 127,73" fill="#64748B"/><rect x="135" y="25" width="100" height="90" rx="5" fill="#FFFBEB" stroke="#D97706" stroke-width="1.5"/><text x="185" y="38" text-anchor="middle" fill="#D97706" font-size="9" font-weight="bold">Same Object</text><text x="185" y="55" text-anchor="middle" fill="#1E293B" font-size="10">same object</text><text x="185" y="78" text-anchor="middle" fill="#1E293B" font-size="10">—reframed—</text><line x1="237" y1="70" x2="253" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="258,70 252,67 252,73" fill="#64748B"/><rect x="260" y="25" width="100" height="90" rx="5" fill="#ECFDF5" stroke="#059669" stroke-width="1.5"/><text x="310" y="38" text-anchor="middle" fill="#059669" font-size="9" font-weight="bold">Framing 2</text><text x="310" y="60" text-anchor="middle" fill="#1E293B" font-size="10">View 2</text></svg></div><div class="tt-desc">A variable isn't a mysterious 'x' to solve for — it's the rule that describes a pattern. If the pattern is 2, 4, 6, 8, ..., the variable expression is 2n. Students discover variables by generalizing patterns they already see.</div><div class="tt-row"><span class="tt-label">CPA</span><span class="tt-val">Concrete</span></div></span></a></div>
+              <div class="bp-slide-enrich"><div class="bp-enrich-row"><span class="bp-enrich-label">Visual model</span><a class="tag tag-link" style="background:#dbeafe;color:#1d4ed8" href="javascript:void(0)">VIR 161 — Variable as Pattern Continuation — Letter-as-Quantity-Label adaptation<span class="tag-tooltip"><div class="tt-title">VIR 161 — Variable as Pattern Continuation — Letter-as-Quantity-Label adaptation</div><div class="tt-svg"><svg xmlns="http://www.w3.org/2000/svg" width="360" height="140" viewBox="0 0 360 140" style="font-family:system-ui,sans-serif;font-size:11px;"><rect width="360" height="140" fill="#F8FAFC"/><text x="180" y="132" text-anchor="middle" fill="#64748B" font-size="9" font-style="italic">Variable as Pattern Continuation</text><rect x="10" y="25" width="100" height="90" rx="5" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.5"/><text x="60" y="38" text-anchor="middle" fill="#2563EB" font-size="9" font-weight="bold">Framing 1</text><text x="60" y="60" text-anchor="middle" fill="#1E293B" font-size="10">View 1</text><line x1="112" y1="70" x2="128" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="133,70 127,67 127,73" fill="#64748B"/><rect x="135" y="25" width="100" height="90" rx="5" fill="#FFFBEB" stroke="#D97706" stroke-width="1.5"/><text x="185" y="38" text-anchor="middle" fill="#D97706" font-size="9" font-weight="bold">Same Object</text><text x="185" y="55" text-anchor="middle" fill="#1E293B" font-size="10">same object</text><text x="185" y="78" text-anchor="middle" fill="#1E293B" font-size="10">—reframed—</text><line x1="237" y1="70" x2="253" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="258,70 252,67 252,73" fill="#64748B"/><rect x="260" y="25" width="100" height="90" rx="5" fill="#ECFDF5" stroke="#059669" stroke-width="1.5"/><text x="310" y="38" text-anchor="middle" fill="#059669" font-size="9" font-weight="bold">Framing 2</text><text x="310" y="60" text-anchor="middle" fill="#1E293B" font-size="10">View 2</text></svg></div><div class="tt-desc">A variable isn't a mysterious 'x' to solve for — it's the rule that describes a pattern. If the pattern is 2, 4, 6, 8, ..., the variable expression is 2n. Students discover variables by generalizing patterns they already see.</div><div class="tt-row"><span class="tt-label">CPA</span><span class="tt-val">Concrete</span></div></span></a></div></div>
+              <div class="item-decision" data-item-id="screen_1">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_screen_1_accept" onclick="itemDecide('screen_1','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('screen_1')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-screen_1" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('screen_1','rescope')">Re-scope</button>
+      <button class="refine-preset" onclick="refineEntry('screen_1','change_interaction')">Change interaction</button>
+      <button class="refine-preset" onclick="refineEntry('screen_1','adjust_scaffolding')">Adjust scaffolding</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_screen_1" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('screen_1')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item">
+              <div style="display:flex;gap:10px;align-items:baseline">
+                <span style="font-weight:800;color:#0891b2;font-size:16px;min-width:24px">2</span>
+                <div>
+                  <span class="tag" style="background:#0891b21a;color:#0891b2;font-weight:700">Explore</span>
+                  <div style="font-size:13px;color:#333;margin-top:4px">The plate and sack from Stage 1 remain on screen. A guiding prompt appears: 'Tap the plate to count the apples.' When the student taps the plate, each apple is highlighted one by one with a count (1, 2, 3) and a label appears: 'Apples on the plate: 3 — we can count them!' Then a second prompt appears: 'Now tap the sack.' When the student taps the sack, it shakes gently but does not open. A label appears: 'Apples in the sack: ? — we cannot see inside!' A side-by-side layout then locks in: left column shows the plate with '3' beneath it; right column shows the sack with '?' beneath it. A guiding caption reads: 'One quantity we know. One quantity we do not know.' This is the perceptual foundation for the fixed/changing distinction — students experience the contrast through their own tapping actions before any classification vocabulary is introduced.</div>
+                </div>
+              </div>
+              <div class="gate-item-meta" style="margin-left:34px"><span class="bp-cpa bp-cpa-c">Concrete</span><span class="tag" style="background:#fef3c7;color:#92400e">Tap</span><span class="tag" style="color:#6b7280">Observe</span><span class="tag" style="background:#fef3c7;color:#92400e">Partial</span><a class="tag tag-link" style="background:#dbeafe;color:#1d4ed8" href="javascript:void(0)">VIR 161 — Variable as Pattern Continuation — Letter-as-Quantity-Label adaptation<span class="tag-tooltip"><div class="tt-title">VIR 161 — Variable as Pattern Continuation — Letter-as-Quantity-Label adaptation</div><div class="tt-svg"><svg xmlns="http://www.w3.org/2000/svg" width="360" height="140" viewBox="0 0 360 140" style="font-family:system-ui,sans-serif;font-size:11px;"><rect width="360" height="140" fill="#F8FAFC"/><text x="180" y="132" text-anchor="middle" fill="#64748B" font-size="9" font-style="italic">Variable as Pattern Continuation</text><rect x="10" y="25" width="100" height="90" rx="5" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.5"/><text x="60" y="38" text-anchor="middle" fill="#2563EB" font-size="9" font-weight="bold">Framing 1</text><text x="60" y="60" text-anchor="middle" fill="#1E293B" font-size="10">View 1</text><line x1="112" y1="70" x2="128" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="133,70 127,67 127,73" fill="#64748B"/><rect x="135" y="25" width="100" height="90" rx="5" fill="#FFFBEB" stroke="#D97706" stroke-width="1.5"/><text x="185" y="38" text-anchor="middle" fill="#D97706" font-size="9" font-weight="bold">Same Object</text><text x="185" y="55" text-anchor="middle" fill="#1E293B" font-size="10">same object</text><text x="185" y="78" text-anchor="middle" fill="#1E293B" font-size="10">—reframed—</text><line x1="237" y1="70" x2="253" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="258,70 252,67 252,73" fill="#64748B"/><rect x="260" y="25" width="100" height="90" rx="5" fill="#ECFDF5" stroke="#059669" stroke-width="1.5"/><text x="310" y="38" text-anchor="middle" fill="#059669" font-size="9" font-weight="bold">Framing 2</text><text x="310" y="60" text-anchor="middle" fill="#1E293B" font-size="10">View 2</text></svg></div><div class="tt-desc">A variable isn't a mysterious 'x' to solve for — it's the rule that describes a pattern. If the pattern is 2, 4, 6, 8, ..., the variable expression is 2n. Students discover variables by generalizing patterns they already see.</div><div class="tt-row"><span class="tt-label">CPA</span><span class="tt-val">Concrete</span></div></span></a></div>
+              <div class="bp-slide-enrich"><div class="bp-enrich-row"><span class="bp-enrich-label">Visual model</span><a class="tag tag-link" style="background:#dbeafe;color:#1d4ed8" href="javascript:void(0)">VIR 161 — Variable as Pattern Continuation — Letter-as-Quantity-Label adaptation<span class="tag-tooltip"><div class="tt-title">VIR 161 — Variable as Pattern Continuation — Letter-as-Quantity-Label adaptation</div><div class="tt-svg"><svg xmlns="http://www.w3.org/2000/svg" width="360" height="140" viewBox="0 0 360 140" style="font-family:system-ui,sans-serif;font-size:11px;"><rect width="360" height="140" fill="#F8FAFC"/><text x="180" y="132" text-anchor="middle" fill="#64748B" font-size="9" font-style="italic">Variable as Pattern Continuation</text><rect x="10" y="25" width="100" height="90" rx="5" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.5"/><text x="60" y="38" text-anchor="middle" fill="#2563EB" font-size="9" font-weight="bold">Framing 1</text><text x="60" y="60" text-anchor="middle" fill="#1E293B" font-size="10">View 1</text><line x1="112" y1="70" x2="128" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="133,70 127,67 127,73" fill="#64748B"/><rect x="135" y="25" width="100" height="90" rx="5" fill="#FFFBEB" stroke="#D97706" stroke-width="1.5"/><text x="185" y="38" text-anchor="middle" fill="#D97706" font-size="9" font-weight="bold">Same Object</text><text x="185" y="55" text-anchor="middle" fill="#1E293B" font-size="10">same object</text><text x="185" y="78" text-anchor="middle" fill="#1E293B" font-size="10">—reframed—</text><line x1="237" y1="70" x2="253" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="258,70 252,67 252,73" fill="#64748B"/><rect x="260" y="25" width="100" height="90" rx="5" fill="#ECFDF5" stroke="#059669" stroke-width="1.5"/><text x="310" y="38" text-anchor="middle" fill="#059669" font-size="9" font-weight="bold">Framing 2</text><text x="310" y="60" text-anchor="middle" fill="#1E293B" font-size="10">View 2</text></svg></div><div class="tt-desc">A variable isn't a mysterious 'x' to solve for — it's the rule that describes a pattern. If the pattern is 2, 4, 6, 8, ..., the variable expression is 2n. Students discover variables by generalizing patterns they already see.</div><div class="tt-row"><span class="tt-label">CPA</span><span class="tt-val">Concrete</span></div></span></a></div></div>
+              <div class="item-decision" data-item-id="screen_2">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_screen_2_accept" onclick="itemDecide('screen_2','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('screen_2')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-screen_2" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('screen_2','rescope')">Re-scope</button>
+      <button class="refine-preset" onclick="refineEntry('screen_2','change_interaction')">Change interaction</button>
+      <button class="refine-preset" onclick="refineEntry('screen_2','adjust_scaffolding')">Adjust scaffolding</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_screen_2" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('screen_2')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item">
+              <div style="display:flex;gap:10px;align-items:baseline">
+                <span style="font-weight:800;color:#059669;font-size:16px;min-width:24px">3</span>
+                <div>
+                  <span class="tag" style="background:#0596691a;color:#059669;font-weight:700">Notice</span>
+                  <div style="font-size:13px;color:#333;margin-top:4px">The side-by-side layout from Stage 2 remains. Two classification buttons appear beneath each object: 'Fixed quantity' and 'Changing quantity'. A prompt reads: 'Tap to classify each quantity before we check.' Student must first classify the plate (3 apples): if they tap 'Fixed quantity', a green tick appears and a confirmation reads 'Correct! We always know there are 3 apples on the plate — this quantity does not change.' If they tap 'Changing quantity', a gentle red highlight fires with feedback: 'Not quite — we can always count exactly 3 apples on the plate. It stays the same.' Student then classifies the sack: if they tap 'Changing quantity', a green tick appears with 'Correct! We do not know how many apples are in the sack — this quantity could be different each time.' If they tap 'Fixed quantity', feedback reads: 'Not quite — we cannot see inside the sack. The number of apples there could be anything!' After both are correctly classified, the two-column table locks in with labels: left = 'Fixed quantity: 3' and right = 'Changing quantity: ?'. This is the Commit-Before-Reveal moment that secures the perceptual distinction.</div>
+                </div>
+              </div>
+              <div class="gate-item-meta" style="margin-left:34px"><span class="bp-cpa bp-cpa-c">Concrete</span><span class="tag" style="background:#ede9fe;color:#6d28d9">Toggle</span><span class="tag" style="color:#d97706">Discriminate</span><span class="tag" style="background:#fef3c7;color:#92400e">Partial</span><a class="tag tag-link" style="background:#dbeafe;color:#1d4ed8" href="javascript:void(0)">VIR 161 — Variable as Pattern Continuation — Letter-as-Quantity-Label adaptation<span class="tag-tooltip"><div class="tt-title">VIR 161 — Variable as Pattern Continuation — Letter-as-Quantity-Label adaptation</div><div class="tt-svg"><svg xmlns="http://www.w3.org/2000/svg" width="360" height="140" viewBox="0 0 360 140" style="font-family:system-ui,sans-serif;font-size:11px;"><rect width="360" height="140" fill="#F8FAFC"/><text x="180" y="132" text-anchor="middle" fill="#64748B" font-size="9" font-style="italic">Variable as Pattern Continuation</text><rect x="10" y="25" width="100" height="90" rx="5" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.5"/><text x="60" y="38" text-anchor="middle" fill="#2563EB" font-size="9" font-weight="bold">Framing 1</text><text x="60" y="60" text-anchor="middle" fill="#1E293B" font-size="10">View 1</text><line x1="112" y1="70" x2="128" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="133,70 127,67 127,73" fill="#64748B"/><rect x="135" y="25" width="100" height="90" rx="5" fill="#FFFBEB" stroke="#D97706" stroke-width="1.5"/><text x="185" y="38" text-anchor="middle" fill="#D97706" font-size="9" font-weight="bold">Same Object</text><text x="185" y="55" text-anchor="middle" fill="#1E293B" font-size="10">same object</text><text x="185" y="78" text-anchor="middle" fill="#1E293B" font-size="10">—reframed—</text><line x1="237" y1="70" x2="253" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="258,70 252,67 252,73" fill="#64748B"/><rect x="260" y="25" width="100" height="90" rx="5" fill="#ECFDF5" stroke="#059669" stroke-width="1.5"/><text x="310" y="38" text-anchor="middle" fill="#059669" font-size="9" font-weight="bold">Framing 2</text><text x="310" y="60" text-anchor="middle" fill="#1E293B" font-size="10">View 2</text></svg></div><div class="tt-desc">A variable isn't a mysterious 'x' to solve for — it's the rule that describes a pattern. If the pattern is 2, 4, 6, 8, ..., the variable expression is 2n. Students discover variables by generalizing patterns they already see.</div><div class="tt-row"><span class="tt-label">CPA</span><span class="tt-val">Concrete</span></div></span></a></div>
+              <div class="bp-slide-enrich"><div class="bp-enrich-row"><span class="bp-enrich-label">Visual model</span><a class="tag tag-link" style="background:#dbeafe;color:#1d4ed8" href="javascript:void(0)">VIR 161 — Variable as Pattern Continuation — Letter-as-Quantity-Label adaptation<span class="tag-tooltip"><div class="tt-title">VIR 161 — Variable as Pattern Continuation — Letter-as-Quantity-Label adaptation</div><div class="tt-svg"><svg xmlns="http://www.w3.org/2000/svg" width="360" height="140" viewBox="0 0 360 140" style="font-family:system-ui,sans-serif;font-size:11px;"><rect width="360" height="140" fill="#F8FAFC"/><text x="180" y="132" text-anchor="middle" fill="#64748B" font-size="9" font-style="italic">Variable as Pattern Continuation</text><rect x="10" y="25" width="100" height="90" rx="5" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.5"/><text x="60" y="38" text-anchor="middle" fill="#2563EB" font-size="9" font-weight="bold">Framing 1</text><text x="60" y="60" text-anchor="middle" fill="#1E293B" font-size="10">View 1</text><line x1="112" y1="70" x2="128" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="133,70 127,67 127,73" fill="#64748B"/><rect x="135" y="25" width="100" height="90" rx="5" fill="#FFFBEB" stroke="#D97706" stroke-width="1.5"/><text x="185" y="38" text-anchor="middle" fill="#D97706" font-size="9" font-weight="bold">Same Object</text><text x="185" y="55" text-anchor="middle" fill="#1E293B" font-size="10">same object</text><text x="185" y="78" text-anchor="middle" fill="#1E293B" font-size="10">—reframed—</text><line x1="237" y1="70" x2="253" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="258,70 252,67 252,73" fill="#64748B"/><rect x="260" y="25" width="100" height="90" rx="5" fill="#ECFDF5" stroke="#059669" stroke-width="1.5"/><text x="310" y="38" text-anchor="middle" fill="#059669" font-size="9" font-weight="bold">Framing 2</text><text x="310" y="60" text-anchor="middle" fill="#1E293B" font-size="10">View 2</text></svg></div><div class="tt-desc">A variable isn't a mysterious 'x' to solve for — it's the rule that describes a pattern. If the pattern is 2, 4, 6, 8, ..., the variable expression is 2n. Students discover variables by generalizing patterns they already see.</div><div class="tt-row"><span class="tt-label">CPA</span><span class="tt-val">Concrete</span></div></span></a></div></div>
+              <div class="item-decision" data-item-id="screen_3">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_screen_3_accept" onclick="itemDecide('screen_3','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('screen_3')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-screen_3" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('screen_3','rescope')">Re-scope</button>
+      <button class="refine-preset" onclick="refineEntry('screen_3','change_interaction')">Change interaction</button>
+      <button class="refine-preset" onclick="refineEntry('screen_3','adjust_scaffolding')">Adjust scaffolding</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_screen_3" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('screen_3')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item">
+              <div style="display:flex;gap:10px;align-items:baseline">
+                <span style="font-weight:800;color:#d97706;font-size:16px;min-width:24px">4</span>
+                <div>
+                  <span class="tag" style="background:#d977061a;color:#d97706;font-weight:700">Explain</span>
+                  <div style="font-size:13px;color:#333;margin-top:4px">The locked two-column table from Stage 3 is visible at the top. A new prompt appears: 'We want to write something to represent the number of apples in the sack. We will use a letter.' The letter 'a' appears beside the sack image. A multiple-choice question fires: 'What does the letter a mean here? Choose one: (A) a is the name of the fruit — apple. (B) a tells us HOW MANY apples are in the sack.' If the student selects (A) — the distractor — Counterexample Feedback fires: 'We already know the fruit is called an apple! The letter a is not a name for the fruit. a tells us HOW MANY apples are in the sack — it could be 5, or 10, or 20. We do not know yet, so we use a letter.' A visual shows the sack with possible counts (5? 10? 20?) animating inside a thought bubble. If the student selects (B) — the correct answer — confirmatory feedback fires: 'Exactly! a does not name the fruit. a tells us HOW MANY apples are in the sack.' The table updates: right column now reads 'Changing quantity: a (how many apples in the sack)'. A callout box appears: 'a is not the name of the fruit. a = HOW MANY apples are in the sack.' This is the primary <span class="tag-link" style="color:#c0392b;font-weight:600">M252<span class="tag-tooltip"><div class="tt-title">Misconception #252 (medium)</div><div class="tt-desc">At this applet's concrete scope, the M252 precursor is the tendency to treat the letter 'a' (for apples in the sack) as a name for the fruit rather than a count of the fruit — i.e., 'a means apple, not how many apples.' The module trace confirms this is explicitly addressed at Slide 8 with the callout 'The letter a tells us HOW MANY apples are in the sack — it is not a name for the apples.' This applet is the source of that correction. The deeper M252 form (variable as mystery unknown to solve for) is not yet activatable at this applet's scope because no algebraic notation or equation is present.</div></span></span> concrete-phase surface and the applet's most critical instructional moment.</div>
+                </div>
+              </div>
+              <div class="gate-item-meta" style="margin-left:34px"><span class="bp-cpa bp-cpa-c">Concrete</span><span class="tag" style="background:#f3e8ff;color:#7c3aed">Mixed</span><span class="tag" style="color:#dc2626">Generate</span><span class="tag" style="background:#fce7f3;color:#be185d">Guided</span><a class="tag tag-link" style="background:#dbeafe;color:#1d4ed8" href="javascript:void(0)">VIR 161 — Variable as Pattern Continuation — Letter-as-Quantity-Label adaptation<span class="tag-tooltip"><div class="tt-title">VIR 161 — Variable as Pattern Continuation — Letter-as-Quantity-Label adaptation</div><div class="tt-svg"><svg xmlns="http://www.w3.org/2000/svg" width="360" height="140" viewBox="0 0 360 140" style="font-family:system-ui,sans-serif;font-size:11px;"><rect width="360" height="140" fill="#F8FAFC"/><text x="180" y="132" text-anchor="middle" fill="#64748B" font-size="9" font-style="italic">Variable as Pattern Continuation</text><rect x="10" y="25" width="100" height="90" rx="5" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.5"/><text x="60" y="38" text-anchor="middle" fill="#2563EB" font-size="9" font-weight="bold">Framing 1</text><text x="60" y="60" text-anchor="middle" fill="#1E293B" font-size="10">View 1</text><line x1="112" y1="70" x2="128" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="133,70 127,67 127,73" fill="#64748B"/><rect x="135" y="25" width="100" height="90" rx="5" fill="#FFFBEB" stroke="#D97706" stroke-width="1.5"/><text x="185" y="38" text-anchor="middle" fill="#D97706" font-size="9" font-weight="bold">Same Object</text><text x="185" y="55" text-anchor="middle" fill="#1E293B" font-size="10">same object</text><text x="185" y="78" text-anchor="middle" fill="#1E293B" font-size="10">—reframed—</text><line x1="237" y1="70" x2="253" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="258,70 252,67 252,73" fill="#64748B"/><rect x="260" y="25" width="100" height="90" rx="5" fill="#ECFDF5" stroke="#059669" stroke-width="1.5"/><text x="310" y="38" text-anchor="middle" fill="#059669" font-size="9" font-weight="bold">Framing 2</text><text x="310" y="60" text-anchor="middle" fill="#1E293B" font-size="10">View 2</text></svg></div><div class="tt-desc">A variable isn't a mysterious 'x' to solve for — it's the rule that describes a pattern. If the pattern is 2, 4, 6, 8, ..., the variable expression is 2n. Students discover variables by generalizing patterns they already see.</div><div class="tt-row"><span class="tt-label">CPA</span><span class="tt-val">Concrete</span></div></span></a></div>
+              <div class="bp-slide-enrich"><div class="bp-enrich-row"><span class="bp-enrich-label">Misconception</span><span class="bp-chip misc tag-link">M252<span class="tag-tooltip"><div class="tt-title">M252 (medium)</div><div class="tt-desc">At this applet's concrete scope, the M252 precursor is the tendency to treat the letter 'a' (for apples in the sack) as a name for the fruit rather than a count of the fruit — i.e., 'a means apple, not how many apples.' The module trace con</div></span></span></div><div class="bp-enrich-row"><span class="bp-enrich-label">Visual model</span><a class="tag tag-link" style="background:#dbeafe;color:#1d4ed8" href="javascript:void(0)">VIR 161 — Variable as Pattern Continuation — Letter-as-Quantity-Label adaptation<span class="tag-tooltip"><div class="tt-title">VIR 161 — Variable as Pattern Continuation — Letter-as-Quantity-Label adaptation</div><div class="tt-svg"><svg xmlns="http://www.w3.org/2000/svg" width="360" height="140" viewBox="0 0 360 140" style="font-family:system-ui,sans-serif;font-size:11px;"><rect width="360" height="140" fill="#F8FAFC"/><text x="180" y="132" text-anchor="middle" fill="#64748B" font-size="9" font-style="italic">Variable as Pattern Continuation</text><rect x="10" y="25" width="100" height="90" rx="5" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.5"/><text x="60" y="38" text-anchor="middle" fill="#2563EB" font-size="9" font-weight="bold">Framing 1</text><text x="60" y="60" text-anchor="middle" fill="#1E293B" font-size="10">View 1</text><line x1="112" y1="70" x2="128" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="133,70 127,67 127,73" fill="#64748B"/><rect x="135" y="25" width="100" height="90" rx="5" fill="#FFFBEB" stroke="#D97706" stroke-width="1.5"/><text x="185" y="38" text-anchor="middle" fill="#D97706" font-size="9" font-weight="bold">Same Object</text><text x="185" y="55" text-anchor="middle" fill="#1E293B" font-size="10">same object</text><text x="185" y="78" text-anchor="middle" fill="#1E293B" font-size="10">—reframed—</text><line x1="237" y1="70" x2="253" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="258,70 252,67 252,73" fill="#64748B"/><rect x="260" y="25" width="100" height="90" rx="5" fill="#ECFDF5" stroke="#059669" stroke-width="1.5"/><text x="310" y="38" text-anchor="middle" fill="#059669" font-size="9" font-weight="bold">Framing 2</text><text x="310" y="60" text-anchor="middle" fill="#1E293B" font-size="10">View 2</text></svg></div><div class="tt-desc">A variable isn't a mysterious 'x' to solve for — it's the rule that describes a pattern. If the pattern is 2, 4, 6, 8, ..., the variable expression is 2n. Students discover variables by generalizing patterns they already see.</div><div class="tt-row"><span class="tt-label">CPA</span><span class="tt-val">Concrete</span></div></span></a></div><div class="bp-enrich-row"><span class="bp-enrich-label">Convention</span><span class="bp-chip conv tag-link">Letter 'a' as quantity label vs. fruit name<span class="tag-tooltip"><div class="tt-title">Letter 'a' as quantity label vs. fruit name</div><div class="tt-desc">The letter 'a' must be introduced ONLY after the sack scenario is established and the question 'how many apples are in the sack?' has been posed. Student-facing text must frame 'a' as answering 'how many?' — never as a name or abbreviation.</div></span></span></div></div>
+              <div class="item-decision" data-item-id="screen_4">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_screen_4_accept" onclick="itemDecide('screen_4','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('screen_4')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-screen_4" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('screen_4','rescope')">Re-scope</button>
+      <button class="refine-preset" onclick="refineEntry('screen_4','change_interaction')">Change interaction</button>
+      <button class="refine-preset" onclick="refineEntry('screen_4','adjust_scaffolding')">Adjust scaffolding</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_screen_4" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('screen_4')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item">
+              <div style="display:flex;gap:10px;align-items:baseline">
+                <span style="font-weight:800;color:#dc2626;font-size:16px;min-width:24px">5</span>
+                <div>
+                  <span class="tag" style="background:#dc26261a;color:#dc2626;font-weight:700">Apply</span>
+                  <div style="font-size:13px;color:#333;margin-top:4px">A Match Pairs interaction. Three quantity description cards appear in a shuffled stack: (1) '3 apples on the plate', (2) 'apples in Candra's sack (represented by a)', (3) 'oranges in Candra's father's sack'. Two target columns are displayed: 'Fixed quantity — we know the exact number' and 'Changing quantity — we use a letter'. Student drags each card to the correct column. No guiding prompts are shown. Correct placements: card 1 → Fixed; cards 2 and 3 → Changing. After all three are placed, the system checks: correct placements receive a green tick; incorrect placements are returned to the stack with brief feedback ('Try again — can we count this exactly?'). When all three are correctly placed, a summary row appears beneath the Changing column: 'We use a letter because we do not know the exact number.' This interaction extends the fixed/changing distinction to a second unknown quantity (oranges in the father's sack), preparing the Shout_Out_Loud moment in Stage 6 and directly enacting the Match Pairs archetype from the research brief.</div>
+                </div>
+              </div>
+              <div class="gate-item-meta" style="margin-left:34px"><span class="bp-cpa bp-cpa-c">Concrete</span><span class="tag" style="background:#dbeafe;color:#1d4ed8">Drag</span><span class="tag" style="color:#7c3aed">Translate</span><span class="tag" style="background:#e6f4ea;color:#1e7e34">Independent</span></div>
+              <div class="bp-slide-enrich"><div class="bp-enrich-row"><span class="bp-enrich-label">Misconception</span><span class="bp-chip misc tag-link">M252<span class="tag-tooltip"><div class="tt-title">M252 (medium)</div><div class="tt-desc">At this applet's concrete scope, the M252 precursor is the tendency to treat the letter 'a' (for apples in the sack) as a name for the fruit rather than a count of the fruit — i.e., 'a means apple, not how many apples.' The module trace con</div></span></span></div><div class="bp-enrich-row"><span class="bp-enrich-label">Vocab in screen</span><span class="bp-chip vocab-reinf"><span class="bp-concept-tag">reinforced</span> fixed quantity</span> <span class="bp-chip vocab-reinf"><span class="bp-concept-tag">reinforced</span> changing quantity</span></div><div class="bp-enrich-row"><span class="bp-enrich-label">Visual model</span><span class="bp-chip vm">Drag-to-Classify Two-Column Layout (Fixed vs. Changing) — novel, no KB VIR</span></div></div>
+              <div class="item-decision" data-item-id="screen_5">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_screen_5_accept" onclick="itemDecide('screen_5','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('screen_5')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-screen_5" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('screen_5','rescope')">Re-scope</button>
+      <button class="refine-preset" onclick="refineEntry('screen_5','change_interaction')">Change interaction</button>
+      <button class="refine-preset" onclick="refineEntry('screen_5','adjust_scaffolding')">Adjust scaffolding</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_screen_5" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('screen_5')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item">
+              <div style="display:flex;gap:10px;align-items:baseline">
+                <span style="font-weight:800;color:#7c3aed;font-size:16px;min-width:24px">6</span>
+                <div>
+                  <span class="tag" style="background:#7c3aed1a;color:#7c3aed;font-weight:700">Consolidate</span>
+                  <div style="font-size:13px;color:#333;margin-top:4px">A Shout_Out_Loud moment fires first: the full two-column table from the applet is displayed — plate (Fixed: 3) and apple sack (Changing: a). A choral-response prompt reads: 'Say it together: a tells us HOW MANY apples are in the sack — not the name of the fruit!' Then the Exit Question appears: 'Candra's father also brought a sack of oranges. We do not know how many oranges are inside. Which letter could we use to represent the number of oranges in the sack?' Four tap options appear: (A) o — because o stands for orange, (B) b — because we need a different letter from a, (C) 3 — because there might be 3 oranges, (D) ? — because we do not know. The correct answer is (B). If the student taps (A), feedback fires: 'Careful — we do not choose letters because they match the fruit name. We already know it is an orange! We choose any letter that is different from a, because a and b represent different quantities.' If the student taps (B), confirmatory feedback fires: 'Correct! We use b — or any letter that is not already used — to represent how many oranges are in the sack. The letter is not the name of the fruit; it is a label for HOW MANY.' A final summary panel reads: 'Fixed quantity: we know the number (e.g., 3 apples on the plate). Changing quantity: we use a letter to represent how many (e.g., a for apples in the sack, b for oranges in the sack).' A forward pointer appears: 'Next: we will give these ideas their proper names — variable and constant.'</div>
+                </div>
+              </div>
+              <div class="gate-item-meta" style="margin-left:34px"><span class="bp-cpa bp-cpa-c">Concrete</span><span class="tag" style="background:#fef3c7;color:#92400e">Tap</span><span class="tag" style="color:#059669">Verify</span><span class="tag" style="background:#e6f4ea;color:#1e7e34">Independent</span></div>
+              <div class="bp-slide-enrich"><div class="bp-enrich-row"><span class="bp-enrich-label">Vocab in screen</span><span class="bp-chip vocab-reinf"><span class="bp-concept-tag">reinforced</span> fixed quantity</span> <span class="bp-chip vocab-reinf"><span class="bp-concept-tag">reinforced</span> changing quantity</span></div><div class="bp-enrich-row"><span class="bp-enrich-label">Visual model</span><span class="bp-chip vm">Full Summary Two-Column Table with Exit Question Panel — novel, no KB VIR</span></div><div class="bp-enrich-row"><span class="bp-enrich-label">Convention</span><span class="bp-chip conv tag-link">Fixed quantity vs. constant — vocabulary sequencing<span class="tag-tooltip"><div class="tt-title">Fixed quantity vs. constant — vocabulary sequencing</div><div class="tt-desc">This applet operates at the concrete phase and must use only the everyday labels 'fixed quantity' and 'changing quantity' in all student-facing text. The formal terms 'constant' and 'variable' must NOT appear in any student-facing label, bu</div></span></span> <span class="bp-chip conv tag-link">Letter choice: 'a' for apples, 'b' for oranges — arbitrary letter principle<span class="tag-tooltip"><div class="tt-title">Letter choice: 'a' for apples, 'b' for oranges — arbitrary letter principle</div><div class="tt-desc">When 'b' is introduced for oranges in Stage 5 (Apply) and Stage 6 (Consolidate), student-facing text must explicitly state that any letter (not just 'b') could be used — the choice is arbitrary — and that a different letter is needed becaus</div></span></span> <span class="bp-chip conv tag-link">Shout_Out_Loud sequencing — fires after classification is secure<span class="tag-tooltip"><div class="tt-title">Shout_Out_Loud sequencing — fires after classification is secure</div><div class="tt-desc">The Shout_Out_Loud choral-response prompt ('Say it together: a tells us HOW MANY apples are in the sack — not the name of the fruit!') must appear at Stage 6 (Consolidate), AFTER the fixed/changing classification interaction in Stage 5 (App</div></span></span></div></div>
+              <div class="item-decision" data-item-id="screen_6">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_screen_6_accept" onclick="itemDecide('screen_6','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('screen_6')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-screen_6" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('screen_6','rescope')">Re-scope</button>
+      <button class="refine-preset" onclick="refineEntry('screen_6','change_interaction')">Change interaction</button>
+      <button class="refine-preset" onclick="refineEntry('screen_6','adjust_scaffolding')">Adjust scaffolding</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_screen_6" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('screen_6')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+    </div></div>
+
+    <div class="section-header">Scaffolding Arc</div>
+    <div class="card"><div class="card-body">
+      <div class="gate-narrative">Stage 1 (Launch): fully guided observation — teacher-narrated reveal of the scenario with no student decision required. Stage 2 (Explore): partial scaffolding — student taps to reveal the sack and observes the contrast between countable and uncountable quantities with guiding prompts. Stage 3 (Notice): guided — student commits to classifying each quantity as fixed or changing before confirmation, with immediate corrective feedback. Stage 4 (Explain): guided-to-independent — student selects the correct meaning of the letter 'a' from two options; Counterexample Feedback fires on the distractor; student articulates the 'HOW MANY' principle. Stage 5 (Apply): independent — student drags three quantity descriptions to Fixed or Changing columns without prompts, receiving only correctness feedback. Stage 6 (Consolidate): independent — student reads the summary and answers the Exit Question by selecting the correct letter label for a new unknown quantity (oranges in a sack), with no scaffolding.</div>
+      <div class="item-decision" data-item-id="scaffolding_arc">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_scaffolding_arc_accept" onclick="itemDecide('scaffolding_arc','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('scaffolding_arc')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-scaffolding_arc" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('scaffolding_arc','rescope')">Re-scope</button>
+      <button class="refine-preset" onclick="refineEntry('scaffolding_arc','sharpen')">Sharpen</button>
+      <button class="refine-preset" onclick="refineEntry('scaffolding_arc','expand')">Expand</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_scaffolding_arc" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('scaffolding_arc')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+    </div></div>
+
+    <div class="section-header">Visual Models (6)</div>
+    <div class="card"><div class="card-body">
+      
+            <div class="gate-item" id="abp_vir_161">
+              <div class="gate-item-title">VIR 161 — Variable as Pattern Continuation — Letter-as-Quantity-Label adaptation</div>
+              <div style="margin:8px 0;background:#fafafa;border-radius:6px;padding:10px;text-align:center;border:1px solid #e8e8e8"><div style="max-width:300px;margin:0 auto"><svg xmlns="http://www.w3.org/2000/svg" width="360" height="140" viewBox="0 0 360 140" style="font-family:system-ui,sans-serif;font-size:11px;"><rect width="360" height="140" fill="#F8FAFC"/><text x="180" y="132" text-anchor="middle" fill="#64748B" font-size="9" font-style="italic">Variable as Pattern Continuation</text><rect x="10" y="25" width="100" height="90" rx="5" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.5"/><text x="60" y="38" text-anchor="middle" fill="#2563EB" font-size="9" font-weight="bold">Framing 1</text><text x="60" y="60" text-anchor="middle" fill="#1E293B" font-size="10">View 1</text><line x1="112" y1="70" x2="128" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="133,70 127,67 127,73" fill="#64748B"/><rect x="135" y="25" width="100" height="90" rx="5" fill="#FFFBEB" stroke="#D97706" stroke-width="1.5"/><text x="185" y="38" text-anchor="middle" fill="#D97706" font-size="9" font-weight="bold">Same Object</text><text x="185" y="55" text-anchor="middle" fill="#1E293B" font-size="10">same object</text><text x="185" y="78" text-anchor="middle" fill="#1E293B" font-size="10">—reframed—</text><line x1="237" y1="70" x2="253" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="258,70 252,67 252,73" fill="#64748B"/><rect x="260" y="25" width="100" height="90" rx="5" fill="#ECFDF5" stroke="#059669" stroke-width="1.5"/><text x="310" y="38" text-anchor="middle" fill="#059669" font-size="9" font-weight="bold">Framing 2</text><text x="310" y="60" text-anchor="middle" fill="#1E293B" font-size="10">View 2</text></svg></div></div>
+              <details class="gate-evidence">
+                  <summary>Description &amp; rationale</summary>
+                  <div class="gate-evidence-body">A variable isn't a mysterious 'x' to solve for — it's the rule that describes a pattern. If the pattern is 2, 4, 6, 8, ..., the variable expression is 2n. Students discover variables by generalizing patterns they already see.</div>
+                </details>
+              <div class="gate-item-detail">Used at stage 4</div>
+              <div class="gate-item-meta">
+                <span class="bp-cpa bp-cpa-c">Concrete</span>
+                <span class="tag" style="color:#856404">Confidence: medium</span>
+              </div>
+              <div class="item-decision" data-item-id="abp_vir_0">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_abp_vir_0_accept" onclick="itemDecide('abp_vir_0','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('abp_vir_0')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-abp_vir_0" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('abp_vir_0','reassess')">Re-assess</button>
+      <button class="refine-preset" onclick="refineEntry('abp_vir_0','adjust_scope')">Adjust scope</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_abp_vir_0" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('abp_vir_0')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item" id="abp_vir_161">
+              <div class="gate-item-title">VIR 161 — Variable as Pattern Continuation — Letter-as-Quantity-Label adaptation</div>
+              <div style="margin:8px 0;background:#fafafa;border-radius:6px;padding:10px;text-align:center;border:1px solid #e8e8e8"><div style="max-width:300px;margin:0 auto"><svg xmlns="http://www.w3.org/2000/svg" width="360" height="140" viewBox="0 0 360 140" style="font-family:system-ui,sans-serif;font-size:11px;"><rect width="360" height="140" fill="#F8FAFC"/><text x="180" y="132" text-anchor="middle" fill="#64748B" font-size="9" font-style="italic">Variable as Pattern Continuation</text><rect x="10" y="25" width="100" height="90" rx="5" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.5"/><text x="60" y="38" text-anchor="middle" fill="#2563EB" font-size="9" font-weight="bold">Framing 1</text><text x="60" y="60" text-anchor="middle" fill="#1E293B" font-size="10">View 1</text><line x1="112" y1="70" x2="128" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="133,70 127,67 127,73" fill="#64748B"/><rect x="135" y="25" width="100" height="90" rx="5" fill="#FFFBEB" stroke="#D97706" stroke-width="1.5"/><text x="185" y="38" text-anchor="middle" fill="#D97706" font-size="9" font-weight="bold">Same Object</text><text x="185" y="55" text-anchor="middle" fill="#1E293B" font-size="10">same object</text><text x="185" y="78" text-anchor="middle" fill="#1E293B" font-size="10">—reframed—</text><line x1="237" y1="70" x2="253" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="258,70 252,67 252,73" fill="#64748B"/><rect x="260" y="25" width="100" height="90" rx="5" fill="#ECFDF5" stroke="#059669" stroke-width="1.5"/><text x="310" y="38" text-anchor="middle" fill="#059669" font-size="9" font-weight="bold">Framing 2</text><text x="310" y="60" text-anchor="middle" fill="#1E293B" font-size="10">View 2</text></svg></div></div>
+              <details class="gate-evidence">
+                  <summary>Description &amp; rationale</summary>
+                  <div class="gate-evidence-body">A variable isn't a mysterious 'x' to solve for — it's the rule that describes a pattern. If the pattern is 2, 4, 6, 8, ..., the variable expression is 2n. Students discover variables by generalizing patterns they already see.</div>
+                </details>
+              <div class="gate-item-detail">Used at stage 4</div>
+              <div class="gate-item-meta">
+                <span class="bp-cpa bp-cpa-c">Concrete</span>
+                <span class="tag" style="color:#856404">Confidence: medium</span>
+              </div>
+              <div class="item-decision" data-item-id="abp_vir_1">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_abp_vir_1_accept" onclick="itemDecide('abp_vir_1','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('abp_vir_1')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-abp_vir_1" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('abp_vir_1','reassess')">Re-assess</button>
+      <button class="refine-preset" onclick="refineEntry('abp_vir_1','adjust_scope')">Adjust scope</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_abp_vir_1" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('abp_vir_1')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item" id="abp_vir_161">
+              <div class="gate-item-title">VIR 161 — Variable as Pattern Continuation — Letter-as-Quantity-Label adaptation</div>
+              <div style="margin:8px 0;background:#fafafa;border-radius:6px;padding:10px;text-align:center;border:1px solid #e8e8e8"><div style="max-width:300px;margin:0 auto"><svg xmlns="http://www.w3.org/2000/svg" width="360" height="140" viewBox="0 0 360 140" style="font-family:system-ui,sans-serif;font-size:11px;"><rect width="360" height="140" fill="#F8FAFC"/><text x="180" y="132" text-anchor="middle" fill="#64748B" font-size="9" font-style="italic">Variable as Pattern Continuation</text><rect x="10" y="25" width="100" height="90" rx="5" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.5"/><text x="60" y="38" text-anchor="middle" fill="#2563EB" font-size="9" font-weight="bold">Framing 1</text><text x="60" y="60" text-anchor="middle" fill="#1E293B" font-size="10">View 1</text><line x1="112" y1="70" x2="128" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="133,70 127,67 127,73" fill="#64748B"/><rect x="135" y="25" width="100" height="90" rx="5" fill="#FFFBEB" stroke="#D97706" stroke-width="1.5"/><text x="185" y="38" text-anchor="middle" fill="#D97706" font-size="9" font-weight="bold">Same Object</text><text x="185" y="55" text-anchor="middle" fill="#1E293B" font-size="10">same object</text><text x="185" y="78" text-anchor="middle" fill="#1E293B" font-size="10">—reframed—</text><line x1="237" y1="70" x2="253" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="258,70 252,67 252,73" fill="#64748B"/><rect x="260" y="25" width="100" height="90" rx="5" fill="#ECFDF5" stroke="#059669" stroke-width="1.5"/><text x="310" y="38" text-anchor="middle" fill="#059669" font-size="9" font-weight="bold">Framing 2</text><text x="310" y="60" text-anchor="middle" fill="#1E293B" font-size="10">View 2</text></svg></div></div>
+              <details class="gate-evidence">
+                  <summary>Description &amp; rationale</summary>
+                  <div class="gate-evidence-body">A variable isn't a mysterious 'x' to solve for — it's the rule that describes a pattern. If the pattern is 2, 4, 6, 8, ..., the variable expression is 2n. Students discover variables by generalizing patterns they already see.</div>
+                </details>
+              <div class="gate-item-detail">Used at stage 4</div>
+              <div class="gate-item-meta">
+                <span class="bp-cpa bp-cpa-c">Concrete</span>
+                <span class="tag" style="color:#856404">Confidence: medium</span>
+              </div>
+              <div class="item-decision" data-item-id="abp_vir_2">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_abp_vir_2_accept" onclick="itemDecide('abp_vir_2','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('abp_vir_2')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-abp_vir_2" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('abp_vir_2','reassess')">Re-assess</button>
+      <button class="refine-preset" onclick="refineEntry('abp_vir_2','adjust_scope')">Adjust scope</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_abp_vir_2" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('abp_vir_2')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item" id="abp_vir_161">
+              <div class="gate-item-title">VIR 161 — Variable as Pattern Continuation — Letter-as-Quantity-Label adaptation</div>
+              <div style="margin:8px 0;background:#fafafa;border-radius:6px;padding:10px;text-align:center;border:1px solid #e8e8e8"><div style="max-width:300px;margin:0 auto"><svg xmlns="http://www.w3.org/2000/svg" width="360" height="140" viewBox="0 0 360 140" style="font-family:system-ui,sans-serif;font-size:11px;"><rect width="360" height="140" fill="#F8FAFC"/><text x="180" y="132" text-anchor="middle" fill="#64748B" font-size="9" font-style="italic">Variable as Pattern Continuation</text><rect x="10" y="25" width="100" height="90" rx="5" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.5"/><text x="60" y="38" text-anchor="middle" fill="#2563EB" font-size="9" font-weight="bold">Framing 1</text><text x="60" y="60" text-anchor="middle" fill="#1E293B" font-size="10">View 1</text><line x1="112" y1="70" x2="128" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="133,70 127,67 127,73" fill="#64748B"/><rect x="135" y="25" width="100" height="90" rx="5" fill="#FFFBEB" stroke="#D97706" stroke-width="1.5"/><text x="185" y="38" text-anchor="middle" fill="#D97706" font-size="9" font-weight="bold">Same Object</text><text x="185" y="55" text-anchor="middle" fill="#1E293B" font-size="10">same object</text><text x="185" y="78" text-anchor="middle" fill="#1E293B" font-size="10">—reframed—</text><line x1="237" y1="70" x2="253" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="258,70 252,67 252,73" fill="#64748B"/><rect x="260" y="25" width="100" height="90" rx="5" fill="#ECFDF5" stroke="#059669" stroke-width="1.5"/><text x="310" y="38" text-anchor="middle" fill="#059669" font-size="9" font-weight="bold">Framing 2</text><text x="310" y="60" text-anchor="middle" fill="#1E293B" font-size="10">View 2</text></svg></div></div>
+              <details class="gate-evidence">
+                  <summary>Description &amp; rationale</summary>
+                  <div class="gate-evidence-body">A variable isn't a mysterious 'x' to solve for — it's the rule that describes a pattern. If the pattern is 2, 4, 6, 8, ..., the variable expression is 2n. Students discover variables by generalizing patterns they already see.</div>
+                </details>
+              <div class="gate-item-detail">Used at stage 4</div>
+              <div class="gate-item-meta">
+                <span class="bp-cpa bp-cpa-c">Concrete</span>
+                <span class="tag" style="color:#856404">Confidence: medium</span>
+              </div>
+              <div class="item-decision" data-item-id="abp_vir_3">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_abp_vir_3_accept" onclick="itemDecide('abp_vir_3','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('abp_vir_3')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-abp_vir_3" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('abp_vir_3','reassess')">Re-assess</button>
+      <button class="refine-preset" onclick="refineEntry('abp_vir_3','adjust_scope')">Adjust scope</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_abp_vir_3" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('abp_vir_3')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item" id="abp_vir_None">
+              <div class="gate-item-title">VIR None — Drag-to-Classify Two-Column Layout (Fixed vs. Changing) — novel, no KB VIR</div>
+              
+              
+              <div class="gate-item-detail">Used at stage 5</div>
+              <div class="gate-item-meta">
+                <span class="bp-cpa bp-cpa-c">Concrete</span>
+                <span class="tag" style="color:#c0392b">Confidence: low</span>
+              </div>
+              <div class="item-decision" data-item-id="abp_vir_4">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_abp_vir_4_accept" onclick="itemDecide('abp_vir_4','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('abp_vir_4')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-abp_vir_4" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('abp_vir_4','reassess')">Re-assess</button>
+      <button class="refine-preset" onclick="refineEntry('abp_vir_4','adjust_scope')">Adjust scope</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_abp_vir_4" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('abp_vir_4')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item" id="abp_vir_None">
+              <div class="gate-item-title">VIR None — Full Summary Two-Column Table with Exit Question Panel — novel, no KB VIR</div>
+              
+              
+              <div class="gate-item-detail">Used at stage 6</div>
+              <div class="gate-item-meta">
+                <span class="bp-cpa bp-cpa-c">Concrete</span>
+                <span class="tag" style="color:#c0392b">Confidence: low</span>
+              </div>
+              <div class="item-decision" data-item-id="abp_vir_5">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_abp_vir_5_accept" onclick="itemDecide('abp_vir_5','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('abp_vir_5')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-abp_vir_5" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('abp_vir_5','reassess')">Re-assess</button>
+      <button class="refine-preset" onclick="refineEntry('abp_vir_5','adjust_scope')">Adjust scope</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_abp_vir_5" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('abp_vir_5')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+    </div></div>
+
+    <div class="section-header" style="color:#856404">Convention Requirements &amp; False Friends (4)</div>
+    <div class="card" style="border-color:#ffeeba"><div class="card-body">
+      <div style="font-size:12px;color:#856404;background:#fff3cd;border-radius:4px;padding:8px;margin-bottom:12px">
+        These language conventions and false friends must be addressed at the
+        specified stage. In the target curriculum and geography, terminology
+        mismatches directly affect student comprehension.
+      </div>
+      
+            <div class="gate-item" style="border-left:3px solid #856404;padding-left:12px">
+              <div class="gate-item-title">Letter 'a' as quantity label vs. fruit name</div>
+              <div class="gate-item-detail">The letter 'a' must be introduced ONLY after the sack scenario is established and the question 'how many apples are in the sack?' has been posed. Student-facing text must frame 'a' as answering 'how many?' — never as a name or abbreviation. The canonical callout 'a tells us HOW MANY apples are in the sack — it is not the name of the fruit' must appear verbatim at Stage 4 (Explain) and be echoed in the Stage 6 (Consolidate) feedback for distractor (A). This is the concrete-phase surface of M252.</div>
+              <div class="gate-item-meta"><span class="tag" style="background:#e6f4ea;color:#1e7e34">Stage 4</span></div>
+              <div class="item-decision" data-item-id="aconv_req_0">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_aconv_req_0_accept" onclick="itemDecide('aconv_req_0','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('aconv_req_0')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-aconv_req_0" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('aconv_req_0','reassess')">Re-assess risk</button>
+      <button class="refine-preset" onclick="refineEntry('aconv_req_0','update_mitigation')">Update mitigation</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_aconv_req_0" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('aconv_req_0')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item" style="border-left:3px solid #856404;padding-left:12px">
+              <div class="gate-item-title">Fixed quantity vs. constant — vocabulary sequencing</div>
+              <div class="gate-item-detail">This applet operates at the concrete phase and must use only the everyday labels 'fixed quantity' and 'changing quantity' in all student-facing text. The formal terms 'constant' and 'variable' must NOT appear in any student-facing label, button, or feedback string within this applet. A forward pointer to 'variable' and 'constant' is permitted only in the Stage 6 (Consolidate) summary panel as a bridge to the module's Math_Vault slide.</div>
+              <div class="gate-item-meta"><span class="tag" style="background:#e6f4ea;color:#1e7e34">Stage 6</span></div>
+              <div class="item-decision" data-item-id="aconv_req_1">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_aconv_req_1_accept" onclick="itemDecide('aconv_req_1','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('aconv_req_1')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-aconv_req_1" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('aconv_req_1','reassess')">Re-assess risk</button>
+      <button class="refine-preset" onclick="refineEntry('aconv_req_1','update_mitigation')">Update mitigation</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_aconv_req_1" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('aconv_req_1')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item" style="border-left:3px solid #856404;padding-left:12px">
+              <div class="gate-item-title">Letter choice: 'a' for apples, 'b' for oranges — arbitrary letter principle</div>
+              <div class="gate-item-detail">When 'b' is introduced for oranges in Stage 5 (Apply) and Stage 6 (Consolidate), student-facing text must explicitly state that any letter (not just 'b') could be used — the choice is arbitrary — and that a different letter is needed because 'a' and 'b' represent different quantities. The Exit Question distractor (A) — 'o because o stands for orange' — must trigger Counterexample Feedback that directly addresses the abbreviation misconception: 'We do not choose letters because they match the fruit name.'</div>
+              <div class="gate-item-meta"><span class="tag" style="background:#e6f4ea;color:#1e7e34">Stage 6</span></div>
+              <div class="item-decision" data-item-id="aconv_req_2">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_aconv_req_2_accept" onclick="itemDecide('aconv_req_2','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('aconv_req_2')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-aconv_req_2" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('aconv_req_2','reassess')">Re-assess risk</button>
+      <button class="refine-preset" onclick="refineEntry('aconv_req_2','update_mitigation')">Update mitigation</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_aconv_req_2" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('aconv_req_2')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item" style="border-left:3px solid #856404;padding-left:12px">
+              <div class="gate-item-title">Shout_Out_Loud sequencing — fires after classification is secure</div>
+              <div class="gate-item-detail">The Shout_Out_Loud choral-response prompt ('Say it together: a tells us HOW MANY apples are in the sack — not the name of the fruit!') must appear at Stage 6 (Consolidate), AFTER the fixed/changing classification interaction in Stage 5 (Apply) is complete. It must not fire before the student has successfully classified all three quantity cards, so the letter introduction feels like a natural extension of the established pattern rather than an arbitrary label.</div>
+              <div class="gate-item-meta"><span class="tag" style="background:#e6f4ea;color:#1e7e34">Stage 6</span></div>
+              <div class="item-decision" data-item-id="aconv_req_3">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_aconv_req_3_accept" onclick="itemDecide('aconv_req_3','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('aconv_req_3')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-aconv_req_3" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('aconv_req_3','reassess')">Re-assess risk</button>
+      <button class="refine-preset" onclick="refineEntry('aconv_req_3','update_mitigation')">Update mitigation</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_aconv_req_3" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('aconv_req_3')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+    </div></div>
+
+    <div class="section-header" style="color:#c0392b">Misconception Target</div>
+    <div class="card" style="border-color:#f5c6cb"><div class="card-body">
+      <div class="gate-item-title">Target: M252 — concrete-phase precursor: students read the letter 'a' as an abbreviation for the fruit name ('apple') rather than as a label for the count of apples ('how many apples are in the sack').</div>
+      <div class='gate-item-detail'>At this applet's concrete scope, the M252 precursor is the tendency to treat the letter 'a' (for apples in the sack) as a name for the fruit rather than a count of the fruit — i.e., 'a means apple, not how many apples.' The module trace confirms this is explicitly addressed at Slide 8 with the callout 'The letter a tells us HOW MANY apples are in the sack — it is not a name for the apples.' This applet is the source of that correction. The deeper M252 form (variable as mystery unknown to solve for) is not yet activatable at this applet's scope because no algebraic notation or equation is present.</div>
+      <div class='gate-item-meta'><span class='tag' style='color:#856404'>medium</span></div>
+      <div class="item-decision" data-item-id="misc_target">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_misc_target_accept" onclick="itemDecide('misc_target','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('misc_target')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-misc_target" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('misc_target','rescope')">Re-scope</button>
+      <button class="refine-preset" onclick="refineEntry('misc_target','add_detail')">Add detail</button>
+      <button class="refine-preset" onclick="refineEntry('misc_target','adjust_severity')">Adjust severity</button>
+      <button class="refine-preset" onclick="refineEntry('misc_target','remove')">Remove</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_misc_target" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('misc_target')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+    </div></div>
+
+    <div class="section-header">Secondary IAS Archetypes</div>
+    <div class="card"><div class="card-body">
+      <div style="display:flex;flex-wrap:wrap;gap:4px"><span class="tag" style="background:#f3e8ff;color:#7c3aed;margin:2px">Side-by-Side Contrast</span><span class="tag" style="background:#f3e8ff;color:#7c3aed;margin:2px">Commit-Before-Reveal</span><span class="tag" style="background:#f3e8ff;color:#7c3aed;margin:2px">Counterexample Feedback</span><span class="tag" style="background:#f3e8ff;color:#7c3aed;margin:2px">Match Pairs</span></div>
+    </div></div>
+</div>
+
+<div class="val-panel">
+  <div class="val-progress" id="val-progress"></div>
+  <div id="val-btns"></div>
+  <div id="val-overall"></div>
+</div>
+<div class="overall-comment-box" id="ocb">
+  <textarea id="oca" placeholder="Directives for downstream agents (e.g. 'use balance-scale model for equations', 'prioritize misconception M250')..."></textarea>
+  <div class="btn-row">
+    <button class="btn btn-approve" onclick="submitOverall()">Submit</button>
+    <button class="btn btn-neutral" onclick="cancelOverallComment()">Cancel</button>
+  </div>
+</div>
+
+<div class="detail-modal-bg" id="detail-modal-bg" onclick="if(event.target===this)closeDetailModal()">
+  <div class="detail-modal" id="detail-modal">
+    <button class="tt-close" onclick="closeDetailModal()">&times;</button>
+    <div id="detail-modal-content"></div>
+  </div>
+</div>
+
+<script>
+// RKEY must be run-scoped, not just title-scoped, or state from a previous
+// review cycle (different run_dir, same gate name) leaks into a freshly
+// generated HTML via localStorage and shows a stale "Approved · <old date>"
+// decision on a gate the user has never touched in this session.
+// We derive run_dir from <body data-run-dir="..."> which render_gate always
+// sets. basename() keeps the key short — the run_dir basename is already
+// timestamp-unique (e.g. 2026-04-10T11-58-20).
+const RKEY = (function() {
+  var title = document.title.replace(/[^a-z0-9]/gi,'_');
+  var rd = (document.body && document.body.dataset && document.body.dataset.runDir) || '';
+  var rdBase = rd ? rd.split(/[\\/]/).filter(Boolean).pop() : '';
+  rdBase = rdBase.replace(/[^a-z0-9]/gi,'_');
+  return 'acrlds_gate_' + (rdBase ? rdBase + '_' : '') + title;
+})();
+
+// One-time garbage collection: sweep any legacy title-only acrlds_gate_* keys
+// that match this gate's title but have no run_dir component. Prevents stale
+// entries from accumulating in the browser forever.
+(function() {
+  try {
+    var title = document.title.replace(/[^a-z0-9]/gi,'_');
+    var legacyKey = 'acrlds_gate_' + title;
+    if (legacyKey !== RKEY && localStorage.getItem(legacyKey) !== null) {
+      localStorage.removeItem(legacyKey);
+    }
+  } catch(e) {}
+})();
+
+const load  = () => { try { return JSON.parse(localStorage.getItem(RKEY)||'{}'); } catch(e) { return {}; } };
+const save  = (d) => { try { localStorage.setItem(RKEY, JSON.stringify(d)); } catch(e) {} };
+const esc   = (s) => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+function autoGrow(el) {
+  el.style.height = 'auto';
+  el.style.height = el.scrollHeight + 'px';
+  el.classList.toggle('has-text', !!el.value.trim());
+}
+
+function itemDecide(id, type) {
+  var state = load();
+  if (!state.items) state.items = {};
+  var current = (state.items[id] || {}).type;
+  if (current === type) {
+    // Toggle off
+    if (state.items[id]) { delete state.items[id].type; }
+    if (state.items[id] && !state.items[id].type && !state.items[id].comment) delete state.items[id];
+  } else {
+    if (!state.items[id]) state.items[id] = {};
+    state.items[id].type = type;
+  }
+  save(state); renderItem(id); renderProgress(); renderOverall();
+}
+
+function saveItemComment(id) {
+  var area = document.getElementById('ca_' + id);
+  if (!area) return;
+  var state = load();
+  if (!state.items) state.items = {};
+  if (!state.items[id]) state.items[id] = {};
+  state.items[id].comment = area.value.trim();
+  // Clean up empty entries
+  if (!state.items[id].type && !state.items[id].comment) delete state.items[id];
+  save(state); renderProgress();
+}
+
+function renderItem(id) {
+  var state = load();
+  var item  = (state.items || {})[id] || {};
+  var activeType = item.type || null;
+  ['accept','flag'].forEach(function(t) {
+    var el = document.getElementById('ibtn_' + id + '_' + t);
+    if (el) el.className = 'ibtn' + (activeType === t ? ' active-' + t : '');
+  });
+  // Restore comment text
+  var area = document.getElementById('ca_' + id);
+  if (area && item.comment && !area.value) {
+    area.value = item.comment;
+    autoGrow(area);
+  }
+}
+
+function _countFlags() {
+  var state = load();
+  var items = state.items || {};
+  return Object.values(items).filter(function(i) { return i.type === 'flag'; }).length;
+}
+
+function renderProgress() {
+  const state = load();
+  const items = state.items || {};
+  const total = document.querySelectorAll('[data-item-id]').length;
+  const accepted = Object.values(items).filter(i => i.type === 'accept').length;
+  const flagged  = Object.values(items).filter(i => i.type === 'flag').length;
+  const commented = Object.values(items).filter(i => i.comment && !i.type).length;
+  const el = document.getElementById('val-progress');
+  if (!el) return;
+  var parts = [];
+  if (accepted > 0) parts.push('<span style="color:#1e7e34">' + accepted + ' accepted</span>');
+  if (flagged > 0) parts.push('<span style="color:#856404">' + flagged + ' flagged</span>');
+  if (commented > 0) parts.push(commented + ' commented');
+  var remaining = total - accepted - flagged;
+  if (remaining > 0) parts.push(remaining + ' pending');
+  el.innerHTML = '<strong>' + parts.join(' &middot; ') + '</strong> of ' + total + ' items';
+}
+
+function openOverallComment(pending) {
+  document.getElementById('ocb').style.display = 'block';
+  document.getElementById('ocb')._p = pending || 'rework';
+  document.getElementById('oca').focus();
+}
+function submitOverall() {
+  var pending = document.getElementById('ocb')._p || 'rework';
+  var comment = document.getElementById('oca').value.trim();
+  var state = load();
+  state.overall = { type: pending, comment: comment, timestamp: Date.now() };
+  save(state);
+  document.getElementById('ocb').style.display = 'none';
+  if (pending === 'rework') {
+    _submitGateDecision('rework_llm');
+  } else if (pending === 'approve_comments') {
+    _submitGateDecision('approved_with_comments');
+  } else {
+    _submitGateDecision('approved_with_flags');
+  }
+}
+
+function renderOverall() {
+  const state   = load();
+  const overall = state.overall || {};
+  const btns    = document.getElementById('val-btns');
+  const status  = document.getElementById('val-overall');
+  const flags   = _countFlags();
+
+  if (overall.type) {
+    const lbl = {approve:'Approved', approve_flags:'Approved with flags', rework:'Rework requested'};
+    const cls = {approve:'badge-approved', approve_flags:'badge-commented', rework:'badge-rework'};
+    const ts  = overall.timestamp ? ' \u00b7 '+new Date(overall.timestamp).toLocaleString() : '';
+    status.innerHTML = '<span class="'+(cls[overall.type]||'badge-approved')+'">'+
+      (lbl[overall.type]||overall.type)+'</span>'
+      + (overall.comment ? ' &mdash; <em>'+esc(overall.comment.slice(0,80))+'</em>' : '')
+      + ts;
+    btns.innerHTML = '<button class="btn btn-neutral" onclick="resetOverall()">Change decision</button>';
+  } else {
+    status.innerHTML = '';
+    if (flags > 0) {
+      btns.innerHTML =
+        '<button class="btn btn-approve" disabled title="'+flags+' items flagged — unflag or use Approve with Flags" style="opacity:.5;cursor:not-allowed">Approve</button>'+
+        '<button class="btn btn-neutral" style="background:#fff3cd;color:#856404;border:1px solid #f59e0b" onclick="openOverallComment(\'approve_flags\')">Approve with Flags ('+flags+')</button>'+
+        '<button class="btn btn-rework"  onclick="openOverallComment(\'rework\')">Request Rework</button>'+
+        '<button class="btn btn-neutral" onclick="editJsonAndExport()" style="font-size:12px">Edit JSON</button>';
+    } else {
+      btns.innerHTML =
+        '<button class="btn btn-approve" onclick="approveAndExport()">Approve</button>'+
+        '<button class="btn btn-neutral" onclick="approveWithCommentsAndExport()">Approve with Directives</button>'+
+        '<button class="btn btn-rework"  onclick="openOverallComment(\'rework\')">Request Rework</button>'+
+        '<button class="btn btn-neutral" onclick="editJsonAndExport()" style="font-size:12px">Edit JSON</button>';
+    }
+  }
+}
+function resetOverall() {
+  const state = load(); delete state.overall; save(state);
+  document.getElementById('oca').value = '';
+  renderOverall();
+}
+function exportAll() {
+  const state = load();
+  const blob = new Blob([JSON.stringify(state,null,2)],{type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = RKEY + '_decisions.json';
+  a.click();
+}
+function _getGateName() {
+  // Derive gate name from page title for standardized filename
+  var t = document.title;
+  if (t.match(/module.*sequence/i)) return 'CHAPTER_MODULE_SEQUENCE';
+  if (t.match(/lo.*brief/i) && t.match(/chapter/i)) return 'CHAPTER_LO_BRIEF';
+  if (t.match(/chapter.*research.*brief/i)) return 'CHAPTER_RESEARCH_BRIEF';
+  if (t.match(/applet.*research.*brief/i)) return 'APPLET_RESEARCH_BRIEF';
+  if (t.match(/applet.*ideal.*screen/i)) return 'APPLET_IDEAL_SCREENS';
+  if (t.match(/module.*research.*brief/i)) return 'MODULE_RESEARCH_BRIEF';
+  if (t.match(/module.*blueprint/i)) return 'IDEAL_MODULE_BLUEPRINT';
+  if (t.match(/research.*brief/i)) return 'MODULE_RESEARCH_BRIEF';
+  return t.replace(/[^a-zA-Z0-9]/g, '_').toUpperCase();
+}
+
+function _getGateType() {
+  // Hard gates: CHAPTER_MODULE_SEQUENCE, APPLET_IDEAL_SCREENS
+  var name = _getGateName();
+  return (name === 'CHAPTER_MODULE_SEQUENCE' || name === 'APPLET_IDEAL_SCREENS') ? 'hard' : 'soft';
+}
+
+function _captureEditedSequence() {
+  // For module sequence page: capture edited module list from DOM
+  var seqCards = document.querySelectorAll('#mod-list > .mod-card[data-pos]');
+  if (seqCards.length === 0) return null;
+  var state = load();
+  var items = state.items || {};
+  var seq = [];
+  seqCards.forEach(function(c) {
+    var pos = parseInt(c.dataset.pos);
+    var titleEl = c.querySelector('.mod-title-input') || c.querySelector('.mod-title');
+    var loEl = c.querySelector('.mod-lo-input') || c.querySelector('.mod-lo');
+    var ctEl = c.querySelector('.mod-ct-select');
+    var itemId = 'mod_' + pos;
+    var comment = (items[itemId] || {}).comment || '';
+    // Also check the textarea directly (may not be saved to localStorage yet)
+    var ta = document.getElementById('ca_' + itemId);
+    if (ta && ta.value.trim()) comment = ta.value.trim();
+    var entry = {
+      position: pos,
+      module_title: titleEl ? (titleEl.value || titleEl.textContent || '').trim() : '',
+      content_type: ctEl ? ctEl.value : (c.dataset.ct || 'Learn'),
+      lo: loEl ? (loEl.value || loEl.textContent || '').trim() : '',
+      lo_codes: JSON.parse(c.dataset.codes || '[]'),
+    };
+    if (comment) entry.entry_comments = comment;
+    seq.push(entry);
+  });
+  return { module_sequence: seq };
+}
+
+function _submitGateDecision(status) {
+  var runDir = document.body.dataset.runDir || '';
+  var gateName = document.body.dataset.gateName || _getGateName();
+  var state = load();
+  var comment = (state.overall || {}).comment || '';
+  var editedSeq = _captureEditedSequence();
+
+  // Separate flagged items for downstream consumption
+  var items = state.items || {};
+  var flags = {};
+  Object.keys(items).forEach(function(k) {
+    if (items[k].type === 'flag') {
+      flags[k] = { comment: items[k].comment || '' };
+    }
+  });
+
+  var payload = {
+    type: 'gate_decision',
+    run_dir: runDir,
+    gate_name: gateName,
+    status: status,
+    comment: comment,
+    decisions: items,
+    flags_for_downstream: flags,
+    approved_sequence: editedSeq,
+  };
+
+  // Update badge immediately
+  var badge = document.querySelector('.gate-badge');
+  if (badge) {
+    badge.textContent = status === 'rework_llm' ? 'REWORK REQUESTED' : 'APPROVED';
+    badge.style.background = status === 'rework_llm' ? '#f59e0b' : '#22c55e';
+  }
+
+  // If inside an iframe (LMS viewer), send to parent via postMessage
+  if (window.parent !== window) {
+    window.parent.postMessage(payload, '*');
+    return;
+  }
+
+  // If top-level (direct URL), POST to LMS API directly
+  fetch('/api/gates/submit', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(payload),
+  }).then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (data.error) { alert('Gate submission failed: ' + data.error); return; }
+      var msg = status === 'rework_llm'
+        ? 'Rework requested.'
+        : 'Gate approved' + (data.all_gates_approved ? ' — all gates done, finalizing...' : '.');
+      alert(msg);
+    })
+    .catch(function(err) {
+      // Fallback: download the file
+      console.warn('LMS API unavailable, falling back to file download:', err);
+      var decision = Object.assign({}, payload, { timestamp: new Date().toISOString() });
+      delete decision.type;
+      var blob = new Blob([JSON.stringify(decision,null,2)], {type:'application/json'});
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = gateName + '.gate.json';
+      a.click();
+    });
+}
+
+function approveAndExport() {
+  if (_countFlags() > 0) { renderOverall(); return; }
+  const state = load();
+  state.overall = { type: 'approve', comment: '', timestamp: Date.now() };
+  save(state);
+  renderOverall();
+  _submitGateDecision('approved');
+}
+
+function editJsonAndExport() {
+  // Open a textarea with the source JSON for manual editing
+  var jsonArea = document.getElementById('json-edit-area');
+  if (!jsonArea) {
+    var panel = document.createElement('div');
+    panel.id = 'json-edit-panel';
+    panel.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:200;display:flex;align-items:center;justify-content:center';
+    panel.innerHTML = '<div style="background:#fff;border-radius:12px;padding:24px;max-width:800px;width:90%;max-height:80vh;display:flex;flex-direction:column">'
+      + '<div style="font-size:16px;font-weight:700;margin-bottom:12px">Edit Source JSON</div>'
+      + '<textarea id="json-edit-area" style="flex:1;min-height:400px;font-family:monospace;font-size:13px;border:1px solid #ddd;border-radius:6px;padding:12px;resize:vertical"></textarea>'
+      + '<div style="margin-top:12px;display:flex;gap:10px">'
+      + '<button class="btn btn-approve" onclick="submitEditedJson()">Save &amp; Export</button>'
+      + '<button class="btn btn-neutral" onclick="cancelJsonEdit()">Cancel</button>'
+      + '</div></div>';
+    document.body.appendChild(panel);
+  }
+  // Load the source JSON file content (look for the backing .json file)
+  var srcEl = document.getElementById('gate-source-json');
+  if (srcEl) {
+    document.getElementById('json-edit-area').value = srcEl.textContent;
+  } else {
+    document.getElementById('json-edit-area').value = '// Source JSON not embedded. Paste your edited version here.';
+  }
+}
+
+function submitEditedJson() {
+  var area = document.getElementById('json-edit-area');
+  if (!area) return;
+  try {
+    var edited = JSON.parse(area.value);
+    const state = load();
+    state.overall = { type: 'rework', comment: 'Manual JSON edit', timestamp: Date.now() };
+    save(state);
+    // Export with edited_data
+    const gateName = _getGateName();
+    const gateType = _getGateType();
+    const decision = {
+      gate_name: gateName,
+      gate_type: gateType,
+      status: 'rework_manual',
+      timestamp: new Date().toISOString(),
+      overall_comment: 'Manual JSON edit',
+      decisions: state.items || {},
+      edited_data: edited,
+    };
+    var filename = gateName + '.gate.json';
+    var blob = new Blob([JSON.stringify(decision,null,2)],{type:'application/json'});
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = filename;
+    a.click();
+    document.getElementById('json-edit-panel').remove();
+    renderOverall();
+  } catch(e) {
+    alert('Invalid JSON: ' + e.message);
+  }
+}
+
+function cancelOverallComment() {
+  document.getElementById('ocb').style.display = 'none';
+}
+
+function cancelJsonEdit() {
+  var panel = document.getElementById('json-edit-panel');
+  if (panel) panel.remove();
+}
+
+// Detail modal — replaces hover tooltips
+function openDetailModal(html) {
+  document.getElementById('detail-modal-content').innerHTML = html;
+  document.getElementById('detail-modal-bg').classList.add('open');
+}
+function closeDetailModal() {
+  document.getElementById('detail-modal-bg').classList.remove('open');
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeDetailModal();
+});
+// Click handler for .tag-link elements — read nested .tag-tooltip content
+document.addEventListener('click', function(e) {
+  var link = e.target.closest('.tag-link');
+  if (!link) return;
+  var tip = link.querySelector('.tag-tooltip');
+  if (tip) { e.preventDefault(); e.stopPropagation(); openDetailModal(tip.innerHTML); }
+});
+
+function scrollToRef(id) {
+  var el = document.getElementById(id);
+  if (el) { el.scrollIntoView({behavior:'smooth',block:'center'});
+             el.classList.add('highlight-flash');
+             setTimeout(function(){el.classList.remove('highlight-flash')},900); }
+}
+
+/* ── Generalized entry refine (all gate types) ──────────────────── */
+function toggleEntryRefinePanel(entryId) {
+  var panel = document.getElementById('refine-panel-' + entryId);
+  if (!panel) return;
+  document.querySelectorAll('.mod-refine-panel').forEach(function(p) { if (p !== panel) p.style.display = 'none'; });
+  panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+}
+
+function refineEntry(entryId, preset) {
+  var decDiv = document.querySelector('[data-item-id="' + entryId + '"]');
+  if (!decDiv) return;
+
+  var promptMessages = {
+    'rescope': 'How should this entry be re-scoped?',
+    'add_detail': 'What detail should be added?',
+    'adjust_severity': 'What should the severity be changed to and why?',
+    'remove': 'Confirm removal — why should this entry be removed?',
+    'reassess': 'How should the confidence/evidence be re-assessed?',
+    'adjust_scope': 'How should the scope be adjusted?',
+    'clarify': 'What needs clarification?',
+    'update_mitigation': 'What is the updated mitigation strategy?',
+    'propose_mitigation': 'Propose a mitigation for this gap:',
+    'change_trope': 'Which trope should be used instead?',
+    'adjust_cpa': 'What CPA phase should this be?',
+    'change_interaction': 'What interaction mode should be used?',
+    'adjust_scaffolding': 'What scaffolding level should this be?',
+    'adjust_placement': 'How should the placement be adjusted?',
+    'sharpen': 'How should this be sharpened?',
+    'expand': 'What should be expanded?',
+    'add': 'What entry should be added?',
+    'split': 'How should this be split?',
+    'custom': 'Describe the refinement:'
+  };
+
+  var instruction = prompt(promptMessages[preset] || 'Instruction for ' + preset + ':');
+  if (instruction === null) return;
+  if (!instruction.trim() && preset !== 'remove') return;
+
+  var runDir = document.body.dataset.runDir || '';
+  var gateName = document.body.dataset.gateName || _getGateName();
+  if (!runDir) { alert('Cannot refine: run_dir not set. Open this page via LMS.'); return; }
+
+  // Find the entry's parent card/section for loading state
+  var card = decDiv.closest('.card, .mod-card, .gate-item, [id^="gate-"]') || decDiv.parentElement;
+  if (card) card.style.opacity = '0.5';
+
+  // Close refine panel
+  var panel = document.getElementById('refine-panel-' + entryId);
+  if (panel) panel.style.display = 'none';
+
+  fetch(_lmsApiBase() + '/api/gates/refine-entry', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      run_dir: runDir,
+      gate_name: gateName,
+      entry_id: entryId,
+      preset: preset,
+      instruction: instruction
+    }),
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (card) card.style.opacity = '1';
+    if (data.error) { alert('Refine failed: ' + data.error); return; }
+    // Reload the page to show updated gate HTML (re-rendered server-side)
+    window.location.reload();
+  })
+  .catch(function(e) {
+    if (card) card.style.opacity = '1';
+    alert('Refine failed: ' + e + '\n\nMake sure LMS is running.');
+  });
+}
+
+function _lmsApiBase() {
+  if (window.location.protocol === 'file:') return 'http://localhost:8420';
+  return '';
+}
+
+/* ── Shared read-helper: prime local UI from server gate state ───────
+ * Both entry points to gate approval (the chapter-page table buttons and
+ * this page's own Approve/Rework buttons) POST through the same
+ * /api/gates/submit endpoint. But until now only the in-page flow wrote
+ * to this HTML's localStorage, so when a reviewer approved via the
+ * chapter-page table the gate HTML would still show "Approve" buttons
+ * at the bottom — disconnected from the server's .gate.json.
+ *
+ * This function is the read-side equivalent of submitGateDecision: one
+ * place that fetches /api/gates/status and reconciles the UI with the
+ * server's decision. Called once on DOMContentLoaded. Silent on any
+ * failure (no LMS, CORS, offline file:// review) — renderOverall will
+ * still show whatever localStorage has.
+ * ────────────────────────────────────────────────────────────────────*/
+function primeStateFromServer() {
+  var runDir = (document.body && document.body.dataset && document.body.dataset.runDir) || '';
+  var gateName = (document.body && document.body.dataset && document.body.dataset.gateName)
+                 || (typeof _getGateName === 'function' ? _getGateName() : '');
+  if (!runDir || !gateName) return;
+
+  var url = _lmsApiBase() + '/api/gates/status?run_dir=' + encodeURIComponent(runDir);
+  fetch(url)
+    .then(function(r) { return r.ok ? r.json() : null; })
+    .then(function(data) {
+      if (!data || !data.gates) return;
+      var serverGate = data.gates[gateName];
+      if (!serverGate || serverGate.status === 'not_found') return;
+
+      // Map server status → local overall.type vocabulary
+      var typeMap = {
+        'approved':               'approve',
+        'approved_with_comments': 'approve',
+        'approved_with_flags':    'approve_flags',
+        'rework_llm':             'rework',
+        'rework_manual':          'rework'
+      };
+      var overallType = typeMap[serverGate.status];
+      if (!overallType) return;
+
+      var state = load();
+      var existing = state.overall || {};
+      // If the user has an unsynced local decision, leave it alone.
+      // A `fromServer: true` marker lets us tell "primed from server"
+      // apart from "user clicked something and hasn't pushed yet".
+      if (existing.type && !existing.fromServer) return;
+
+      state.overall = {
+        type: overallType,
+        comment: serverGate.comment || '',
+        timestamp: serverGate.submitted_at || null,
+        fromServer: true
+      };
+      save(state);
+      renderOverall();
+    })
+    .catch(function() { /* silent — not fatal */ });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('[data-item-id]').forEach(el => renderItem(el.dataset.itemId));
+  renderProgress(); renderOverall();
+  primeStateFromServer();
+});
+</script>
+</body>
+</html>

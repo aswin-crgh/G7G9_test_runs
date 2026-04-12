@@ -1,0 +1,1384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Applet Ideal Screens — G9C4M1A2</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+       font-size: 15px; line-height: 1.6; color: #1a1a1a; background: #f5f5f5; }
+.page { max-width: 1060px; margin: 0 auto; padding: 32px 24px 110px; }
+
+.header { background: #fff; border-radius: 10px; padding: 28px 32px 24px;
+          margin-bottom: 20px; border: 1px solid #e0e0e0; }
+.header-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.file-name { font-size: 13px; color: #888; margin-bottom: 4px; }
+.title { font-size: 22px; font-weight: 700; }
+.meta  { font-size: 13px; color: #666; margin-top: 4px; }
+.gate-badge { display: inline-block; padding: 4px 14px; border-radius: 20px;
+              font-size: 13px; font-weight: 600; margin-top: 10px;
+              background: #eef2ff; color: #4f46e5; }
+
+.card { background: #fff; border-radius: 10px; border: 1px solid #e0e0e0;
+        margin-bottom: 14px; overflow: hidden; }
+.card-body { padding: 16px 20px; }
+
+.section-header { font-size: 16px; font-weight: 700; color: #111;
+                  margin: 28px 0 14px; display: flex; align-items: center; gap: 10px; }
+.section-header::after { content:''; flex:1; height:1px; background:#e0e0e0; }
+
+.gate-section { margin-bottom: 20px; }
+.gate-section-title { font-size: 14px; font-weight: 700; color: #333;
+                       margin-bottom: 8px; padding-bottom: 4px;
+                       border-bottom: 1px solid #e8e8e8; }
+.gate-item { padding: 10px 0; border-bottom: 1px solid #f5f5f5; font-size: 13px; }
+.gate-item:last-child { border-bottom: none; }
+.gate-item-title { font-weight: 600; color: #222; }
+.gate-item-detail { color: #666; margin-top: 2px; }
+.gate-item-meta { display: flex; gap: 6px; margin-top: 4px; flex-wrap: wrap; }
+.gate-narrative { font-size: 13px; color: #444; line-height: 1.7;
+                  white-space: pre-wrap; background: #fafafa;
+                  border-radius: 6px; padding: 14px; }
+
+/* Per-slide / per-screen blueprint enrichment strip */
+.bp-slide-enrich { margin: 6px 0 4px 34px; padding: 8px 10px;
+                   background: #f9fafb; border-left: 2px solid #e5e7eb;
+                   border-radius: 0 4px 4px 0; display: flex;
+                   flex-direction: column; gap: 4px; }
+.bp-enrich-row { display: flex; align-items: flex-start; gap: 8px;
+                 font-size: 11px; line-height: 1.5; flex-wrap: wrap; }
+.bp-enrich-label { flex: 0 0 110px; color: #6b7280; font-weight: 700;
+                   text-transform: uppercase; letter-spacing: 0.4px;
+                   padding-top: 3px; }
+.bp-chip { display: inline-block; padding: 2px 7px; border-radius: 10px;
+           font-size: 11px; line-height: 1.4; cursor: default; position: relative; }
+.bp-chip.vocab    { background: #e6f4ea; color: #1e7e34; }
+.bp-chip.conv     { background: #fff7ed; color: #9a3412; }
+.bp-chip.textbook { background: #ecfeff; color: #0e7490; }
+.bp-chip.applet   { background: #fef3c7; color: #92400e; }
+.bp-chip.video    { background: #fde8e8; color: #c0392b; }
+.bp-chip.vm       { background: #eef2ff; color: #4338ca; }
+/* Phase 2 blueprint chips */
+.bp-chip.concept-intro { background: #d1fae5; color: #064e3b; }
+.bp-chip.concept-reinf { background: #e0f2fe; color: #075985; }
+.bp-chip.misc          { background: #fde8e8; color: #c0392b; }
+.bp-chip.prereq        { background: #fef3c7; color: #78350f;
+                         border: 1px dashed #fcd34d; }
+.bp-chip.vocab-used    { background: #f0fdf4; color: #15803d; }
+.bp-chip.vocab-reinf   { background: #dcfce7; color: #14532d;
+                         font-weight: 600; }
+.bp-concept-tag { display: inline-block; font-size: 9px; text-transform: uppercase;
+                  letter-spacing: 0.4px; opacity: 0.7; margin-right: 3px; }
+.bp-mini-tag { display: inline-block; background: #fff; color: #6b7280;
+               padding: 0 5px; border-radius: 8px; font-size: 9px;
+               border: 1px solid #e5e7eb; margin-left: 2px; }
+
+.tag { display: inline-block; border-radius: 3px; padding: 1px 7px;
+       font-size: 11px; font-weight: 600; }
+.bp-cpa { font-size: 10px; font-weight: 600; border-radius: 3px; padding: 1px 6px; }
+.bp-cpa-c { background: #dbeafe; color: #1d4ed8; }
+.bp-cpa-p { background: #fef3c7; color: #92400e; }
+.bp-cpa-a { background: #ede9fe; color: #6d28d9; }
+.tag-op   { background: #eef2ff; color: #4f46e5; }
+
+/* Module sequence cards */
+.mod-card { background: #fff; border: 1px solid #e0e0e0; border-radius: 10px;
+            padding: 16px 20px; margin-bottom: 12px; position: relative; }
+.mod-pos { font-size: 28px; font-weight: 800; color: #4f46e5; float: left;
+           margin-right: 16px; min-width: 36px; text-align: center; line-height: 1; }
+.mod-body { overflow: hidden; }
+.mod-title { font-size: 15px; font-weight: 700; color: #222; }
+.mod-lo { font-size: 13px; color: #444; margin-top: 4px; }
+.mod-codes { margin-top: 6px; }
+.mod-code { display: inline-block; background: #f0f0f0; color: #555; border-radius: 3px;
+            padding: 1px 6px; font-size: 10px; font-family: monospace; margin: 1px 2px; }
+.mod-notes { font-size: 12px; color: #856404; background: #fffbeb; border-radius: 4px;
+             padding: 4px 8px; margin-top: 6px; }
+.mod-edit-controls { margin-top: 10px; padding-top: 10px; border-top: 1px solid #f0f0f0;
+                     display: flex; gap: 6px; align-items: center; }
+.mod-edit-btn { border: 1px solid #ddd; background: #fff; border-radius: 4px;
+                padding: 2px 8px; font-size: 12px; cursor: pointer; color: #555; }
+.mod-edit-btn:hover { border-color: #999; color: #111; }
+
+/* Refine panel & presets */
+.mod-refine-panel { margin-top: 8px; padding: 8px 0; }
+.refine-presets { display: flex; gap: 6px; flex-wrap: wrap; }
+.refine-preset { border: 1px solid #c7d2fe; background: #eef2ff; border-radius: 5px;
+                 padding: 3px 10px; font-size: 12px; font-weight: 600; cursor: pointer;
+                 color: #4f46e5; transition: all .12s; }
+.refine-preset:hover { background: #dbeafe; border-color: #818cf8; }
+.refine-preset:disabled { opacity: .5; cursor: not-allowed; }
+
+/* Undo bar */
+.undo-bar { display: none; background: #fffbeb; border: 1px solid #f59e0b; border-radius: 8px;
+            padding: 8px 16px; margin-bottom: 12px; align-items: center; gap: 12px;
+            font-size: 13px; color: #856404; }
+.undo-btn { border: 1px solid #f59e0b; background: #fff; border-radius: 4px;
+            padding: 2px 10px; font-size: 12px; cursor: pointer; color: #856404;
+            font-weight: 600; }
+.undo-btn:hover { background: #fffbeb; }
+
+/* Module card states */
+.mod-card.accepted { border-color: #22c55e; background: #f0fdf4; }
+.mod-card.refined  { border-left: 3px solid #4f46e5; }
+.mod-card.refining { opacity: .6; pointer-events: none; }
+
+/* Upgrade map */
+.upgrade-card { background: #fff; border: 1px solid #e0e0e0; border-radius: 8px;
+                padding: 12px 16px; margin-bottom: 8px; }
+.upgrade-target { font-weight: 600; font-size: 14px; color: #333; }
+.upgrade-just { font-size: 13px; color: #666; margin-top: 4px; }
+
+/* Curriculum alignment table */
+.align-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.align-table th { background: #f5f5f5; text-align: left; padding: 8px 12px;
+                  font-weight: 600; color: #555; font-size: 12px;
+                  border-bottom: 2px solid #e0e0e0; }
+.align-table td { padding: 8px 12px; border-bottom: 1px solid #f0f0f0; color: #333; }
+.align-table tr:last-child td { border-bottom: none; }
+
+/* Per-item decision infra */
+.item-decision { margin-top: 9px; padding-top: 8px; border-top: 1px solid rgba(0,0,0,.06); }
+.item-btns { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.ibtn { border: 1px solid #ddd; background: #fff; border-radius: 5px; padding: 3px 10px;
+        font-size: 12px; font-weight: 600; cursor: pointer; color: #555;
+        transition: all .12s; }
+.ibtn:hover { border-color: #999; color: #111; }
+.ibtn.active-accept { background: #e6f4ea; border-color: #22c55e; color: #1e7e34; }
+.ibtn.active-flag   { background: #fff3cd; border-color: #f59e0b; color: #856404; }
+.item-comment-inline { margin-top: 6px; }
+.inline-comment { width: 100%; border: 1px solid #e8e8e8; border-radius: 5px;
+                  padding: 6px 9px; font-size: 12px; resize: none; overflow: hidden;
+                  font-family: inherit; color: #333; background: #fafafa;
+                  transition: border-color .15s, background .15s; }
+.inline-comment:focus { border-color: #818cf8; background: #fff; outline: none; }
+.inline-comment.has-text { border-color: #c7d2fe; background: #f5f3ff; }
+
+/* Validation panel */
+.val-panel { position: fixed; bottom: 0; left: 0; right: 0; background: #fff;
+             border-top: 1px solid #e0e0e0; padding: 12px 24px;
+             display: flex; align-items: center; gap: 14px;
+             box-shadow: 0 -2px 12px rgba(0,0,0,.08); z-index: 100; }
+.val-progress { font-size: 13px; color: #888; flex: 1; }
+.val-progress strong { color: #1a1a1a; }
+.btn { padding: 8px 18px; border-radius: 6px; border: none; cursor: pointer;
+       font-size: 14px; font-weight: 600; transition: opacity .15s; }
+.btn:hover { opacity: .85; }
+.btn-approve { background: #22c55e; color: #fff; }
+.btn-neutral { background: #f0f0f0; color: #333; }
+.btn-rework  { background: #ef4444; color: #fff; }
+.overall-comment-box { display: none; padding: 14px 24px; background: #fafafa;
+                        border-top: 1px solid #e8e8e8;
+                        position: fixed; bottom: 52px; left: 0; right: 0;
+                        z-index: 101; box-shadow: 0 -2px 8px rgba(0,0,0,.1); }
+.overall-comment-box textarea { width: 100%; border: 1px solid #ddd; border-radius: 6px;
+                                  padding: 10px; font-size: 14px; resize: vertical;
+                                  min-height: 80px; font-family: inherit; }
+.overall-comment-box .btn-row { margin-top: 10px; display: flex; gap: 10px; }
+.badge-approved  { background:#e6f4ea; color:#1e7e34; border-radius:6px; padding:6px 14px; font-weight:600; font-size:14px; }
+.badge-rework    { background:#fde8e8; color:#c0392b; border-radius:6px; padding:6px 14px; font-weight:600; font-size:14px; }
+.badge-commented { background:#fff3cd; color:#856404; border-radius:6px; padding:6px 14px; font-weight:600; font-size:14px; }
+
+/* Clickable reference tags — open modal on click */
+.tag-link { cursor: pointer; text-decoration: none; transition: opacity .15s; position: relative; }
+.tag-link:hover { opacity: .8; }
+.tag-tooltip { display: none; }
+
+/* Detail modal (shared — single instance at page bottom) */
+.detail-modal-bg { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+                   background: rgba(0,0,0,.5); z-index: 200; align-items: center; justify-content: center; }
+.detail-modal-bg.open { display: flex; }
+.detail-modal { background: #1a1a1a; color: #fff; border-radius: 12px; padding: 20px 24px;
+                max-width: 560px; width: 90%; max-height: 80vh; overflow-y: auto;
+                box-shadow: 0 8px 32px rgba(0,0,0,.4); font-size: 13px; line-height: 1.6;
+                position: relative; }
+.detail-modal .tt-title { font-weight: 700; font-size: 15px; margin-bottom: 8px; color: #fff; }
+.detail-modal .tt-desc { color: #ddd; margin-bottom: 6px; }
+.detail-modal .tt-row { display: flex; gap: 8px; margin: 4px 0; font-size: 12px; }
+.detail-modal .tt-label { color: #999; min-width: 80px; font-weight: 600; }
+.detail-modal .tt-val { color: #eee; }
+.detail-modal .tt-svg { margin-top: 8px; background: #fff; border-radius: 6px;
+                         padding: 8px; text-align: center; }
+.detail-modal .tt-svg svg { max-width: 300px; max-height: 160px; }
+.detail-modal .tt-close { position: absolute; top: 10px; right: 14px; background: none;
+                           border: none; color: #888; font-size: 20px; cursor: pointer; }
+.detail-modal .tt-close:hover { color: #fff; }
+.detail-modal .tt-codes { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 2px; }
+.detail-modal .tt-code-chip { background: #333; color: #aaa; padding: 1px 6px;
+                               border-radius: 3px; font-family: monospace; font-size: 11px; }
+.gate-item[id] { scroll-margin-top: 80px; }
+.gate-evidence { margin-top: 4px; }
+.gate-evidence summary { font-size: 12px; color: #888; cursor: pointer; font-weight: 600; }
+.gate-evidence summary:hover { color: #4f46e5; }
+.gate-evidence-body { font-size: 13px; color: #666; margin-top: 4px; line-height: 1.6; }
+.highlight-flash { animation: flash-bg .8s ease; }
+@keyframes flash-bg { 0% { background: #eef2ff; } 100% { background: transparent; } }
+
+@media print {
+  body { background: #fff; font-size: 11px; }
+  .page { padding: 0; max-width: none; }
+  .val-panel, .overall-comment-box, .item-decision, .item-btns,
+  .item-comment-inline, .mod-edit-controls { display: none !important; }
+  .card { break-inside: avoid; page-break-inside: avoid; }
+  .mod-card { break-inside: avoid; }
+  a[href]::after { content: none; }
+}
+/* ── Responsive overrides (injected for presentation) ── */
+@media (max-width: 1100px) {
+  .container, .main-content { max-width: 100% !important; padding: 0 12px !important; }
+}
+@media (max-width: 768px) {
+  body { padding: 12px !important; font-size: 13px; }
+  .header-bar { flex-direction: column; gap: 8px; padding: 12px !important; }
+  .header-bar h1, .header-bar .title { font-size: 18px !important; }
+
+  /* Slide rows: stack thumb above annotations */
+  .slide-row { grid-template-columns: 1fr !important; }
+  .slide-thumb, .slide-thumb img { width: 100% !important; max-width: 100% !important; }
+
+  /* Quad strip: 2x2 grid */
+  .quad-strip { grid-template-columns: repeat(2, 1fr) !important; gap: 8px !important; }
+
+  /* Tables: horizontal scroll */
+  .card-body { overflow-x: auto; }
+  table { min-width: 500px; }
+  .align-table { min-width: 400px; }
+
+  /* Cards */
+  .card-body { padding: 12px !important; }
+
+  /* Score badges */
+  .score-badge, .verdict-badge { font-size: 12px !important; }
+
+  /* Gate module cards */
+  .mod-card { padding: 10px !important; }
+  .mod-edit-controls { flex-wrap: wrap; gap: 4px; }
+  .mod-edit-btn { font-size: 11px !important; padding: 3px 6px !important; }
+
+  /* Annotations grid */
+  .ann-grid { grid-template-columns: 1fr !important; }
+
+  /* Overlay panels */
+  .overlay-panel { width: 95vw !important; max-width: 95vw !important; }
+
+  /* Pre blocks */
+  pre { font-size: 11px !important; white-space: pre-wrap !important; word-break: break-word !important; }
+
+  /* Section headers */
+  .section-header { font-size: 12px !important; padding: 10px 12px !important; }
+
+  /* Enrichment row in applet reviews */
+  .enrichment-row { flex-direction: column !important; }
+  .enrichment-col { width: 100% !important; min-width: 0 !important; }
+}
+@media (max-width: 480px) {
+  .quad-strip { grid-template-columns: 1fr !important; }
+  .slide-thumb img { width: 100% !important; }
+  .header-bar h1, .header-bar .title { font-size: 16px !important; }
+}</style>
+</head>
+<body data-run-dir="/Users/aswin/Work/agentic/ACRLDS/outputs/G9C4M1A2/2026-04-12T13-34-38" data-gate-name="APPLET_IDEAL_SCREENS">
+<div class="page">
+  <div class="header">
+    <div class="header-top">
+      <div>
+        <div class="file-name">G9C4</div>
+        <div class="title">Applet Ideal Screens — G9C4M1A2</div>
+        <div class="meta">Grade 9 | Probability</div>
+      </div>
+      <div><span class="gate-badge">GATE — Requires Approval</span></div>
+    </div>
+  </div>
+  <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;
+                padding:10px 20px;margin-bottom:16px;display:flex;align-items:center;
+                gap:14px;flex-wrap:wrap;font-size:13px;color:#475569">
+      <span style="color:#94a3b8;font-size:11px;text-transform:uppercase;letter-spacing:.5px;font-weight:600">Context</span>
+      <strong>G9C4</strong> &middot; Grade 9 &middot; Probability
+    </div>
+  
+    <div class="section-header">Applet Blueprint</div>
+    <div class="card"><div class="card-body">
+      <div style="font-size:15px;font-weight:600;color:#222">G9C4M1A2 — <span class="tag" style="background:#dbeafe;color:#1d4ed8">Learn</span></div>
+      <div style="font-size:14px;color:#333;margin-top:6px">Sort uncertain events into 'HIGH Chance' or 'LOW Chance' categories by dragging event cards, demonstrating that chance varies across situations.</div>
+      <div style="margin-top:8px">
+        <span class="tag" style="background:#dbeafe;color:#1d4ed8">Standard</span>
+        <span class='tag' style='background:#f3e8ff;color:#7c3aed'>Constrained Drag — Card-to-Zone Sort</span>
+        <span class='tag' style='background:#fde8e8;color:#c0392b'>Target: M281 — Students believe all uncertain events are equally likely (equally-likely default), manifesting as placing all uncertain event cards in the same zone or claiming the sort is arbitrary.</span>
+      </div>
+    </div></div>
+
+    <div class="section-header">Applet Screen Stages (6 stages, 6-stage IAS progression)</div>
+    <div class="card"><div class="card-body">
+      <div style="font-size:12px;color:#666;margin-bottom:12px">
+        <b>These are stage-level plans, not 1:1 PPTX frames.</b> Each entry below
+        describes ONE stage of the IAS progression (Launch → Explore → Notice →
+        Explain → Apply → Consolidate). In the actual PPTX, each stage typically
+        expands into multiple frames for interaction states (initial, after-prediction,
+        after-reveal), feedback variants (happy/unhappy flows), animation beats, and
+        start→mid→end visual progressions. Scorers match PPTX sections to stages,
+        not 1:1.
+      </div>
+      
+            <div class="gate-item">
+              <div style="display:flex;gap:10px;align-items:baseline">
+                <span style="font-weight:800;color:#4f46e5;font-size:16px;min-width:24px">1</span>
+                <div>
+                  <span class="tag" style="background:#4f46e51a;color:#4f46e5;font-weight:700">Launch</span>
+                  <div style="font-size:13px;color:#333;margin-top:4px">Students observe two contrasting Indonesian scenes — rain in Bogor in January versus a helicopter landing at school — and read the framing question. The screen establishes the productive conflict inherited from the parent module's Slides 8–9 (Bogor rain vs helicopter contrast) and sets the purpose of the applet: to sort uncertain events by their chance. The framing note explicitly acknowledges that HIGH/LOW is a scaffold, not the full spectrum, bridging back to the parent module's chance strip and forward to M2's chance line. No student action is required; the screen is purely motivational and contextual. The word 'chance' appears in the framing text, reinforcing the parent module's Math_Vault term. 'Uncertain outcome' is reinforced in the sub-caption: 'All of these events are uncertain — we cannot be sure what will happen. But do they all have the same chance?'</div>
+                </div>
+              </div>
+              <div class="gate-item-meta" style="margin-left:34px"><span class="bp-cpa bp-cpa-c">Concrete</span><span class="tag" style="background:#f0f0f0;color:#555">Observe</span><span class="tag" style="color:#6b7280">Observe</span><span class="tag" style="background:#dbeafe;color:#1d4ed8">Full scaffolding</span></div>
+              <div class="bp-slide-enrich"><div class="bp-enrich-row"><span class="bp-enrich-label">Vocab in screen</span><span class="bp-chip vocab-used"><span class="bp-concept-tag">used</span> chance</span> <span class="bp-chip vocab-used"><span class="bp-concept-tag">used</span> uncertain outcome</span></div><div class="bp-enrich-row"><span class="bp-enrich-label">Convention</span><span class="bp-chip conv tag-link">HIGH / LOW as binary labels — risk of false precision<span class="tag-tooltip"><div class="tt-title">HIGH / LOW as binary labels — risk of false precision</div><div class="tt-desc">The applet must include an explicit framing note at Launch (Stage 1) and a closing note at Consolidate (Stage 6) acknowledging that HIGH and LOW are a scaffold, not the complete model. Required text (or equivalent): 'We are sorting into HIG</div></span></span></div></div>
+              <div class="item-decision" data-item-id="screen_1">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_screen_1_accept" onclick="itemDecide('screen_1','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('screen_1')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-screen_1" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('screen_1','rescope')">Re-scope</button>
+      <button class="refine-preset" onclick="refineEntry('screen_1','change_interaction')">Change interaction</button>
+      <button class="refine-preset" onclick="refineEntry('screen_1','adjust_scaffolding')">Adjust scaffolding</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_screen_1" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('screen_1')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item">
+              <div style="display:flex;gap:10px;align-items:baseline">
+                <span style="font-weight:800;color:#0891b2;font-size:16px;min-width:24px">2</span>
+                <div>
+                  <span class="tag" style="background:#0891b21a;color:#0891b2;font-weight:700">Explore</span>
+                  <div style="font-size:13px;color:#333;margin-top:4px">Students encounter the first two event cards — the anchor contrast pair from the parent module. They drag each card to either the HIGH Chance or LOW Chance zone. The helper banner ('Think: does this happen most of the time, or almost never?') provides a frequency-reasoning scaffold without giving away the answer. This is the first active encounter with the sort mechanic and directly surfaces <span class="tag-link" style="color:#c0392b;font-weight:600">M280<span class="tag-tooltip"><div class="tt-title">Misconception #280 (medium)</div><div class="tt-desc">Students treat chance as a vague linguistic label ('probably', 'maybe', 'unlikely') and resist comparing uncertain events with any precision. In this applet's binary-sort context, the risk is that students drag cards arbitrarily — treating HIGH and LOW as interchangeable labels — rather than reasoning about which situations genuinely have more chance. The applet surfaces this when students place events like 'rain in Bogor in January' in LOW Chance or 'helicopter landing at school tomorrow' in HIGH Chance without any reasoning anchor.</div></span></span> (vague linguistic labelling) if students place either card arbitrarily. Correct placement: Card 1 → HIGH Chance; Card 2 → LOW Chance. On correct placement, the card snaps into the zone with a green tick (HIGH) or amber tick (LOW) and a brief affirming message. On incorrect placement, the Repair-Guided Feedback fires (see feedback_type). The zone-pulse affordance (IAS Highlight/Pulse/Emphasis) reduces motor cognitive load so attention stays on the reasoning decision.</div>
+                </div>
+              </div>
+              <div class="gate-item-meta" style="margin-left:34px"><span class="bp-cpa bp-cpa-c">Concrete</span><span class="tag" style="background:#dbeafe;color:#1d4ed8">Drag</span><span class="tag" style="color:#0891b2">Manipulate</span><span class="tag" style="background:#fef3c7;color:#92400e">Partial</span><a class="tag tag-link" style="background:#dbeafe;color:#1d4ed8" href="javascript:void(0)">VIR 3 — Contrastive Pair Reveal — Closing Summary with Full Sort Strip<span class="tag-tooltip"><div class="tt-title">VIR 3 — Contrastive Pair Reveal — Closing Summary with Full Sort Strip</div><div class="tt-svg"><svg xmlns="http://www.w3.org/2000/svg" width="360" height="140" viewBox="0 0 360 140" style="font-family:system-ui,sans-serif;font-size:11px;"><rect width="360" height="140" fill="#F8FAFC"/><text x="180" y="132" text-anchor="middle" fill="#64748B" font-size="9" font-style="italic">Counting, addition, subtraction, integers, probability</text><rect x="10" y="25" width="100" height="90" rx="5" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/><text x="60" y="38" text-anchor="middle" fill="#CBD5E1" font-size="9" font-weight="bold">Abstract</text><text x="60" y="60" text-anchor="middle" fill="#1E293B" font-size="10">Abstract</text><line x1="112" y1="70" x2="128" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="133,70 127,67 127,73" fill="#64748B"/><rect x="135" y="25" width="100" height="90" rx="5" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.5"/><text x="185" y="38" text-anchor="middle" fill="#2563EB" font-size="9" font-weight="bold">Model</text><text x="185" y="55" text-anchor="middle" fill="#1E293B" font-size="10">model</text><text x="185" y="78" text-anchor="middle" fill="#1E293B" font-size="10">concrete rep</text><line x1="237" y1="70" x2="253" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="258,70 252,67 252,73" fill="#64748B"/><rect x="260" y="25" width="100" height="90" rx="5" fill="#ECFDF5" stroke="#059669" stroke-width="1.5"/><text x="310" y="38" text-anchor="middle" fill="#059669" font-size="9" font-weight="bold">Clarified</text><text x="310" y="60" text-anchor="middle" fill="#1E293B" font-size="10">Concrete cla…</text></svg></div><div class="tt-desc">A number line from 0 to 1 labels probability as a continuous quantity between 'impossible' (0) and 'certain' (1). Students place events at their approximate probability positions, developing probability as a measurable quantity rather than a linguistic label (likely, unlikely). The number line also shows how complementary events (P(A) + P(not A) = 1) sit symmetrically around 0.5.</div><div class="tt-row"><span class="tt-label">CPA</span><span class="tt-val">Concrete</span></div></span></a></div>
+              <div class="bp-slide-enrich"><div class="bp-enrich-row"><span class="bp-enrich-label">Misconception</span><span class="bp-chip misc tag-link">M280<span class="tag-tooltip"><div class="tt-title">M280 (medium)</div><div class="tt-desc">Students treat chance as a vague linguistic label ('probably', 'maybe', 'unlikely') and resist comparing uncertain events with any precision. In this applet's binary-sort context, the risk is that students drag cards arbitrarily — treating </div></span></span></div><div class="bp-enrich-row"><span class="bp-enrich-label">Vocab in screen</span><span class="bp-chip vocab-reinf"><span class="bp-concept-tag">reinforced</span> chance</span> <span class="bp-chip vocab-used"><span class="bp-concept-tag">used</span> uncertain outcome</span></div><div class="bp-enrich-row"><span class="bp-enrich-label">Visual model</span><a class="tag tag-link" style="background:#dbeafe;color:#1d4ed8" href="javascript:void(0)">VIR 3 — Contrastive Pair Reveal — Closing Summary with Full Sort Strip<span class="tag-tooltip"><div class="tt-title">VIR 3 — Contrastive Pair Reveal — Closing Summary with Full Sort Strip</div><div class="tt-svg"><svg xmlns="http://www.w3.org/2000/svg" width="360" height="140" viewBox="0 0 360 140" style="font-family:system-ui,sans-serif;font-size:11px;"><rect width="360" height="140" fill="#F8FAFC"/><text x="180" y="132" text-anchor="middle" fill="#64748B" font-size="9" font-style="italic">Counting, addition, subtraction, integers, probability</text><rect x="10" y="25" width="100" height="90" rx="5" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/><text x="60" y="38" text-anchor="middle" fill="#CBD5E1" font-size="9" font-weight="bold">Abstract</text><text x="60" y="60" text-anchor="middle" fill="#1E293B" font-size="10">Abstract</text><line x1="112" y1="70" x2="128" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="133,70 127,67 127,73" fill="#64748B"/><rect x="135" y="25" width="100" height="90" rx="5" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.5"/><text x="185" y="38" text-anchor="middle" fill="#2563EB" font-size="9" font-weight="bold">Model</text><text x="185" y="55" text-anchor="middle" fill="#1E293B" font-size="10">model</text><text x="185" y="78" text-anchor="middle" fill="#1E293B" font-size="10">concrete rep</text><line x1="237" y1="70" x2="253" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="258,70 252,67 252,73" fill="#64748B"/><rect x="260" y="25" width="100" height="90" rx="5" fill="#ECFDF5" stroke="#059669" stroke-width="1.5"/><text x="310" y="38" text-anchor="middle" fill="#059669" font-size="9" font-weight="bold">Clarified</text><text x="310" y="60" text-anchor="middle" fill="#1E293B" font-size="10">Concrete cla…</text></svg></div><div class="tt-desc">A number line from 0 to 1 labels probability as a continuous quantity between 'impossible' (0) and 'certain' (1). Students place events at their approximate probability positions, developing probability as a measurable quantity rather than a linguistic label (likely, unlikely). The number line also shows how complementary events (P(A) + P(not A) = 1) sit symmetrically around 0.5.</div><div class="tt-row"><span class="tt-label">CPA</span><span class="tt-val">Concrete</span></div></span></a></div><div class="bp-enrich-row"><span class="bp-enrich-label">Convention</span><span class="bp-chip conv tag-link">chance vs probability — applet feedback strings<span class="tag-tooltip"><div class="tt-title">chance vs probability — applet feedback strings</div><div class="tt-desc">All student-facing text in the applet — zone labels, card prompts, correct feedback, incorrect feedback, frequency prompts, and the closing contrastive reveal — must use 'chance' exclusively. The word 'probability' must not appear anywhere </div></span></span> <span class="bp-chip conv tag-link">Indonesian event card contexts<span class="tag-tooltip"><div class="tt-title">Indonesian event card contexts</div><div class="tt-desc">All six event cards must use authentic Indonesian everyday contexts. Required card set: (1) Rain in Bogor in January — HIGH; (2) Helicopter landing at school tomorrow — LOW; (3) Eating rice for lunch today — HIGH; (4) Scoring 100% on the ne</div></span></span> <span class="bp-chip conv tag-link">Colour coding consistency with parent module<span class="tag-tooltip"><div class="tt-title">Colour coding consistency with parent module</div><div class="tt-desc">The HIGH Chance drop zone must use green; the LOW Chance drop zone must use amber/orange. Do not use red for the LOW Chance zone — red carries a punitive connotation inconsistent with IAS visual-state conventions. This colour coding must ma</div></span></span></div></div>
+              <div class="item-decision" data-item-id="screen_2">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_screen_2_accept" onclick="itemDecide('screen_2','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('screen_2')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-screen_2" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('screen_2','rescope')">Re-scope</button>
+      <button class="refine-preset" onclick="refineEntry('screen_2','change_interaction')">Change interaction</button>
+      <button class="refine-preset" onclick="refineEntry('screen_2','adjust_scaffolding')">Adjust scaffolding</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_screen_2" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('screen_2')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item">
+              <div style="display:flex;gap:10px;align-items:baseline">
+                <span style="font-weight:800;color:#059669;font-size:16px;min-width:24px">3</span>
+                <div>
+                  <span class="tag" style="background:#0596691a;color:#059669;font-weight:700">Notice</span>
+                  <div style="font-size:13px;color:#333;margin-top:4px">After sorting the first two cards, students pause to notice the contrast between them. The side-by-side display with visual frequency bars (concrete, non-numerical) makes the inequality of chance visible without calculation. This is the primary <span class="tag-link" style="color:#c0392b;font-weight:600">M281<span class="tag-tooltip"><div class="tt-title">Misconception #281 (high)</div><div class="tt-desc">Students believe all uncertain events are equally likely — if something can happen or not happen, they default to 50/50. In a binary HIGH/LOW sort, this manifests as students placing all uncertain events in the same category (typically HIGH, since 'it could happen') or expressing that the sort is arbitrary because 'both could happen'. This is the highest-severity misconception for this applet and the primary reason the binary sort interaction was designed.</div></span></span> (equally-likely default) confrontation moment: the screen explicitly names that both events are uncertain but shows they are NOT equally likely. The frequency bars are purely qualitative (tall vs short) — no numbers, consistent with the concrete CPA phase. The prompt 'What do you notice?' invites pattern recognition before the student is asked to articulate the principle. This screen is observe-mode but cognitively active — students are discriminating between two cases they have just sorted.</div>
+                </div>
+              </div>
+              <div class="gate-item-meta" style="margin-left:34px"><span class="bp-cpa bp-cpa-c">Concrete</span><span class="tag" style="background:#f0f0f0;color:#555">Observe</span><span class="tag" style="color:#d97706">Discriminate</span><span class="tag" style="background:#fef3c7;color:#92400e">Partial</span><a class="tag tag-link" style="background:#dbeafe;color:#1d4ed8" href="javascript:void(0)">VIR 3 — Contrastive Pair Reveal — Closing Summary with Full Sort Strip<span class="tag-tooltip"><div class="tt-title">VIR 3 — Contrastive Pair Reveal — Closing Summary with Full Sort Strip</div><div class="tt-svg"><svg xmlns="http://www.w3.org/2000/svg" width="360" height="140" viewBox="0 0 360 140" style="font-family:system-ui,sans-serif;font-size:11px;"><rect width="360" height="140" fill="#F8FAFC"/><text x="180" y="132" text-anchor="middle" fill="#64748B" font-size="9" font-style="italic">Counting, addition, subtraction, integers, probability</text><rect x="10" y="25" width="100" height="90" rx="5" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/><text x="60" y="38" text-anchor="middle" fill="#CBD5E1" font-size="9" font-weight="bold">Abstract</text><text x="60" y="60" text-anchor="middle" fill="#1E293B" font-size="10">Abstract</text><line x1="112" y1="70" x2="128" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="133,70 127,67 127,73" fill="#64748B"/><rect x="135" y="25" width="100" height="90" rx="5" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.5"/><text x="185" y="38" text-anchor="middle" fill="#2563EB" font-size="9" font-weight="bold">Model</text><text x="185" y="55" text-anchor="middle" fill="#1E293B" font-size="10">model</text><text x="185" y="78" text-anchor="middle" fill="#1E293B" font-size="10">concrete rep</text><line x1="237" y1="70" x2="253" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="258,70 252,67 252,73" fill="#64748B"/><rect x="260" y="25" width="100" height="90" rx="5" fill="#ECFDF5" stroke="#059669" stroke-width="1.5"/><text x="310" y="38" text-anchor="middle" fill="#059669" font-size="9" font-weight="bold">Clarified</text><text x="310" y="60" text-anchor="middle" fill="#1E293B" font-size="10">Concrete cla…</text></svg></div><div class="tt-desc">A number line from 0 to 1 labels probability as a continuous quantity between 'impossible' (0) and 'certain' (1). Students place events at their approximate probability positions, developing probability as a measurable quantity rather than a linguistic label (likely, unlikely). The number line also shows how complementary events (P(A) + P(not A) = 1) sit symmetrically around 0.5.</div><div class="tt-row"><span class="tt-label">CPA</span><span class="tt-val">Concrete</span></div></span></a></div>
+              <div class="bp-slide-enrich"><div class="bp-enrich-row"><span class="bp-enrich-label">Misconception</span><span class="bp-chip misc tag-link">M281<span class="tag-tooltip"><div class="tt-title">M281 (high)</div><div class="tt-desc">Students believe all uncertain events are equally likely — if something can happen or not happen, they default to 50/50. In a binary HIGH/LOW sort, this manifests as students placing all uncertain events in the same category (typically HIGH</div></span></span></div><div class="bp-enrich-row"><span class="bp-enrich-label">Vocab in screen</span><span class="bp-chip vocab-used"><span class="bp-concept-tag">used</span> chance</span> <span class="bp-chip vocab-used"><span class="bp-concept-tag">used</span> uncertain outcome</span></div><div class="bp-enrich-row"><span class="bp-enrich-label">Visual model</span><a class="tag tag-link" style="background:#dbeafe;color:#1d4ed8" href="javascript:void(0)">VIR 3 — Contrastive Pair Reveal — Closing Summary with Full Sort Strip<span class="tag-tooltip"><div class="tt-title">VIR 3 — Contrastive Pair Reveal — Closing Summary with Full Sort Strip</div><div class="tt-svg"><svg xmlns="http://www.w3.org/2000/svg" width="360" height="140" viewBox="0 0 360 140" style="font-family:system-ui,sans-serif;font-size:11px;"><rect width="360" height="140" fill="#F8FAFC"/><text x="180" y="132" text-anchor="middle" fill="#64748B" font-size="9" font-style="italic">Counting, addition, subtraction, integers, probability</text><rect x="10" y="25" width="100" height="90" rx="5" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/><text x="60" y="38" text-anchor="middle" fill="#CBD5E1" font-size="9" font-weight="bold">Abstract</text><text x="60" y="60" text-anchor="middle" fill="#1E293B" font-size="10">Abstract</text><line x1="112" y1="70" x2="128" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="133,70 127,67 127,73" fill="#64748B"/><rect x="135" y="25" width="100" height="90" rx="5" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.5"/><text x="185" y="38" text-anchor="middle" fill="#2563EB" font-size="9" font-weight="bold">Model</text><text x="185" y="55" text-anchor="middle" fill="#1E293B" font-size="10">model</text><text x="185" y="78" text-anchor="middle" fill="#1E293B" font-size="10">concrete rep</text><line x1="237" y1="70" x2="253" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="258,70 252,67 252,73" fill="#64748B"/><rect x="260" y="25" width="100" height="90" rx="5" fill="#ECFDF5" stroke="#059669" stroke-width="1.5"/><text x="310" y="38" text-anchor="middle" fill="#059669" font-size="9" font-weight="bold">Clarified</text><text x="310" y="60" text-anchor="middle" fill="#1E293B" font-size="10">Concrete cla…</text></svg></div><div class="tt-desc">A number line from 0 to 1 labels probability as a continuous quantity between 'impossible' (0) and 'certain' (1). Students place events at their approximate probability positions, developing probability as a measurable quantity rather than a linguistic label (likely, unlikely). The number line also shows how complementary events (P(A) + P(not A) = 1) sit symmetrically around 0.5.</div><div class="tt-row"><span class="tt-label">CPA</span><span class="tt-val">Concrete</span></div></span></a></div></div>
+              <div class="item-decision" data-item-id="screen_3">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_screen_3_accept" onclick="itemDecide('screen_3','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('screen_3')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-screen_3" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('screen_3','rescope')">Re-scope</button>
+      <button class="refine-preset" onclick="refineEntry('screen_3','change_interaction')">Change interaction</button>
+      <button class="refine-preset" onclick="refineEntry('screen_3','adjust_scaffolding')">Adjust scaffolding</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_screen_3" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('screen_3')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item">
+              <div style="display:flex;gap:10px;align-items:baseline">
+                <span style="font-weight:800;color:#d97706;font-size:16px;min-width:24px">4</span>
+                <div>
+                  <span class="tag" style="background:#d977061a;color:#d97706;font-weight:700">Explain</span>
+                  <div style="font-size:13px;color:#333;margin-top:4px">Students articulate the principle they noticed in Stage 3 by completing a structured sentence using tap-to-select word choices. This is a guided Generate action — the sentence frame scaffolds the articulation without giving away the answer, and the word choices force a decision between correct and distractor options. Correct completion: 'Both events are uncertain — but they do NOT have the same chance, because one happens much more often than the other.' This directly addresses <span class="tag-link" style="color:#c0392b;font-weight:600">M281<span class="tag-tooltip"><div class="tt-title">Misconception #281 (high)</div><div class="tt-desc">Students believe all uncertain events are equally likely — if something can happen or not happen, they default to 50/50. In a binary HIGH/LOW sort, this manifests as students placing all uncertain events in the same category (typically HIGH, since 'it could happen') or expressing that the sort is arbitrary because 'both could happen'. This is the highest-severity misconception for this applet and the primary reason the binary sort interaction was designed.</div></span></span> (equally-likely default) by having the student generate the counter-claim in their own (scaffolded) words. The 'Say it aloud!' prompt activates the Shout_Out_Loud trope moment within the applet, reinforcing oral language use of 'chance' and 'uncertain'. Vocabulary 'chance' and 'uncertain outcome' are actively exercised through the sentence-completion interaction.</div>
+                </div>
+              </div>
+              <div class="gate-item-meta" style="margin-left:34px"><span class="bp-cpa bp-cpa-c">Concrete</span><span class="tag" style="background:#fef3c7;color:#92400e">Tap</span><span class="tag" style="color:#dc2626">Generate</span><span class="tag" style="background:#fce7f3;color:#be185d">Guided</span><a class="tag tag-link" style="background:#dbeafe;color:#1d4ed8" href="javascript:void(0)">VIR 3 — Contrastive Pair Reveal — Closing Summary with Full Sort Strip<span class="tag-tooltip"><div class="tt-title">VIR 3 — Contrastive Pair Reveal — Closing Summary with Full Sort Strip</div><div class="tt-svg"><svg xmlns="http://www.w3.org/2000/svg" width="360" height="140" viewBox="0 0 360 140" style="font-family:system-ui,sans-serif;font-size:11px;"><rect width="360" height="140" fill="#F8FAFC"/><text x="180" y="132" text-anchor="middle" fill="#64748B" font-size="9" font-style="italic">Counting, addition, subtraction, integers, probability</text><rect x="10" y="25" width="100" height="90" rx="5" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/><text x="60" y="38" text-anchor="middle" fill="#CBD5E1" font-size="9" font-weight="bold">Abstract</text><text x="60" y="60" text-anchor="middle" fill="#1E293B" font-size="10">Abstract</text><line x1="112" y1="70" x2="128" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="133,70 127,67 127,73" fill="#64748B"/><rect x="135" y="25" width="100" height="90" rx="5" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.5"/><text x="185" y="38" text-anchor="middle" fill="#2563EB" font-size="9" font-weight="bold">Model</text><text x="185" y="55" text-anchor="middle" fill="#1E293B" font-size="10">model</text><text x="185" y="78" text-anchor="middle" fill="#1E293B" font-size="10">concrete rep</text><line x1="237" y1="70" x2="253" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="258,70 252,67 252,73" fill="#64748B"/><rect x="260" y="25" width="100" height="90" rx="5" fill="#ECFDF5" stroke="#059669" stroke-width="1.5"/><text x="310" y="38" text-anchor="middle" fill="#059669" font-size="9" font-weight="bold">Clarified</text><text x="310" y="60" text-anchor="middle" fill="#1E293B" font-size="10">Concrete cla…</text></svg></div><div class="tt-desc">A number line from 0 to 1 labels probability as a continuous quantity between 'impossible' (0) and 'certain' (1). Students place events at their approximate probability positions, developing probability as a measurable quantity rather than a linguistic label (likely, unlikely). The number line also shows how complementary events (P(A) + P(not A) = 1) sit symmetrically around 0.5.</div><div class="tt-row"><span class="tt-label">CPA</span><span class="tt-val">Concrete</span></div></span></a></div>
+              <div class="bp-slide-enrich"><div class="bp-enrich-row"><span class="bp-enrich-label">Misconception</span><span class="bp-chip misc tag-link">M281<span class="tag-tooltip"><div class="tt-title">M281 (high)</div><div class="tt-desc">Students believe all uncertain events are equally likely — if something can happen or not happen, they default to 50/50. In a binary HIGH/LOW sort, this manifests as students placing all uncertain events in the same category (typically HIGH</div></span></span> <span class="bp-chip misc tag-link">M280<span class="tag-tooltip"><div class="tt-title">M280 (medium)</div><div class="tt-desc">Students treat chance as a vague linguistic label ('probably', 'maybe', 'unlikely') and resist comparing uncertain events with any precision. In this applet's binary-sort context, the risk is that students drag cards arbitrarily — treating </div></span></span></div><div class="bp-enrich-row"><span class="bp-enrich-label">Vocab in screen</span><span class="bp-chip vocab-reinf"><span class="bp-concept-tag">reinforced</span> chance</span> <span class="bp-chip vocab-reinf"><span class="bp-concept-tag">reinforced</span> uncertain outcome</span></div><div class="bp-enrich-row"><span class="bp-enrich-label">Visual model</span><a class="tag tag-link" style="background:#dbeafe;color:#1d4ed8" href="javascript:void(0)">VIR 3 — Contrastive Pair Reveal — Closing Summary with Full Sort Strip<span class="tag-tooltip"><div class="tt-title">VIR 3 — Contrastive Pair Reveal — Closing Summary with Full Sort Strip</div><div class="tt-svg"><svg xmlns="http://www.w3.org/2000/svg" width="360" height="140" viewBox="0 0 360 140" style="font-family:system-ui,sans-serif;font-size:11px;"><rect width="360" height="140" fill="#F8FAFC"/><text x="180" y="132" text-anchor="middle" fill="#64748B" font-size="9" font-style="italic">Counting, addition, subtraction, integers, probability</text><rect x="10" y="25" width="100" height="90" rx="5" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/><text x="60" y="38" text-anchor="middle" fill="#CBD5E1" font-size="9" font-weight="bold">Abstract</text><text x="60" y="60" text-anchor="middle" fill="#1E293B" font-size="10">Abstract</text><line x1="112" y1="70" x2="128" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="133,70 127,67 127,73" fill="#64748B"/><rect x="135" y="25" width="100" height="90" rx="5" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.5"/><text x="185" y="38" text-anchor="middle" fill="#2563EB" font-size="9" font-weight="bold">Model</text><text x="185" y="55" text-anchor="middle" fill="#1E293B" font-size="10">model</text><text x="185" y="78" text-anchor="middle" fill="#1E293B" font-size="10">concrete rep</text><line x1="237" y1="70" x2="253" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="258,70 252,67 252,73" fill="#64748B"/><rect x="260" y="25" width="100" height="90" rx="5" fill="#ECFDF5" stroke="#059669" stroke-width="1.5"/><text x="310" y="38" text-anchor="middle" fill="#059669" font-size="9" font-weight="bold">Clarified</text><text x="310" y="60" text-anchor="middle" fill="#1E293B" font-size="10">Concrete cla…</text></svg></div><div class="tt-desc">A number line from 0 to 1 labels probability as a continuous quantity between 'impossible' (0) and 'certain' (1). Students place events at their approximate probability positions, developing probability as a measurable quantity rather than a linguistic label (likely, unlikely). The number line also shows how complementary events (P(A) + P(not A) = 1) sit symmetrically around 0.5.</div><div class="tt-row"><span class="tt-label">CPA</span><span class="tt-val">Concrete</span></div></span></a></div></div>
+              <div class="item-decision" data-item-id="screen_4">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_screen_4_accept" onclick="itemDecide('screen_4','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('screen_4')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-screen_4" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('screen_4','rescope')">Re-scope</button>
+      <button class="refine-preset" onclick="refineEntry('screen_4','change_interaction')">Change interaction</button>
+      <button class="refine-preset" onclick="refineEntry('screen_4','adjust_scaffolding')">Adjust scaffolding</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_screen_4" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('screen_4')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item">
+              <div style="display:flex;gap:10px;align-items:baseline">
+                <span style="font-weight:800;color:#dc2626;font-size:16px;min-width:24px">5</span>
+                <div>
+                  <span class="tag" style="background:#dc26261a;color:#dc2626;font-weight:700">Apply</span>
+                  <div style="font-size:13px;color:#333;margin-top:4px">Students independently sort the remaining four event cards — all using authentic Indonesian everyday contexts — without the frequency-reasoning helper banner. The anchor pair remains visible as a reference model. Cards 3 and 5 are borderline HIGH-chance events that require reasoning beyond extreme-case recognition, directly targeting <span class="tag-link" style="color:#c0392b;font-weight:600">M283<span class="tag-tooltip"><div class="tt-title">Misconception #283 (medium)</div><div class="tt-desc">Students can identify impossible and certain events but treat all uncertain events as vague and undifferentiated — they cannot reason about relative likelihood between uncertain events. In the binary sort, this surfaces as random placement of uncertain events, or as students correctly placing the extreme cases (if any appear) but failing on the middle-range events. The applet's binary sort is a simplified version of the full ordering task — it reduces the cognitive demand to a two-category decision, which is the appropriate scaffold at this concrete phase.</div></span></span> (inability to reason between extremes). Cards 4 and 6 are LOW-chance events that are not impossible, requiring students to distinguish 'low chance' from 'impossible'. Correct placements: Card 3 (rice for lunch) → HIGH; Card 4 (100% test score) → LOW; Card 5 (absent classmate) → HIGH; Card 6 (50,000 rupiah note) → LOW. On incorrect placement, Repair-Guided Feedback fires with event-specific frequency prompts. No generic feedback. The 'probability' term does not appear anywhere — all feedback uses 'chance' exclusively.</div>
+                </div>
+              </div>
+              <div class="gate-item-meta" style="margin-left:34px"><span class="bp-cpa bp-cpa-c">Concrete</span><span class="tag" style="background:#dbeafe;color:#1d4ed8">Drag</span><span class="tag" style="color:#d97706">Discriminate</span><span class="tag" style="background:#e6f4ea;color:#1e7e34">Independent</span><a class="tag tag-link" style="background:#dbeafe;color:#1d4ed8" href="javascript:void(0)">VIR 3 — Contrastive Pair Reveal — Closing Summary with Full Sort Strip<span class="tag-tooltip"><div class="tt-title">VIR 3 — Contrastive Pair Reveal — Closing Summary with Full Sort Strip</div><div class="tt-svg"><svg xmlns="http://www.w3.org/2000/svg" width="360" height="140" viewBox="0 0 360 140" style="font-family:system-ui,sans-serif;font-size:11px;"><rect width="360" height="140" fill="#F8FAFC"/><text x="180" y="132" text-anchor="middle" fill="#64748B" font-size="9" font-style="italic">Counting, addition, subtraction, integers, probability</text><rect x="10" y="25" width="100" height="90" rx="5" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/><text x="60" y="38" text-anchor="middle" fill="#CBD5E1" font-size="9" font-weight="bold">Abstract</text><text x="60" y="60" text-anchor="middle" fill="#1E293B" font-size="10">Abstract</text><line x1="112" y1="70" x2="128" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="133,70 127,67 127,73" fill="#64748B"/><rect x="135" y="25" width="100" height="90" rx="5" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.5"/><text x="185" y="38" text-anchor="middle" fill="#2563EB" font-size="9" font-weight="bold">Model</text><text x="185" y="55" text-anchor="middle" fill="#1E293B" font-size="10">model</text><text x="185" y="78" text-anchor="middle" fill="#1E293B" font-size="10">concrete rep</text><line x1="237" y1="70" x2="253" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="258,70 252,67 252,73" fill="#64748B"/><rect x="260" y="25" width="100" height="90" rx="5" fill="#ECFDF5" stroke="#059669" stroke-width="1.5"/><text x="310" y="38" text-anchor="middle" fill="#059669" font-size="9" font-weight="bold">Clarified</text><text x="310" y="60" text-anchor="middle" fill="#1E293B" font-size="10">Concrete cla…</text></svg></div><div class="tt-desc">A number line from 0 to 1 labels probability as a continuous quantity between 'impossible' (0) and 'certain' (1). Students place events at their approximate probability positions, developing probability as a measurable quantity rather than a linguistic label (likely, unlikely). The number line also shows how complementary events (P(A) + P(not A) = 1) sit symmetrically around 0.5.</div><div class="tt-row"><span class="tt-label">CPA</span><span class="tt-val">Concrete</span></div></span></a></div>
+              <div class="bp-slide-enrich"><div class="bp-enrich-row"><span class="bp-enrich-label">Misconception</span><span class="bp-chip misc tag-link">M280<span class="tag-tooltip"><div class="tt-title">M280 (medium)</div><div class="tt-desc">Students treat chance as a vague linguistic label ('probably', 'maybe', 'unlikely') and resist comparing uncertain events with any precision. In this applet's binary-sort context, the risk is that students drag cards arbitrarily — treating </div></span></span> <span class="bp-chip misc tag-link">M281<span class="tag-tooltip"><div class="tt-title">M281 (high)</div><div class="tt-desc">Students believe all uncertain events are equally likely — if something can happen or not happen, they default to 50/50. In a binary HIGH/LOW sort, this manifests as students placing all uncertain events in the same category (typically HIGH</div></span></span> <span class="bp-chip misc tag-link">M283<span class="tag-tooltip"><div class="tt-title">M283 (medium)</div><div class="tt-desc">Students can identify impossible and certain events but treat all uncertain events as vague and undifferentiated — they cannot reason about relative likelihood between uncertain events. In the binary sort, this surfaces as random placement </div></span></span></div><div class="bp-enrich-row"><span class="bp-enrich-label">Vocab in screen</span><span class="bp-chip vocab-reinf"><span class="bp-concept-tag">reinforced</span> chance</span> <span class="bp-chip vocab-used"><span class="bp-concept-tag">used</span> uncertain outcome</span></div><div class="bp-enrich-row"><span class="bp-enrich-label">Visual model</span><a class="tag tag-link" style="background:#dbeafe;color:#1d4ed8" href="javascript:void(0)">VIR 3 — Contrastive Pair Reveal — Closing Summary with Full Sort Strip<span class="tag-tooltip"><div class="tt-title">VIR 3 — Contrastive Pair Reveal — Closing Summary with Full Sort Strip</div><div class="tt-svg"><svg xmlns="http://www.w3.org/2000/svg" width="360" height="140" viewBox="0 0 360 140" style="font-family:system-ui,sans-serif;font-size:11px;"><rect width="360" height="140" fill="#F8FAFC"/><text x="180" y="132" text-anchor="middle" fill="#64748B" font-size="9" font-style="italic">Counting, addition, subtraction, integers, probability</text><rect x="10" y="25" width="100" height="90" rx="5" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/><text x="60" y="38" text-anchor="middle" fill="#CBD5E1" font-size="9" font-weight="bold">Abstract</text><text x="60" y="60" text-anchor="middle" fill="#1E293B" font-size="10">Abstract</text><line x1="112" y1="70" x2="128" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="133,70 127,67 127,73" fill="#64748B"/><rect x="135" y="25" width="100" height="90" rx="5" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.5"/><text x="185" y="38" text-anchor="middle" fill="#2563EB" font-size="9" font-weight="bold">Model</text><text x="185" y="55" text-anchor="middle" fill="#1E293B" font-size="10">model</text><text x="185" y="78" text-anchor="middle" fill="#1E293B" font-size="10">concrete rep</text><line x1="237" y1="70" x2="253" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="258,70 252,67 252,73" fill="#64748B"/><rect x="260" y="25" width="100" height="90" rx="5" fill="#ECFDF5" stroke="#059669" stroke-width="1.5"/><text x="310" y="38" text-anchor="middle" fill="#059669" font-size="9" font-weight="bold">Clarified</text><text x="310" y="60" text-anchor="middle" fill="#1E293B" font-size="10">Concrete cla…</text></svg></div><div class="tt-desc">A number line from 0 to 1 labels probability as a continuous quantity between 'impossible' (0) and 'certain' (1). Students place events at their approximate probability positions, developing probability as a measurable quantity rather than a linguistic label (likely, unlikely). The number line also shows how complementary events (P(A) + P(not A) = 1) sit symmetrically around 0.5.</div><div class="tt-row"><span class="tt-label">CPA</span><span class="tt-val">Concrete</span></div></span></a></div></div>
+              <div class="item-decision" data-item-id="screen_5">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_screen_5_accept" onclick="itemDecide('screen_5','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('screen_5')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-screen_5" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('screen_5','rescope')">Re-scope</button>
+      <button class="refine-preset" onclick="refineEntry('screen_5','change_interaction')">Change interaction</button>
+      <button class="refine-preset" onclick="refineEntry('screen_5','adjust_scaffolding')">Adjust scaffolding</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_screen_5" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('screen_5')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item">
+              <div style="display:flex;gap:10px;align-items:baseline">
+                <span style="font-weight:800;color:#7c3aed;font-size:16px;min-width:24px">6</span>
+                <div>
+                  <span class="tag" style="background:#7c3aed1a;color:#7c3aed;font-weight:700">Consolidate</span>
+                  <div style="font-size:13px;color:#333;margin-top:4px">The applet closes with the Contrastive Feedback — Pair Reveal archetype: the most contrasting card pair is spotlighted with an explicit explanation of why their chance differs, directly targeting <span class="tag-link" style="color:#c0392b;font-weight:600">M281<span class="tag-tooltip"><div class="tt-title">Misconception #281 (high)</div><div class="tt-desc">Students believe all uncertain events are equally likely — if something can happen or not happen, they default to 50/50. In a binary HIGH/LOW sort, this manifests as students placing all uncertain events in the same category (typically HIGH, since 'it could happen') or expressing that the sort is arbitrary because 'both could happen'. This is the highest-severity misconception for this applet and the primary reason the binary sort interaction was designed.</div></span></span> (equally-likely default) at the consolidation level. The full sort summary gives students a visual confirmation of their completed work. The closing framing note explicitly acknowledges that HIGH/LOW is a scaffold (not the final model), bridges back to the parent module's chance strip, and previews M2's chance line — preventing the false-precision misconception that all events are either HIGH or LOW with no middle ground (convention flag: HIGH/LOW as binary labels). The word 'chance' is used throughout; 'probability' does not appear. The screen also serves as the conceptual bridge to the parent module's Exit_Question (Pak Budi's two bags), which follows this applet directly in the module sequence.</div>
+                </div>
+              </div>
+              <div class="gate-item-meta" style="margin-left:34px"><span class="bp-cpa bp-cpa-c">Concrete</span><span class="tag" style="background:#f0f0f0;color:#555">Observe</span><span class="tag" style="color:#059669">Verify</span><span class="tag" style="background:#e6f4ea;color:#1e7e34">Independent</span><a class="tag tag-link" style="background:#dbeafe;color:#1d4ed8" href="javascript:void(0)">VIR 3 — Contrastive Pair Reveal — Closing Summary with Full Sort Strip<span class="tag-tooltip"><div class="tt-title">VIR 3 — Contrastive Pair Reveal — Closing Summary with Full Sort Strip</div><div class="tt-svg"><svg xmlns="http://www.w3.org/2000/svg" width="360" height="140" viewBox="0 0 360 140" style="font-family:system-ui,sans-serif;font-size:11px;"><rect width="360" height="140" fill="#F8FAFC"/><text x="180" y="132" text-anchor="middle" fill="#64748B" font-size="9" font-style="italic">Counting, addition, subtraction, integers, probability</text><rect x="10" y="25" width="100" height="90" rx="5" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/><text x="60" y="38" text-anchor="middle" fill="#CBD5E1" font-size="9" font-weight="bold">Abstract</text><text x="60" y="60" text-anchor="middle" fill="#1E293B" font-size="10">Abstract</text><line x1="112" y1="70" x2="128" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="133,70 127,67 127,73" fill="#64748B"/><rect x="135" y="25" width="100" height="90" rx="5" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.5"/><text x="185" y="38" text-anchor="middle" fill="#2563EB" font-size="9" font-weight="bold">Model</text><text x="185" y="55" text-anchor="middle" fill="#1E293B" font-size="10">model</text><text x="185" y="78" text-anchor="middle" fill="#1E293B" font-size="10">concrete rep</text><line x1="237" y1="70" x2="253" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="258,70 252,67 252,73" fill="#64748B"/><rect x="260" y="25" width="100" height="90" rx="5" fill="#ECFDF5" stroke="#059669" stroke-width="1.5"/><text x="310" y="38" text-anchor="middle" fill="#059669" font-size="9" font-weight="bold">Clarified</text><text x="310" y="60" text-anchor="middle" fill="#1E293B" font-size="10">Concrete cla…</text></svg></div><div class="tt-desc">A number line from 0 to 1 labels probability as a continuous quantity between 'impossible' (0) and 'certain' (1). Students place events at their approximate probability positions, developing probability as a measurable quantity rather than a linguistic label (likely, unlikely). The number line also shows how complementary events (P(A) + P(not A) = 1) sit symmetrically around 0.5.</div><div class="tt-row"><span class="tt-label">CPA</span><span class="tt-val">Concrete</span></div></span></a></div>
+              <div class="bp-slide-enrich"><div class="bp-enrich-row"><span class="bp-enrich-label">Misconception</span><span class="bp-chip misc tag-link">M281<span class="tag-tooltip"><div class="tt-title">M281 (high)</div><div class="tt-desc">Students believe all uncertain events are equally likely — if something can happen or not happen, they default to 50/50. In a binary HIGH/LOW sort, this manifests as students placing all uncertain events in the same category (typically HIGH</div></span></span></div><div class="bp-enrich-row"><span class="bp-enrich-label">Vocab in screen</span><span class="bp-chip vocab-used"><span class="bp-concept-tag">used</span> chance</span> <span class="bp-chip vocab-used"><span class="bp-concept-tag">used</span> uncertain outcome</span></div><div class="bp-enrich-row"><span class="bp-enrich-label">Visual model</span><a class="tag tag-link" style="background:#dbeafe;color:#1d4ed8" href="javascript:void(0)">VIR 3 — Contrastive Pair Reveal — Closing Summary with Full Sort Strip<span class="tag-tooltip"><div class="tt-title">VIR 3 — Contrastive Pair Reveal — Closing Summary with Full Sort Strip</div><div class="tt-svg"><svg xmlns="http://www.w3.org/2000/svg" width="360" height="140" viewBox="0 0 360 140" style="font-family:system-ui,sans-serif;font-size:11px;"><rect width="360" height="140" fill="#F8FAFC"/><text x="180" y="132" text-anchor="middle" fill="#64748B" font-size="9" font-style="italic">Counting, addition, subtraction, integers, probability</text><rect x="10" y="25" width="100" height="90" rx="5" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/><text x="60" y="38" text-anchor="middle" fill="#CBD5E1" font-size="9" font-weight="bold">Abstract</text><text x="60" y="60" text-anchor="middle" fill="#1E293B" font-size="10">Abstract</text><line x1="112" y1="70" x2="128" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="133,70 127,67 127,73" fill="#64748B"/><rect x="135" y="25" width="100" height="90" rx="5" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.5"/><text x="185" y="38" text-anchor="middle" fill="#2563EB" font-size="9" font-weight="bold">Model</text><text x="185" y="55" text-anchor="middle" fill="#1E293B" font-size="10">model</text><text x="185" y="78" text-anchor="middle" fill="#1E293B" font-size="10">concrete rep</text><line x1="237" y1="70" x2="253" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="258,70 252,67 252,73" fill="#64748B"/><rect x="260" y="25" width="100" height="90" rx="5" fill="#ECFDF5" stroke="#059669" stroke-width="1.5"/><text x="310" y="38" text-anchor="middle" fill="#059669" font-size="9" font-weight="bold">Clarified</text><text x="310" y="60" text-anchor="middle" fill="#1E293B" font-size="10">Concrete cla…</text></svg></div><div class="tt-desc">A number line from 0 to 1 labels probability as a continuous quantity between 'impossible' (0) and 'certain' (1). Students place events at their approximate probability positions, developing probability as a measurable quantity rather than a linguistic label (likely, unlikely). The number line also shows how complementary events (P(A) + P(not A) = 1) sit symmetrically around 0.5.</div><div class="tt-row"><span class="tt-label">CPA</span><span class="tt-val">Concrete</span></div></span></a></div></div>
+              <div class="item-decision" data-item-id="screen_6">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_screen_6_accept" onclick="itemDecide('screen_6','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('screen_6')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-screen_6" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('screen_6','rescope')">Re-scope</button>
+      <button class="refine-preset" onclick="refineEntry('screen_6','change_interaction')">Change interaction</button>
+      <button class="refine-preset" onclick="refineEntry('screen_6','adjust_scaffolding')">Adjust scaffolding</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_screen_6" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('screen_6')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+    </div></div>
+
+    <div class="section-header">Scaffolding Arc</div>
+    <div class="card"><div class="card-body">
+      <div class="gate-narrative">Full scaffolding at Launch (context and framing provided, no student decision required) → Partial at Explore (first 2 cards sorted with zone-pulse affordance and immediate frequency-prompt feedback on error) → Guided at Notice (contrastive pair highlighted mid-sort to surface M281 directly) → Guided-to-Independent at Explain (student articulates why two contrasting cards differ in chance) → Independent at Apply (remaining borderline cards sorted without hints, only post-placement feedback) → Independent at Consolidate (contrastive pair reveal summary, no further scaffolding).</div>
+      <div class="item-decision" data-item-id="scaffolding_arc">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_scaffolding_arc_accept" onclick="itemDecide('scaffolding_arc','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('scaffolding_arc')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-scaffolding_arc" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('scaffolding_arc','rescope')">Re-scope</button>
+      <button class="refine-preset" onclick="refineEntry('scaffolding_arc','sharpen')">Sharpen</button>
+      <button class="refine-preset" onclick="refineEntry('scaffolding_arc','expand')">Expand</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_scaffolding_arc" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('scaffolding_arc')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+    </div></div>
+
+    <div class="section-header">Visual Models (5)</div>
+    <div class="card"><div class="card-body">
+      
+            <div class="gate-item" id="abp_vir_3">
+              <div class="gate-item-title">VIR 3 — Contrastive Pair Reveal — Closing Summary with Full Sort Strip</div>
+              <div style="margin:8px 0;background:#fafafa;border-radius:6px;padding:10px;text-align:center;border:1px solid #e8e8e8"><div style="max-width:300px;margin:0 auto"><svg xmlns="http://www.w3.org/2000/svg" width="360" height="140" viewBox="0 0 360 140" style="font-family:system-ui,sans-serif;font-size:11px;"><rect width="360" height="140" fill="#F8FAFC"/><text x="180" y="132" text-anchor="middle" fill="#64748B" font-size="9" font-style="italic">Counting, addition, subtraction, integers, probability</text><rect x="10" y="25" width="100" height="90" rx="5" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/><text x="60" y="38" text-anchor="middle" fill="#CBD5E1" font-size="9" font-weight="bold">Abstract</text><text x="60" y="60" text-anchor="middle" fill="#1E293B" font-size="10">Abstract</text><line x1="112" y1="70" x2="128" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="133,70 127,67 127,73" fill="#64748B"/><rect x="135" y="25" width="100" height="90" rx="5" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.5"/><text x="185" y="38" text-anchor="middle" fill="#2563EB" font-size="9" font-weight="bold">Model</text><text x="185" y="55" text-anchor="middle" fill="#1E293B" font-size="10">model</text><text x="185" y="78" text-anchor="middle" fill="#1E293B" font-size="10">concrete rep</text><line x1="237" y1="70" x2="253" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="258,70 252,67 252,73" fill="#64748B"/><rect x="260" y="25" width="100" height="90" rx="5" fill="#ECFDF5" stroke="#059669" stroke-width="1.5"/><text x="310" y="38" text-anchor="middle" fill="#059669" font-size="9" font-weight="bold">Clarified</text><text x="310" y="60" text-anchor="middle" fill="#1E293B" font-size="10">Concrete cla…</text></svg></div></div>
+              <details class="gate-evidence">
+                  <summary>Description &amp; rationale</summary>
+                  <div class="gate-evidence-body">A number line from 0 to 1 labels probability as a continuous quantity between 'impossible' (0) and 'certain' (1). Students place events at their approximate probability positions, developing probability as a measurable quantity rather than a linguist</div>
+                </details>
+              <div class="gate-item-detail">Used at stage 6</div>
+              <div class="gate-item-meta">
+                <span class="bp-cpa bp-cpa-c">Concrete</span>
+                <span class="tag" style="color:#856404">Confidence: medium</span>
+              </div>
+              <div class="item-decision" data-item-id="abp_vir_0">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_abp_vir_0_accept" onclick="itemDecide('abp_vir_0','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('abp_vir_0')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-abp_vir_0" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('abp_vir_0','reassess')">Re-assess</button>
+      <button class="refine-preset" onclick="refineEntry('abp_vir_0','adjust_scope')">Adjust scope</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_abp_vir_0" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('abp_vir_0')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item" id="abp_vir_3">
+              <div class="gate-item-title">VIR 3 — Contrastive Pair Reveal — Closing Summary with Full Sort Strip</div>
+              <div style="margin:8px 0;background:#fafafa;border-radius:6px;padding:10px;text-align:center;border:1px solid #e8e8e8"><div style="max-width:300px;margin:0 auto"><svg xmlns="http://www.w3.org/2000/svg" width="360" height="140" viewBox="0 0 360 140" style="font-family:system-ui,sans-serif;font-size:11px;"><rect width="360" height="140" fill="#F8FAFC"/><text x="180" y="132" text-anchor="middle" fill="#64748B" font-size="9" font-style="italic">Counting, addition, subtraction, integers, probability</text><rect x="10" y="25" width="100" height="90" rx="5" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/><text x="60" y="38" text-anchor="middle" fill="#CBD5E1" font-size="9" font-weight="bold">Abstract</text><text x="60" y="60" text-anchor="middle" fill="#1E293B" font-size="10">Abstract</text><line x1="112" y1="70" x2="128" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="133,70 127,67 127,73" fill="#64748B"/><rect x="135" y="25" width="100" height="90" rx="5" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.5"/><text x="185" y="38" text-anchor="middle" fill="#2563EB" font-size="9" font-weight="bold">Model</text><text x="185" y="55" text-anchor="middle" fill="#1E293B" font-size="10">model</text><text x="185" y="78" text-anchor="middle" fill="#1E293B" font-size="10">concrete rep</text><line x1="237" y1="70" x2="253" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="258,70 252,67 252,73" fill="#64748B"/><rect x="260" y="25" width="100" height="90" rx="5" fill="#ECFDF5" stroke="#059669" stroke-width="1.5"/><text x="310" y="38" text-anchor="middle" fill="#059669" font-size="9" font-weight="bold">Clarified</text><text x="310" y="60" text-anchor="middle" fill="#1E293B" font-size="10">Concrete cla…</text></svg></div></div>
+              <details class="gate-evidence">
+                  <summary>Description &amp; rationale</summary>
+                  <div class="gate-evidence-body">A number line from 0 to 1 labels probability as a continuous quantity between 'impossible' (0) and 'certain' (1). Students place events at their approximate probability positions, developing probability as a measurable quantity rather than a linguist</div>
+                </details>
+              <div class="gate-item-detail">Used at stage 6</div>
+              <div class="gate-item-meta">
+                <span class="bp-cpa bp-cpa-c">Concrete</span>
+                <span class="tag" style="color:#856404">Confidence: medium</span>
+              </div>
+              <div class="item-decision" data-item-id="abp_vir_1">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_abp_vir_1_accept" onclick="itemDecide('abp_vir_1','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('abp_vir_1')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-abp_vir_1" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('abp_vir_1','reassess')">Re-assess</button>
+      <button class="refine-preset" onclick="refineEntry('abp_vir_1','adjust_scope')">Adjust scope</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_abp_vir_1" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('abp_vir_1')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item" id="abp_vir_3">
+              <div class="gate-item-title">VIR 3 — Contrastive Pair Reveal — Closing Summary with Full Sort Strip</div>
+              <div style="margin:8px 0;background:#fafafa;border-radius:6px;padding:10px;text-align:center;border:1px solid #e8e8e8"><div style="max-width:300px;margin:0 auto"><svg xmlns="http://www.w3.org/2000/svg" width="360" height="140" viewBox="0 0 360 140" style="font-family:system-ui,sans-serif;font-size:11px;"><rect width="360" height="140" fill="#F8FAFC"/><text x="180" y="132" text-anchor="middle" fill="#64748B" font-size="9" font-style="italic">Counting, addition, subtraction, integers, probability</text><rect x="10" y="25" width="100" height="90" rx="5" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/><text x="60" y="38" text-anchor="middle" fill="#CBD5E1" font-size="9" font-weight="bold">Abstract</text><text x="60" y="60" text-anchor="middle" fill="#1E293B" font-size="10">Abstract</text><line x1="112" y1="70" x2="128" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="133,70 127,67 127,73" fill="#64748B"/><rect x="135" y="25" width="100" height="90" rx="5" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.5"/><text x="185" y="38" text-anchor="middle" fill="#2563EB" font-size="9" font-weight="bold">Model</text><text x="185" y="55" text-anchor="middle" fill="#1E293B" font-size="10">model</text><text x="185" y="78" text-anchor="middle" fill="#1E293B" font-size="10">concrete rep</text><line x1="237" y1="70" x2="253" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="258,70 252,67 252,73" fill="#64748B"/><rect x="260" y="25" width="100" height="90" rx="5" fill="#ECFDF5" stroke="#059669" stroke-width="1.5"/><text x="310" y="38" text-anchor="middle" fill="#059669" font-size="9" font-weight="bold">Clarified</text><text x="310" y="60" text-anchor="middle" fill="#1E293B" font-size="10">Concrete cla…</text></svg></div></div>
+              <details class="gate-evidence">
+                  <summary>Description &amp; rationale</summary>
+                  <div class="gate-evidence-body">A number line from 0 to 1 labels probability as a continuous quantity between 'impossible' (0) and 'certain' (1). Students place events at their approximate probability positions, developing probability as a measurable quantity rather than a linguist</div>
+                </details>
+              <div class="gate-item-detail">Used at stage 6</div>
+              <div class="gate-item-meta">
+                <span class="bp-cpa bp-cpa-c">Concrete</span>
+                <span class="tag" style="color:#856404">Confidence: medium</span>
+              </div>
+              <div class="item-decision" data-item-id="abp_vir_2">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_abp_vir_2_accept" onclick="itemDecide('abp_vir_2','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('abp_vir_2')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-abp_vir_2" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('abp_vir_2','reassess')">Re-assess</button>
+      <button class="refine-preset" onclick="refineEntry('abp_vir_2','adjust_scope')">Adjust scope</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_abp_vir_2" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('abp_vir_2')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item" id="abp_vir_3">
+              <div class="gate-item-title">VIR 3 — Contrastive Pair Reveal — Closing Summary with Full Sort Strip</div>
+              <div style="margin:8px 0;background:#fafafa;border-radius:6px;padding:10px;text-align:center;border:1px solid #e8e8e8"><div style="max-width:300px;margin:0 auto"><svg xmlns="http://www.w3.org/2000/svg" width="360" height="140" viewBox="0 0 360 140" style="font-family:system-ui,sans-serif;font-size:11px;"><rect width="360" height="140" fill="#F8FAFC"/><text x="180" y="132" text-anchor="middle" fill="#64748B" font-size="9" font-style="italic">Counting, addition, subtraction, integers, probability</text><rect x="10" y="25" width="100" height="90" rx="5" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/><text x="60" y="38" text-anchor="middle" fill="#CBD5E1" font-size="9" font-weight="bold">Abstract</text><text x="60" y="60" text-anchor="middle" fill="#1E293B" font-size="10">Abstract</text><line x1="112" y1="70" x2="128" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="133,70 127,67 127,73" fill="#64748B"/><rect x="135" y="25" width="100" height="90" rx="5" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.5"/><text x="185" y="38" text-anchor="middle" fill="#2563EB" font-size="9" font-weight="bold">Model</text><text x="185" y="55" text-anchor="middle" fill="#1E293B" font-size="10">model</text><text x="185" y="78" text-anchor="middle" fill="#1E293B" font-size="10">concrete rep</text><line x1="237" y1="70" x2="253" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="258,70 252,67 252,73" fill="#64748B"/><rect x="260" y="25" width="100" height="90" rx="5" fill="#ECFDF5" stroke="#059669" stroke-width="1.5"/><text x="310" y="38" text-anchor="middle" fill="#059669" font-size="9" font-weight="bold">Clarified</text><text x="310" y="60" text-anchor="middle" fill="#1E293B" font-size="10">Concrete cla…</text></svg></div></div>
+              <details class="gate-evidence">
+                  <summary>Description &amp; rationale</summary>
+                  <div class="gate-evidence-body">A number line from 0 to 1 labels probability as a continuous quantity between 'impossible' (0) and 'certain' (1). Students place events at their approximate probability positions, developing probability as a measurable quantity rather than a linguist</div>
+                </details>
+              <div class="gate-item-detail">Used at stage 6</div>
+              <div class="gate-item-meta">
+                <span class="bp-cpa bp-cpa-c">Concrete</span>
+                <span class="tag" style="color:#856404">Confidence: medium</span>
+              </div>
+              <div class="item-decision" data-item-id="abp_vir_3">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_abp_vir_3_accept" onclick="itemDecide('abp_vir_3','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('abp_vir_3')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-abp_vir_3" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('abp_vir_3','reassess')">Re-assess</button>
+      <button class="refine-preset" onclick="refineEntry('abp_vir_3','adjust_scope')">Adjust scope</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_abp_vir_3" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('abp_vir_3')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item" id="abp_vir_3">
+              <div class="gate-item-title">VIR 3 — Contrastive Pair Reveal — Closing Summary with Full Sort Strip</div>
+              <div style="margin:8px 0;background:#fafafa;border-radius:6px;padding:10px;text-align:center;border:1px solid #e8e8e8"><div style="max-width:300px;margin:0 auto"><svg xmlns="http://www.w3.org/2000/svg" width="360" height="140" viewBox="0 0 360 140" style="font-family:system-ui,sans-serif;font-size:11px;"><rect width="360" height="140" fill="#F8FAFC"/><text x="180" y="132" text-anchor="middle" fill="#64748B" font-size="9" font-style="italic">Counting, addition, subtraction, integers, probability</text><rect x="10" y="25" width="100" height="90" rx="5" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/><text x="60" y="38" text-anchor="middle" fill="#CBD5E1" font-size="9" font-weight="bold">Abstract</text><text x="60" y="60" text-anchor="middle" fill="#1E293B" font-size="10">Abstract</text><line x1="112" y1="70" x2="128" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="133,70 127,67 127,73" fill="#64748B"/><rect x="135" y="25" width="100" height="90" rx="5" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.5"/><text x="185" y="38" text-anchor="middle" fill="#2563EB" font-size="9" font-weight="bold">Model</text><text x="185" y="55" text-anchor="middle" fill="#1E293B" font-size="10">model</text><text x="185" y="78" text-anchor="middle" fill="#1E293B" font-size="10">concrete rep</text><line x1="237" y1="70" x2="253" y2="70" stroke="#64748B" stroke-width="1.5"/><polygon points="258,70 252,67 252,73" fill="#64748B"/><rect x="260" y="25" width="100" height="90" rx="5" fill="#ECFDF5" stroke="#059669" stroke-width="1.5"/><text x="310" y="38" text-anchor="middle" fill="#059669" font-size="9" font-weight="bold">Clarified</text><text x="310" y="60" text-anchor="middle" fill="#1E293B" font-size="10">Concrete cla…</text></svg></div></div>
+              <details class="gate-evidence">
+                  <summary>Description &amp; rationale</summary>
+                  <div class="gate-evidence-body">A number line from 0 to 1 labels probability as a continuous quantity between 'impossible' (0) and 'certain' (1). Students place events at their approximate probability positions, developing probability as a measurable quantity rather than a linguist</div>
+                </details>
+              <div class="gate-item-detail">Used at stage 6</div>
+              <div class="gate-item-meta">
+                <span class="bp-cpa bp-cpa-c">Concrete</span>
+                <span class="tag" style="color:#856404">Confidence: medium</span>
+              </div>
+              <div class="item-decision" data-item-id="abp_vir_4">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_abp_vir_4_accept" onclick="itemDecide('abp_vir_4','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('abp_vir_4')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-abp_vir_4" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('abp_vir_4','reassess')">Re-assess</button>
+      <button class="refine-preset" onclick="refineEntry('abp_vir_4','adjust_scope')">Adjust scope</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_abp_vir_4" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('abp_vir_4')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+    </div></div>
+
+    <div class="section-header" style="color:#856404">Convention Requirements &amp; False Friends (5)</div>
+    <div class="card" style="border-color:#ffeeba"><div class="card-body">
+      <div style="font-size:12px;color:#856404;background:#fff3cd;border-radius:4px;padding:8px;margin-bottom:12px">
+        These language conventions and false friends must be addressed at the
+        specified stage. In the target curriculum and geography, terminology
+        mismatches directly affect student comprehension.
+      </div>
+      
+            <div class="gate-item" style="border-left:3px solid #856404;padding-left:12px">
+              <div class="gate-item-title">chance vs probability — applet feedback strings</div>
+              <div class="gate-item-detail">All student-facing text in the applet — zone labels, card prompts, correct feedback, incorrect feedback, frequency prompts, and the closing contrastive reveal — must use 'chance' exclusively. The word 'probability' must not appear anywhere in the applet. Acceptable: 'This event has a HIGH chance of happening.' Not acceptable: 'The probability of this event is high.' This applies to every screen in the applet. Review all auto-generated or templated feedback strings before publication.</div>
+              <div class="gate-item-meta"><span class="tag" style="background:#e6f4ea;color:#1e7e34">Stage 2</span></div>
+              <div class="item-decision" data-item-id="aconv_req_0">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_aconv_req_0_accept" onclick="itemDecide('aconv_req_0','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('aconv_req_0')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-aconv_req_0" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('aconv_req_0','reassess')">Re-assess risk</button>
+      <button class="refine-preset" onclick="refineEntry('aconv_req_0','update_mitigation')">Update mitigation</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_aconv_req_0" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('aconv_req_0')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item" style="border-left:3px solid #856404;padding-left:12px">
+              <div class="gate-item-title">HIGH / LOW as binary labels — risk of false precision</div>
+              <div class="gate-item-detail">The applet must include an explicit framing note at Launch (Stage 1) and a closing note at Consolidate (Stage 6) acknowledging that HIGH and LOW are a scaffold, not the complete model. Required text (or equivalent): 'We are sorting into HIGH and LOW to practise comparing chance — but remember, chance is a spectrum from impossible to certain. HIGH and LOW are not the only options!' This bridges back to the parent module's chance strip and forward to M2's chance line, preventing students from leaving with a binary misconception.</div>
+              <div class="gate-item-meta"><span class="tag" style="background:#e6f4ea;color:#1e7e34">Stage 1</span></div>
+              <div class="item-decision" data-item-id="aconv_req_1">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_aconv_req_1_accept" onclick="itemDecide('aconv_req_1','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('aconv_req_1')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-aconv_req_1" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('aconv_req_1','reassess')">Re-assess risk</button>
+      <button class="refine-preset" onclick="refineEntry('aconv_req_1','update_mitigation')">Update mitigation</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_aconv_req_1" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('aconv_req_1')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item" style="border-left:3px solid #856404;padding-left:12px">
+              <div class="gate-item-title">Indonesian event card contexts</div>
+              <div class="gate-item-detail">All six event cards must use authentic Indonesian everyday contexts. Required card set: (1) Rain in Bogor in January — HIGH; (2) Helicopter landing at school tomorrow — LOW; (3) Eating rice for lunch today — HIGH; (4) Scoring 100% on the next maths test — LOW; (5) At least one classmate absent this week — HIGH; (6) Finding a 50,000 rupiah note on the ground today — LOW. Do not use snow, lottery tickets, or other non-Indonesian contexts. The sun rising tomorrow is CERTAIN (not HIGH) — do not include it as a sort card.</div>
+              <div class="gate-item-meta"><span class="tag" style="background:#e6f4ea;color:#1e7e34">Stage 2</span></div>
+              <div class="item-decision" data-item-id="aconv_req_2">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_aconv_req_2_accept" onclick="itemDecide('aconv_req_2','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('aconv_req_2')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-aconv_req_2" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('aconv_req_2','reassess')">Re-assess risk</button>
+      <button class="refine-preset" onclick="refineEntry('aconv_req_2','update_mitigation')">Update mitigation</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_aconv_req_2" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('aconv_req_2')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item" style="border-left:3px solid #856404;padding-left:12px">
+              <div class="gate-item-title">Colour coding consistency with parent module</div>
+              <div class="gate-item-detail">The HIGH Chance drop zone must use green; the LOW Chance drop zone must use amber/orange. Do not use red for the LOW Chance zone — red carries a punitive connotation inconsistent with IAS visual-state conventions. This colour coding must match the parent module's Slide 9 reveal (green = high chance, orange = low chance) to avoid visual discontinuity. The incorrect-placement feedback border flash must also use orange, not red.</div>
+              <div class="gate-item-meta"><span class="tag" style="background:#e6f4ea;color:#1e7e34">Stage 2</span></div>
+              <div class="item-decision" data-item-id="aconv_req_3">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_aconv_req_3_accept" onclick="itemDecide('aconv_req_3','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('aconv_req_3')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-aconv_req_3" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('aconv_req_3','reassess')">Re-assess risk</button>
+      <button class="refine-preset" onclick="refineEntry('aconv_req_3','update_mitigation')">Update mitigation</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_aconv_req_3" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('aconv_req_3')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item" style="border-left:3px solid #856404;padding-left:12px">
+              <div class="gate-item-title">false-friend: probability vs chance — feedback string audit</div>
+              <div class="gate-item-detail">Before publication, conduct a full string audit across all six stages. Flag any instance of 'probability', 'probable', or 'likelihood' in student-facing text and replace with 'chance'. This is the primary false-friend risk (KB false_friend id 155, high severity) for this applet. The audit must cover: zone labels, card text, correct feedback strings, incorrect/repair feedback strings, sentence-completion options (Stage 4), and the closing contrastive reveal (Stage 6).</div>
+              <div class="gate-item-meta"><span class="tag" style="background:#fde8e8;color:#c0392b">Not addressed</span></div>
+              <div class="item-decision" data-item-id="aconv_req_4">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_aconv_req_4_accept" onclick="itemDecide('aconv_req_4','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('aconv_req_4')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-aconv_req_4" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('aconv_req_4','reassess')">Re-assess risk</button>
+      <button class="refine-preset" onclick="refineEntry('aconv_req_4','update_mitigation')">Update mitigation</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_aconv_req_4" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('aconv_req_4')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+    </div></div>
+
+    <div class="section-header" style="color:#c0392b">Misconception Target</div>
+    <div class="card" style="border-color:#f5c6cb"><div class="card-body">
+      <div class="gate-item-title">Target: M281 — Students believe all uncertain events are equally likely (equally-likely default), manifesting as placing all uncertain event cards in the same zone or claiming the sort is arbitrary.</div>
+      <div class='gate-item-detail'>Students believe all uncertain events are equally likely — if something can happen or not happen, they default to 50/50. In a binary HIGH/LOW sort, this manifests as students placing all uncertain events in the same category (typically HIGH, since 'it could happen') or expressing that the sort is arbitrary because 'both could happen'. This is the highest-severity misconception for this applet and the primary reason the binary sort interaction was designed.</div>
+      <div class='gate-item-meta'><span class='tag' style='color:#c0392b'>high</span></div>
+      <div class="item-decision" data-item-id="misc_target">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_misc_target_accept" onclick="itemDecide('misc_target','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('misc_target')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-misc_target" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('misc_target','rescope')">Re-scope</button>
+      <button class="refine-preset" onclick="refineEntry('misc_target','add_detail')">Add detail</button>
+      <button class="refine-preset" onclick="refineEntry('misc_target','adjust_severity')">Adjust severity</button>
+      <button class="refine-preset" onclick="refineEntry('misc_target','remove')">Remove</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_misc_target" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('misc_target')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+    </div></div>
+
+    <div class="section-header">Secondary IAS Archetypes</div>
+    <div class="card"><div class="card-body">
+      <div style="display:flex;flex-wrap:wrap;gap:4px"><span class="tag" style="background:#f3e8ff;color:#7c3aed;margin:2px">Repair-Guided Feedback — Frequency Prompt</span><span class="tag" style="background:#f3e8ff;color:#7c3aed;margin:2px">Contrastive Feedback — Pair Reveal</span><span class="tag" style="background:#f3e8ff;color:#7c3aed;margin:2px">Highlight / Pulse / Emphasis — Drop Zone Activation</span></div>
+    </div></div>
+</div>
+
+<div class="val-panel">
+  <div class="val-progress" id="val-progress"></div>
+  <div id="val-btns"></div>
+  <div id="val-overall"></div>
+</div>
+<div class="overall-comment-box" id="ocb">
+  <textarea id="oca" placeholder="Directives for downstream agents (e.g. 'use balance-scale model for equations', 'prioritize misconception M250')..."></textarea>
+  <div class="btn-row">
+    <button class="btn btn-approve" onclick="submitOverall()">Submit</button>
+    <button class="btn btn-neutral" onclick="cancelOverallComment()">Cancel</button>
+  </div>
+</div>
+
+<div class="detail-modal-bg" id="detail-modal-bg" onclick="if(event.target===this)closeDetailModal()">
+  <div class="detail-modal" id="detail-modal">
+    <button class="tt-close" onclick="closeDetailModal()">&times;</button>
+    <div id="detail-modal-content"></div>
+  </div>
+</div>
+
+<script>
+// RKEY must be run-scoped, not just title-scoped, or state from a previous
+// review cycle (different run_dir, same gate name) leaks into a freshly
+// generated HTML via localStorage and shows a stale "Approved · <old date>"
+// decision on a gate the user has never touched in this session.
+// We derive run_dir from <body data-run-dir="..."> which render_gate always
+// sets. basename() keeps the key short — the run_dir basename is already
+// timestamp-unique (e.g. 2026-04-10T11-58-20).
+const RKEY = (function() {
+  var title = document.title.replace(/[^a-z0-9]/gi,'_');
+  var rd = (document.body && document.body.dataset && document.body.dataset.runDir) || '';
+  var rdBase = rd ? rd.split(/[\\/]/).filter(Boolean).pop() : '';
+  rdBase = rdBase.replace(/[^a-z0-9]/gi,'_');
+  return 'acrlds_gate_' + (rdBase ? rdBase + '_' : '') + title;
+})();
+
+// One-time garbage collection: sweep any legacy title-only acrlds_gate_* keys
+// that match this gate's title but have no run_dir component. Prevents stale
+// entries from accumulating in the browser forever.
+(function() {
+  try {
+    var title = document.title.replace(/[^a-z0-9]/gi,'_');
+    var legacyKey = 'acrlds_gate_' + title;
+    if (legacyKey !== RKEY && localStorage.getItem(legacyKey) !== null) {
+      localStorage.removeItem(legacyKey);
+    }
+  } catch(e) {}
+})();
+
+const load  = () => { try { return JSON.parse(localStorage.getItem(RKEY)||'{}'); } catch(e) { return {}; } };
+const save  = (d) => { try { localStorage.setItem(RKEY, JSON.stringify(d)); } catch(e) {} };
+const esc   = (s) => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+function autoGrow(el) {
+  el.style.height = 'auto';
+  el.style.height = el.scrollHeight + 'px';
+  el.classList.toggle('has-text', !!el.value.trim());
+}
+
+function itemDecide(id, type) {
+  var state = load();
+  if (!state.items) state.items = {};
+  var current = (state.items[id] || {}).type;
+  if (current === type) {
+    // Toggle off
+    if (state.items[id]) { delete state.items[id].type; }
+    if (state.items[id] && !state.items[id].type && !state.items[id].comment) delete state.items[id];
+  } else {
+    if (!state.items[id]) state.items[id] = {};
+    state.items[id].type = type;
+  }
+  save(state); renderItem(id); renderProgress(); renderOverall();
+}
+
+function saveItemComment(id) {
+  var area = document.getElementById('ca_' + id);
+  if (!area) return;
+  var state = load();
+  if (!state.items) state.items = {};
+  if (!state.items[id]) state.items[id] = {};
+  state.items[id].comment = area.value.trim();
+  // Clean up empty entries
+  if (!state.items[id].type && !state.items[id].comment) delete state.items[id];
+  save(state); renderProgress();
+}
+
+function renderItem(id) {
+  var state = load();
+  var item  = (state.items || {})[id] || {};
+  var activeType = item.type || null;
+  ['accept','flag'].forEach(function(t) {
+    var el = document.getElementById('ibtn_' + id + '_' + t);
+    if (el) el.className = 'ibtn' + (activeType === t ? ' active-' + t : '');
+  });
+  // Restore comment text
+  var area = document.getElementById('ca_' + id);
+  if (area && item.comment && !area.value) {
+    area.value = item.comment;
+    autoGrow(area);
+  }
+}
+
+function _countFlags() {
+  var state = load();
+  var items = state.items || {};
+  return Object.values(items).filter(function(i) { return i.type === 'flag'; }).length;
+}
+
+function renderProgress() {
+  const state = load();
+  const items = state.items || {};
+  const total = document.querySelectorAll('[data-item-id]').length;
+  const accepted = Object.values(items).filter(i => i.type === 'accept').length;
+  const flagged  = Object.values(items).filter(i => i.type === 'flag').length;
+  const commented = Object.values(items).filter(i => i.comment && !i.type).length;
+  const el = document.getElementById('val-progress');
+  if (!el) return;
+  var parts = [];
+  if (accepted > 0) parts.push('<span style="color:#1e7e34">' + accepted + ' accepted</span>');
+  if (flagged > 0) parts.push('<span style="color:#856404">' + flagged + ' flagged</span>');
+  if (commented > 0) parts.push(commented + ' commented');
+  var remaining = total - accepted - flagged;
+  if (remaining > 0) parts.push(remaining + ' pending');
+  el.innerHTML = '<strong>' + parts.join(' &middot; ') + '</strong> of ' + total + ' items';
+}
+
+function openOverallComment(pending) {
+  document.getElementById('ocb').style.display = 'block';
+  document.getElementById('ocb')._p = pending || 'rework';
+  document.getElementById('oca').focus();
+}
+function submitOverall() {
+  var pending = document.getElementById('ocb')._p || 'rework';
+  var comment = document.getElementById('oca').value.trim();
+  var state = load();
+  state.overall = { type: pending, comment: comment, timestamp: Date.now() };
+  save(state);
+  document.getElementById('ocb').style.display = 'none';
+  if (pending === 'rework') {
+    _submitGateDecision('rework_llm');
+  } else if (pending === 'approve_comments') {
+    _submitGateDecision('approved_with_comments');
+  } else {
+    _submitGateDecision('approved_with_flags');
+  }
+}
+
+function renderOverall() {
+  const state   = load();
+  const overall = state.overall || {};
+  const btns    = document.getElementById('val-btns');
+  const status  = document.getElementById('val-overall');
+  const flags   = _countFlags();
+
+  if (overall.type) {
+    const lbl = {approve:'Approved', approve_flags:'Approved with flags', rework:'Rework requested'};
+    const cls = {approve:'badge-approved', approve_flags:'badge-commented', rework:'badge-rework'};
+    const ts  = overall.timestamp ? ' \u00b7 '+new Date(overall.timestamp).toLocaleString() : '';
+    status.innerHTML = '<span class="'+(cls[overall.type]||'badge-approved')+'">'+
+      (lbl[overall.type]||overall.type)+'</span>'
+      + (overall.comment ? ' &mdash; <em>'+esc(overall.comment.slice(0,80))+'</em>' : '')
+      + ts;
+    btns.innerHTML = '<button class="btn btn-neutral" onclick="resetOverall()">Change decision</button>';
+  } else {
+    status.innerHTML = '';
+    if (flags > 0) {
+      btns.innerHTML =
+        '<button class="btn btn-approve" disabled title="'+flags+' items flagged — unflag or use Approve with Flags" style="opacity:.5;cursor:not-allowed">Approve</button>'+
+        '<button class="btn btn-neutral" style="background:#fff3cd;color:#856404;border:1px solid #f59e0b" onclick="openOverallComment(\'approve_flags\')">Approve with Flags ('+flags+')</button>'+
+        '<button class="btn btn-rework"  onclick="openOverallComment(\'rework\')">Request Rework</button>'+
+        '<button class="btn btn-neutral" onclick="editJsonAndExport()" style="font-size:12px">Edit JSON</button>';
+    } else {
+      btns.innerHTML =
+        '<button class="btn btn-approve" onclick="approveAndExport()">Approve</button>'+
+        '<button class="btn btn-neutral" onclick="approveWithCommentsAndExport()">Approve with Directives</button>'+
+        '<button class="btn btn-rework"  onclick="openOverallComment(\'rework\')">Request Rework</button>'+
+        '<button class="btn btn-neutral" onclick="editJsonAndExport()" style="font-size:12px">Edit JSON</button>';
+    }
+  }
+}
+function resetOverall() {
+  const state = load(); delete state.overall; save(state);
+  document.getElementById('oca').value = '';
+  renderOverall();
+}
+function exportAll() {
+  const state = load();
+  const blob = new Blob([JSON.stringify(state,null,2)],{type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = RKEY + '_decisions.json';
+  a.click();
+}
+function _getGateName() {
+  // Derive gate name from page title for standardized filename
+  var t = document.title;
+  if (t.match(/module.*sequence/i)) return 'CHAPTER_MODULE_SEQUENCE';
+  if (t.match(/lo.*brief/i) && t.match(/chapter/i)) return 'CHAPTER_LO_BRIEF';
+  if (t.match(/chapter.*research.*brief/i)) return 'CHAPTER_RESEARCH_BRIEF';
+  if (t.match(/applet.*research.*brief/i)) return 'APPLET_RESEARCH_BRIEF';
+  if (t.match(/applet.*ideal.*screen/i)) return 'APPLET_IDEAL_SCREENS';
+  if (t.match(/module.*research.*brief/i)) return 'MODULE_RESEARCH_BRIEF';
+  if (t.match(/module.*blueprint/i)) return 'IDEAL_MODULE_BLUEPRINT';
+  if (t.match(/research.*brief/i)) return 'MODULE_RESEARCH_BRIEF';
+  return t.replace(/[^a-zA-Z0-9]/g, '_').toUpperCase();
+}
+
+function _getGateType() {
+  // Hard gates: CHAPTER_MODULE_SEQUENCE, APPLET_IDEAL_SCREENS
+  var name = _getGateName();
+  return (name === 'CHAPTER_MODULE_SEQUENCE' || name === 'APPLET_IDEAL_SCREENS') ? 'hard' : 'soft';
+}
+
+function _captureEditedSequence() {
+  // For module sequence page: capture edited module list from DOM
+  var seqCards = document.querySelectorAll('#mod-list > .mod-card[data-pos]');
+  if (seqCards.length === 0) return null;
+  var state = load();
+  var items = state.items || {};
+  var seq = [];
+  seqCards.forEach(function(c) {
+    var pos = parseInt(c.dataset.pos);
+    var titleEl = c.querySelector('.mod-title-input') || c.querySelector('.mod-title');
+    var loEl = c.querySelector('.mod-lo-input') || c.querySelector('.mod-lo');
+    var ctEl = c.querySelector('.mod-ct-select');
+    var itemId = 'mod_' + pos;
+    var comment = (items[itemId] || {}).comment || '';
+    // Also check the textarea directly (may not be saved to localStorage yet)
+    var ta = document.getElementById('ca_' + itemId);
+    if (ta && ta.value.trim()) comment = ta.value.trim();
+    var entry = {
+      position: pos,
+      module_title: titleEl ? (titleEl.value || titleEl.textContent || '').trim() : '',
+      content_type: ctEl ? ctEl.value : (c.dataset.ct || 'Learn'),
+      lo: loEl ? (loEl.value || loEl.textContent || '').trim() : '',
+      lo_codes: JSON.parse(c.dataset.codes || '[]'),
+    };
+    if (comment) entry.entry_comments = comment;
+    seq.push(entry);
+  });
+  return { module_sequence: seq };
+}
+
+function _submitGateDecision(status) {
+  var runDir = document.body.dataset.runDir || '';
+  var gateName = document.body.dataset.gateName || _getGateName();
+  var state = load();
+  var comment = (state.overall || {}).comment || '';
+  var editedSeq = _captureEditedSequence();
+
+  // Separate flagged items for downstream consumption
+  var items = state.items || {};
+  var flags = {};
+  Object.keys(items).forEach(function(k) {
+    if (items[k].type === 'flag') {
+      flags[k] = { comment: items[k].comment || '' };
+    }
+  });
+
+  var payload = {
+    type: 'gate_decision',
+    run_dir: runDir,
+    gate_name: gateName,
+    status: status,
+    comment: comment,
+    decisions: items,
+    flags_for_downstream: flags,
+    approved_sequence: editedSeq,
+  };
+
+  // Update badge immediately
+  var badge = document.querySelector('.gate-badge');
+  if (badge) {
+    badge.textContent = status === 'rework_llm' ? 'REWORK REQUESTED' : 'APPROVED';
+    badge.style.background = status === 'rework_llm' ? '#f59e0b' : '#22c55e';
+  }
+
+  // If inside an iframe (LMS viewer), send to parent via postMessage
+  if (window.parent !== window) {
+    window.parent.postMessage(payload, '*');
+    return;
+  }
+
+  // If top-level (direct URL), POST to LMS API directly
+  fetch('/api/gates/submit', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(payload),
+  }).then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (data.error) { alert('Gate submission failed: ' + data.error); return; }
+      var msg = status === 'rework_llm'
+        ? 'Rework requested.'
+        : 'Gate approved' + (data.all_gates_approved ? ' — all gates done, finalizing...' : '.');
+      alert(msg);
+    })
+    .catch(function(err) {
+      // Fallback: download the file
+      console.warn('LMS API unavailable, falling back to file download:', err);
+      var decision = Object.assign({}, payload, { timestamp: new Date().toISOString() });
+      delete decision.type;
+      var blob = new Blob([JSON.stringify(decision,null,2)], {type:'application/json'});
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = gateName + '.gate.json';
+      a.click();
+    });
+}
+
+function approveAndExport() {
+  if (_countFlags() > 0) { renderOverall(); return; }
+  const state = load();
+  state.overall = { type: 'approve', comment: '', timestamp: Date.now() };
+  save(state);
+  renderOverall();
+  _submitGateDecision('approved');
+}
+
+function editJsonAndExport() {
+  // Open a textarea with the source JSON for manual editing
+  var jsonArea = document.getElementById('json-edit-area');
+  if (!jsonArea) {
+    var panel = document.createElement('div');
+    panel.id = 'json-edit-panel';
+    panel.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:200;display:flex;align-items:center;justify-content:center';
+    panel.innerHTML = '<div style="background:#fff;border-radius:12px;padding:24px;max-width:800px;width:90%;max-height:80vh;display:flex;flex-direction:column">'
+      + '<div style="font-size:16px;font-weight:700;margin-bottom:12px">Edit Source JSON</div>'
+      + '<textarea id="json-edit-area" style="flex:1;min-height:400px;font-family:monospace;font-size:13px;border:1px solid #ddd;border-radius:6px;padding:12px;resize:vertical"></textarea>'
+      + '<div style="margin-top:12px;display:flex;gap:10px">'
+      + '<button class="btn btn-approve" onclick="submitEditedJson()">Save &amp; Export</button>'
+      + '<button class="btn btn-neutral" onclick="cancelJsonEdit()">Cancel</button>'
+      + '</div></div>';
+    document.body.appendChild(panel);
+  }
+  // Load the source JSON file content (look for the backing .json file)
+  var srcEl = document.getElementById('gate-source-json');
+  if (srcEl) {
+    document.getElementById('json-edit-area').value = srcEl.textContent;
+  } else {
+    document.getElementById('json-edit-area').value = '// Source JSON not embedded. Paste your edited version here.';
+  }
+}
+
+function submitEditedJson() {
+  var area = document.getElementById('json-edit-area');
+  if (!area) return;
+  try {
+    var edited = JSON.parse(area.value);
+    const state = load();
+    state.overall = { type: 'rework', comment: 'Manual JSON edit', timestamp: Date.now() };
+    save(state);
+    // Export with edited_data
+    const gateName = _getGateName();
+    const gateType = _getGateType();
+    const decision = {
+      gate_name: gateName,
+      gate_type: gateType,
+      status: 'rework_manual',
+      timestamp: new Date().toISOString(),
+      overall_comment: 'Manual JSON edit',
+      decisions: state.items || {},
+      edited_data: edited,
+    };
+    var filename = gateName + '.gate.json';
+    var blob = new Blob([JSON.stringify(decision,null,2)],{type:'application/json'});
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = filename;
+    a.click();
+    document.getElementById('json-edit-panel').remove();
+    renderOverall();
+  } catch(e) {
+    alert('Invalid JSON: ' + e.message);
+  }
+}
+
+function cancelOverallComment() {
+  document.getElementById('ocb').style.display = 'none';
+}
+
+function cancelJsonEdit() {
+  var panel = document.getElementById('json-edit-panel');
+  if (panel) panel.remove();
+}
+
+// Detail modal — replaces hover tooltips
+function openDetailModal(html) {
+  document.getElementById('detail-modal-content').innerHTML = html;
+  document.getElementById('detail-modal-bg').classList.add('open');
+}
+function closeDetailModal() {
+  document.getElementById('detail-modal-bg').classList.remove('open');
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeDetailModal();
+});
+// Click handler for .tag-link elements — read nested .tag-tooltip content
+document.addEventListener('click', function(e) {
+  var link = e.target.closest('.tag-link');
+  if (!link) return;
+  var tip = link.querySelector('.tag-tooltip');
+  if (tip) { e.preventDefault(); e.stopPropagation(); openDetailModal(tip.innerHTML); }
+});
+
+function scrollToRef(id) {
+  var el = document.getElementById(id);
+  if (el) { el.scrollIntoView({behavior:'smooth',block:'center'});
+             el.classList.add('highlight-flash');
+             setTimeout(function(){el.classList.remove('highlight-flash')},900); }
+}
+
+/* ── Generalized entry refine (all gate types) ──────────────────── */
+function toggleEntryRefinePanel(entryId) {
+  var panel = document.getElementById('refine-panel-' + entryId);
+  if (!panel) return;
+  document.querySelectorAll('.mod-refine-panel').forEach(function(p) { if (p !== panel) p.style.display = 'none'; });
+  panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+}
+
+function refineEntry(entryId, preset) {
+  var decDiv = document.querySelector('[data-item-id="' + entryId + '"]');
+  if (!decDiv) return;
+
+  var promptMessages = {
+    'rescope': 'How should this entry be re-scoped?',
+    'add_detail': 'What detail should be added?',
+    'adjust_severity': 'What should the severity be changed to and why?',
+    'remove': 'Confirm removal — why should this entry be removed?',
+    'reassess': 'How should the confidence/evidence be re-assessed?',
+    'adjust_scope': 'How should the scope be adjusted?',
+    'clarify': 'What needs clarification?',
+    'update_mitigation': 'What is the updated mitigation strategy?',
+    'propose_mitigation': 'Propose a mitigation for this gap:',
+    'change_trope': 'Which trope should be used instead?',
+    'adjust_cpa': 'What CPA phase should this be?',
+    'change_interaction': 'What interaction mode should be used?',
+    'adjust_scaffolding': 'What scaffolding level should this be?',
+    'adjust_placement': 'How should the placement be adjusted?',
+    'sharpen': 'How should this be sharpened?',
+    'expand': 'What should be expanded?',
+    'add': 'What entry should be added?',
+    'split': 'How should this be split?',
+    'custom': 'Describe the refinement:'
+  };
+
+  var instruction = prompt(promptMessages[preset] || 'Instruction for ' + preset + ':');
+  if (instruction === null) return;
+  if (!instruction.trim() && preset !== 'remove') return;
+
+  var runDir = document.body.dataset.runDir || '';
+  var gateName = document.body.dataset.gateName || _getGateName();
+  if (!runDir) { alert('Cannot refine: run_dir not set. Open this page via LMS.'); return; }
+
+  // Find the entry's parent card/section for loading state
+  var card = decDiv.closest('.card, .mod-card, .gate-item, [id^="gate-"]') || decDiv.parentElement;
+  if (card) card.style.opacity = '0.5';
+
+  // Close refine panel
+  var panel = document.getElementById('refine-panel-' + entryId);
+  if (panel) panel.style.display = 'none';
+
+  fetch(_lmsApiBase() + '/api/gates/refine-entry', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      run_dir: runDir,
+      gate_name: gateName,
+      entry_id: entryId,
+      preset: preset,
+      instruction: instruction
+    }),
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (card) card.style.opacity = '1';
+    if (data.error) { alert('Refine failed: ' + data.error); return; }
+    // Reload the page to show updated gate HTML (re-rendered server-side)
+    window.location.reload();
+  })
+  .catch(function(e) {
+    if (card) card.style.opacity = '1';
+    alert('Refine failed: ' + e + '\n\nMake sure LMS is running.');
+  });
+}
+
+function _lmsApiBase() {
+  if (window.location.protocol === 'file:') return 'http://localhost:8420';
+  return '';
+}
+
+/* ── Shared read-helper: prime local UI from server gate state ───────
+ * Both entry points to gate approval (the chapter-page table buttons and
+ * this page's own Approve/Rework buttons) POST through the same
+ * /api/gates/submit endpoint. But until now only the in-page flow wrote
+ * to this HTML's localStorage, so when a reviewer approved via the
+ * chapter-page table the gate HTML would still show "Approve" buttons
+ * at the bottom — disconnected from the server's .gate.json.
+ *
+ * This function is the read-side equivalent of submitGateDecision: one
+ * place that fetches /api/gates/status and reconciles the UI with the
+ * server's decision. Called once on DOMContentLoaded. Silent on any
+ * failure (no LMS, CORS, offline file:// review) — renderOverall will
+ * still show whatever localStorage has.
+ * ────────────────────────────────────────────────────────────────────*/
+function primeStateFromServer() {
+  var runDir = (document.body && document.body.dataset && document.body.dataset.runDir) || '';
+  var gateName = (document.body && document.body.dataset && document.body.dataset.gateName)
+                 || (typeof _getGateName === 'function' ? _getGateName() : '');
+  if (!runDir || !gateName) return;
+
+  var url = _lmsApiBase() + '/api/gates/status?run_dir=' + encodeURIComponent(runDir);
+  fetch(url)
+    .then(function(r) { return r.ok ? r.json() : null; })
+    .then(function(data) {
+      if (!data || !data.gates) return;
+      var serverGate = data.gates[gateName];
+      if (!serverGate || serverGate.status === 'not_found') return;
+
+      // Map server status → local overall.type vocabulary
+      var typeMap = {
+        'approved':               'approve',
+        'approved_with_comments': 'approve',
+        'approved_with_flags':    'approve_flags',
+        'rework_llm':             'rework',
+        'rework_manual':          'rework'
+      };
+      var overallType = typeMap[serverGate.status];
+      if (!overallType) return;
+
+      var state = load();
+      var existing = state.overall || {};
+      // If the user has an unsynced local decision, leave it alone.
+      // A `fromServer: true` marker lets us tell "primed from server"
+      // apart from "user clicked something and hasn't pushed yet".
+      if (existing.type && !existing.fromServer) return;
+
+      state.overall = {
+        type: overallType,
+        comment: serverGate.comment || '',
+        timestamp: serverGate.submitted_at || null,
+        fromServer: true
+      };
+      save(state);
+      renderOverall();
+    })
+    .catch(function() { /* silent — not fatal */ });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('[data-item-id]').forEach(el => renderItem(el.dataset.itemId));
+  renderProgress(); renderOverall();
+  primeStateFromServer();
+});
+</script>
+</body>
+</html>

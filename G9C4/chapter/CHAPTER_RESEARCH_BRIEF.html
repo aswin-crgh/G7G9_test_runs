@@ -1,0 +1,1808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter Research Brief</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+       font-size: 15px; line-height: 1.6; color: #1a1a1a; background: #f5f5f5; }
+.page { max-width: 1060px; margin: 0 auto; padding: 32px 24px 110px; }
+
+.header { background: #fff; border-radius: 10px; padding: 28px 32px 24px;
+          margin-bottom: 20px; border: 1px solid #e0e0e0; }
+.header-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.file-name { font-size: 13px; color: #888; margin-bottom: 4px; }
+.title { font-size: 22px; font-weight: 700; }
+.meta  { font-size: 13px; color: #666; margin-top: 4px; }
+.gate-badge { display: inline-block; padding: 4px 14px; border-radius: 20px;
+              font-size: 13px; font-weight: 600; margin-top: 10px;
+              background: #eef2ff; color: #4f46e5; }
+
+.card { background: #fff; border-radius: 10px; border: 1px solid #e0e0e0;
+        margin-bottom: 14px; overflow: hidden; }
+.card-body { padding: 16px 20px; }
+
+.section-header { font-size: 16px; font-weight: 700; color: #111;
+                  margin: 28px 0 14px; display: flex; align-items: center; gap: 10px; }
+.section-header::after { content:''; flex:1; height:1px; background:#e0e0e0; }
+
+.gate-section { margin-bottom: 20px; }
+.gate-section-title { font-size: 14px; font-weight: 700; color: #333;
+                       margin-bottom: 8px; padding-bottom: 4px;
+                       border-bottom: 1px solid #e8e8e8; }
+.gate-item { padding: 10px 0; border-bottom: 1px solid #f5f5f5; font-size: 13px; }
+.gate-item:last-child { border-bottom: none; }
+.gate-item-title { font-weight: 600; color: #222; }
+.gate-item-detail { color: #666; margin-top: 2px; }
+.gate-item-meta { display: flex; gap: 6px; margin-top: 4px; flex-wrap: wrap; }
+.gate-narrative { font-size: 13px; color: #444; line-height: 1.7;
+                  white-space: pre-wrap; background: #fafafa;
+                  border-radius: 6px; padding: 14px; }
+
+/* Per-slide / per-screen blueprint enrichment strip */
+.bp-slide-enrich { margin: 6px 0 4px 34px; padding: 8px 10px;
+                   background: #f9fafb; border-left: 2px solid #e5e7eb;
+                   border-radius: 0 4px 4px 0; display: flex;
+                   flex-direction: column; gap: 4px; }
+.bp-enrich-row { display: flex; align-items: flex-start; gap: 8px;
+                 font-size: 11px; line-height: 1.5; flex-wrap: wrap; }
+.bp-enrich-label { flex: 0 0 110px; color: #6b7280; font-weight: 700;
+                   text-transform: uppercase; letter-spacing: 0.4px;
+                   padding-top: 3px; }
+.bp-chip { display: inline-block; padding: 2px 7px; border-radius: 10px;
+           font-size: 11px; line-height: 1.4; cursor: default; position: relative; }
+.bp-chip.vocab    { background: #e6f4ea; color: #1e7e34; }
+.bp-chip.conv     { background: #fff7ed; color: #9a3412; }
+.bp-chip.textbook { background: #ecfeff; color: #0e7490; }
+.bp-chip.applet   { background: #fef3c7; color: #92400e; }
+.bp-chip.video    { background: #fde8e8; color: #c0392b; }
+.bp-chip.vm       { background: #eef2ff; color: #4338ca; }
+/* Phase 2 blueprint chips */
+.bp-chip.concept-intro { background: #d1fae5; color: #064e3b; }
+.bp-chip.concept-reinf { background: #e0f2fe; color: #075985; }
+.bp-chip.misc          { background: #fde8e8; color: #c0392b; }
+.bp-chip.prereq        { background: #fef3c7; color: #78350f;
+                         border: 1px dashed #fcd34d; }
+.bp-chip.vocab-used    { background: #f0fdf4; color: #15803d; }
+.bp-chip.vocab-reinf   { background: #dcfce7; color: #14532d;
+                         font-weight: 600; }
+.bp-concept-tag { display: inline-block; font-size: 9px; text-transform: uppercase;
+                  letter-spacing: 0.4px; opacity: 0.7; margin-right: 3px; }
+.bp-mini-tag { display: inline-block; background: #fff; color: #6b7280;
+               padding: 0 5px; border-radius: 8px; font-size: 9px;
+               border: 1px solid #e5e7eb; margin-left: 2px; }
+
+.tag { display: inline-block; border-radius: 3px; padding: 1px 7px;
+       font-size: 11px; font-weight: 600; }
+.bp-cpa { font-size: 10px; font-weight: 600; border-radius: 3px; padding: 1px 6px; }
+.bp-cpa-c { background: #dbeafe; color: #1d4ed8; }
+.bp-cpa-p { background: #fef3c7; color: #92400e; }
+.bp-cpa-a { background: #ede9fe; color: #6d28d9; }
+.tag-op   { background: #eef2ff; color: #4f46e5; }
+
+/* Module sequence cards */
+.mod-card { background: #fff; border: 1px solid #e0e0e0; border-radius: 10px;
+            padding: 16px 20px; margin-bottom: 12px; position: relative; }
+.mod-pos { font-size: 28px; font-weight: 800; color: #4f46e5; float: left;
+           margin-right: 16px; min-width: 36px; text-align: center; line-height: 1; }
+.mod-body { overflow: hidden; }
+.mod-title { font-size: 15px; font-weight: 700; color: #222; }
+.mod-lo { font-size: 13px; color: #444; margin-top: 4px; }
+.mod-codes { margin-top: 6px; }
+.mod-code { display: inline-block; background: #f0f0f0; color: #555; border-radius: 3px;
+            padding: 1px 6px; font-size: 10px; font-family: monospace; margin: 1px 2px; }
+.mod-notes { font-size: 12px; color: #856404; background: #fffbeb; border-radius: 4px;
+             padding: 4px 8px; margin-top: 6px; }
+.mod-edit-controls { margin-top: 10px; padding-top: 10px; border-top: 1px solid #f0f0f0;
+                     display: flex; gap: 6px; align-items: center; }
+.mod-edit-btn { border: 1px solid #ddd; background: #fff; border-radius: 4px;
+                padding: 2px 8px; font-size: 12px; cursor: pointer; color: #555; }
+.mod-edit-btn:hover { border-color: #999; color: #111; }
+
+/* Refine panel & presets */
+.mod-refine-panel { margin-top: 8px; padding: 8px 0; }
+.refine-presets { display: flex; gap: 6px; flex-wrap: wrap; }
+.refine-preset { border: 1px solid #c7d2fe; background: #eef2ff; border-radius: 5px;
+                 padding: 3px 10px; font-size: 12px; font-weight: 600; cursor: pointer;
+                 color: #4f46e5; transition: all .12s; }
+.refine-preset:hover { background: #dbeafe; border-color: #818cf8; }
+.refine-preset:disabled { opacity: .5; cursor: not-allowed; }
+
+/* Undo bar */
+.undo-bar { display: none; background: #fffbeb; border: 1px solid #f59e0b; border-radius: 8px;
+            padding: 8px 16px; margin-bottom: 12px; align-items: center; gap: 12px;
+            font-size: 13px; color: #856404; }
+.undo-btn { border: 1px solid #f59e0b; background: #fff; border-radius: 4px;
+            padding: 2px 10px; font-size: 12px; cursor: pointer; color: #856404;
+            font-weight: 600; }
+.undo-btn:hover { background: #fffbeb; }
+
+/* Module card states */
+.mod-card.accepted { border-color: #22c55e; background: #f0fdf4; }
+.mod-card.refined  { border-left: 3px solid #4f46e5; }
+.mod-card.refining { opacity: .6; pointer-events: none; }
+
+/* Upgrade map */
+.upgrade-card { background: #fff; border: 1px solid #e0e0e0; border-radius: 8px;
+                padding: 12px 16px; margin-bottom: 8px; }
+.upgrade-target { font-weight: 600; font-size: 14px; color: #333; }
+.upgrade-just { font-size: 13px; color: #666; margin-top: 4px; }
+
+/* Curriculum alignment table */
+.align-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.align-table th { background: #f5f5f5; text-align: left; padding: 8px 12px;
+                  font-weight: 600; color: #555; font-size: 12px;
+                  border-bottom: 2px solid #e0e0e0; }
+.align-table td { padding: 8px 12px; border-bottom: 1px solid #f0f0f0; color: #333; }
+.align-table tr:last-child td { border-bottom: none; }
+
+/* Per-item decision infra */
+.item-decision { margin-top: 9px; padding-top: 8px; border-top: 1px solid rgba(0,0,0,.06); }
+.item-btns { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.ibtn { border: 1px solid #ddd; background: #fff; border-radius: 5px; padding: 3px 10px;
+        font-size: 12px; font-weight: 600; cursor: pointer; color: #555;
+        transition: all .12s; }
+.ibtn:hover { border-color: #999; color: #111; }
+.ibtn.active-accept { background: #e6f4ea; border-color: #22c55e; color: #1e7e34; }
+.ibtn.active-flag   { background: #fff3cd; border-color: #f59e0b; color: #856404; }
+.item-comment-inline { margin-top: 6px; }
+.inline-comment { width: 100%; border: 1px solid #e8e8e8; border-radius: 5px;
+                  padding: 6px 9px; font-size: 12px; resize: none; overflow: hidden;
+                  font-family: inherit; color: #333; background: #fafafa;
+                  transition: border-color .15s, background .15s; }
+.inline-comment:focus { border-color: #818cf8; background: #fff; outline: none; }
+.inline-comment.has-text { border-color: #c7d2fe; background: #f5f3ff; }
+
+/* Validation panel */
+.val-panel { position: fixed; bottom: 0; left: 0; right: 0; background: #fff;
+             border-top: 1px solid #e0e0e0; padding: 12px 24px;
+             display: flex; align-items: center; gap: 14px;
+             box-shadow: 0 -2px 12px rgba(0,0,0,.08); z-index: 100; }
+.val-progress { font-size: 13px; color: #888; flex: 1; }
+.val-progress strong { color: #1a1a1a; }
+.btn { padding: 8px 18px; border-radius: 6px; border: none; cursor: pointer;
+       font-size: 14px; font-weight: 600; transition: opacity .15s; }
+.btn:hover { opacity: .85; }
+.btn-approve { background: #22c55e; color: #fff; }
+.btn-neutral { background: #f0f0f0; color: #333; }
+.btn-rework  { background: #ef4444; color: #fff; }
+.overall-comment-box { display: none; padding: 14px 24px; background: #fafafa;
+                        border-top: 1px solid #e8e8e8;
+                        position: fixed; bottom: 52px; left: 0; right: 0;
+                        z-index: 101; box-shadow: 0 -2px 8px rgba(0,0,0,.1); }
+.overall-comment-box textarea { width: 100%; border: 1px solid #ddd; border-radius: 6px;
+                                  padding: 10px; font-size: 14px; resize: vertical;
+                                  min-height: 80px; font-family: inherit; }
+.overall-comment-box .btn-row { margin-top: 10px; display: flex; gap: 10px; }
+.badge-approved  { background:#e6f4ea; color:#1e7e34; border-radius:6px; padding:6px 14px; font-weight:600; font-size:14px; }
+.badge-rework    { background:#fde8e8; color:#c0392b; border-radius:6px; padding:6px 14px; font-weight:600; font-size:14px; }
+.badge-commented { background:#fff3cd; color:#856404; border-radius:6px; padding:6px 14px; font-weight:600; font-size:14px; }
+
+/* Clickable reference tags — open modal on click */
+.tag-link { cursor: pointer; text-decoration: none; transition: opacity .15s; position: relative; }
+.tag-link:hover { opacity: .8; }
+.tag-tooltip { display: none; }
+
+/* Detail modal (shared — single instance at page bottom) */
+.detail-modal-bg { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+                   background: rgba(0,0,0,.5); z-index: 200; align-items: center; justify-content: center; }
+.detail-modal-bg.open { display: flex; }
+.detail-modal { background: #1a1a1a; color: #fff; border-radius: 12px; padding: 20px 24px;
+                max-width: 560px; width: 90%; max-height: 80vh; overflow-y: auto;
+                box-shadow: 0 8px 32px rgba(0,0,0,.4); font-size: 13px; line-height: 1.6;
+                position: relative; }
+.detail-modal .tt-title { font-weight: 700; font-size: 15px; margin-bottom: 8px; color: #fff; }
+.detail-modal .tt-desc { color: #ddd; margin-bottom: 6px; }
+.detail-modal .tt-row { display: flex; gap: 8px; margin: 4px 0; font-size: 12px; }
+.detail-modal .tt-label { color: #999; min-width: 80px; font-weight: 600; }
+.detail-modal .tt-val { color: #eee; }
+.detail-modal .tt-svg { margin-top: 8px; background: #fff; border-radius: 6px;
+                         padding: 8px; text-align: center; }
+.detail-modal .tt-svg svg { max-width: 300px; max-height: 160px; }
+.detail-modal .tt-close { position: absolute; top: 10px; right: 14px; background: none;
+                           border: none; color: #888; font-size: 20px; cursor: pointer; }
+.detail-modal .tt-close:hover { color: #fff; }
+.detail-modal .tt-codes { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 2px; }
+.detail-modal .tt-code-chip { background: #333; color: #aaa; padding: 1px 6px;
+                               border-radius: 3px; font-family: monospace; font-size: 11px; }
+.gate-item[id] { scroll-margin-top: 80px; }
+.gate-evidence { margin-top: 4px; }
+.gate-evidence summary { font-size: 12px; color: #888; cursor: pointer; font-weight: 600; }
+.gate-evidence summary:hover { color: #4f46e5; }
+.gate-evidence-body { font-size: 13px; color: #666; margin-top: 4px; line-height: 1.6; }
+.highlight-flash { animation: flash-bg .8s ease; }
+@keyframes flash-bg { 0% { background: #eef2ff; } 100% { background: transparent; } }
+
+@media print {
+  body { background: #fff; font-size: 11px; }
+  .page { padding: 0; max-width: none; }
+  .val-panel, .overall-comment-box, .item-decision, .item-btns,
+  .item-comment-inline, .mod-edit-controls { display: none !important; }
+  .card { break-inside: avoid; page-break-inside: avoid; }
+  .mod-card { break-inside: avoid; }
+  a[href]::after { content: none; }
+}
+/* ── Responsive overrides (injected for presentation) ── */
+@media (max-width: 1100px) {
+  .container, .main-content { max-width: 100% !important; padding: 0 12px !important; }
+}
+@media (max-width: 768px) {
+  body { padding: 12px !important; font-size: 13px; }
+  .header-bar { flex-direction: column; gap: 8px; padding: 12px !important; }
+  .header-bar h1, .header-bar .title { font-size: 18px !important; }
+
+  /* Slide rows: stack thumb above annotations */
+  .slide-row { grid-template-columns: 1fr !important; }
+  .slide-thumb, .slide-thumb img { width: 100% !important; max-width: 100% !important; }
+
+  /* Quad strip: 2x2 grid */
+  .quad-strip { grid-template-columns: repeat(2, 1fr) !important; gap: 8px !important; }
+
+  /* Tables: horizontal scroll */
+  .card-body { overflow-x: auto; }
+  table { min-width: 500px; }
+  .align-table { min-width: 400px; }
+
+  /* Cards */
+  .card-body { padding: 12px !important; }
+
+  /* Score badges */
+  .score-badge, .verdict-badge { font-size: 12px !important; }
+
+  /* Gate module cards */
+  .mod-card { padding: 10px !important; }
+  .mod-edit-controls { flex-wrap: wrap; gap: 4px; }
+  .mod-edit-btn { font-size: 11px !important; padding: 3px 6px !important; }
+
+  /* Annotations grid */
+  .ann-grid { grid-template-columns: 1fr !important; }
+
+  /* Overlay panels */
+  .overlay-panel { width: 95vw !important; max-width: 95vw !important; }
+
+  /* Pre blocks */
+  pre { font-size: 11px !important; white-space: pre-wrap !important; word-break: break-word !important; }
+
+  /* Section headers */
+  .section-header { font-size: 12px !important; padding: 10px 12px !important; }
+
+  /* Enrichment row in applet reviews */
+  .enrichment-row { flex-direction: column !important; }
+  .enrichment-col { width: 100% !important; min-width: 0 !important; }
+}
+@media (max-width: 480px) {
+  .quad-strip { grid-template-columns: 1fr !important; }
+  .slide-thumb img { width: 100% !important; }
+  .header-bar h1, .header-bar .title { font-size: 16px !important; }
+}</style>
+</head>
+<body data-run-dir="/Users/aswin/Work/agentic/ACRLDS/outputs/G9C4/2026-04-12T12-14-31" data-gate-name="CHAPTER_RESEARCH_BRIEF">
+<div class="page">
+  <div class="header">
+    <div class="header-top">
+      <div>
+        <div class="file-name">G9C4</div>
+        <div class="title">Chapter Research Brief</div>
+        <div class="meta">Grade 9 | Probability</div>
+      </div>
+      <div><span class="gate-badge">GATE — Requires Approval</span></div>
+    </div>
+  </div>
+  <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;
+                padding:10px 20px;margin-bottom:16px;display:flex;align-items:center;
+                gap:14px;flex-wrap:wrap;font-size:13px;color:#475569">
+      <span style="color:#94a3b8;font-size:11px;text-transform:uppercase;letter-spacing:.5px;font-weight:600">Context</span>
+      <strong>G9C4</strong> &middot; Grade 9 &middot; Probability &middot; <span style="background:#dbeafe;color:#1d4ed8;padding:2px 8px;border-radius:4px;font-weight:600">Kurikulum Merdeka</span> &middot; ID &middot; Band 7-9
+    </div>
+  
+    <div class="section-header">Learning Objective</div>
+    <div class="card"><div class="card-body">
+      <div style="font-size:14px;color:#333">Given a probability experiment, students can: (1) determine the sample space using listing, tables, or tree diagrams; (2) calculate theoretical probability P(A) = n(A)/n(S) and apply the complement rule P(Aᶜ) = 1 − P(A); (3) calculate relative frequency (empirical probability) from experimental data and explain how it converges to theoretical probability as trials increase; (4) calculate expected frequency using P(A) × k; and (5) distinguish population from sample, identify representative samples, and evaluate random sampling methods — demonstrating mastery of both theoretical and empirical probability within the Kurikulum Merdeka Grade 9 scope.</div>
+    </div></div>
+
+    <div class="section-header">Misconception Inventory (10)</div>
+    <div class="card"><div class="card-body">
+      
+            <div class="gate-item">
+              <div class="gate-item-title">#1 — Students treat probability as a vague linguistic label ('probably', 'unlikely') rather than a precise number between 0 and 1. They resist assigning exact values and conflate everyday usage with mathematical definition.</div>
+              <details class="gate-evidence">
+                  <summary>Surfacing strategy</summary>
+                  <div class="gate-evidence-body">Present a scenario (e.g., drawing a red marble from a bag) and ask students to describe the chance in words, then in a number. Reveal the gap between 'probably not' and P = 1/5 = 0.2. Use a Math_Trap slide that shows a student saying 'it's unlikely' and asks: what is the actual probability?</div>
+                </details>
+              <div class="gate-item-meta"><span class="tag" style="color:#c0392b">Severity: high</span><span class="tag tag-op">Math_Trap</span><span class="tag" style="background:#f3e8ff;color:#7c3aed">Parameter Manipulation (probability number line placement)</span><span class="tag" style="background:#dbeafe;color:#1d4ed8">VIR 3</span></div>
+              <div class="item-decision" data-item-id="misc_0">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_misc_0_accept" onclick="itemDecide('misc_0','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('misc_0')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-misc_0" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('misc_0','rescope')">Re-scope</button>
+      <button class="refine-preset" onclick="refineEntry('misc_0','add_detail')">Add detail</button>
+      <button class="refine-preset" onclick="refineEntry('misc_0','adjust_severity')">Adjust severity</button>
+      <button class="refine-preset" onclick="refineEntry('misc_0','remove')">Remove</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_misc_0" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('misc_0')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item">
+              <div class="gate-item-title">#2 — Students believe that if an event hasn't happened for a while, it is 'due' — the gambler's fallacy. They think past outcomes influence future independent trials (e.g., 'we've had 5 tails in a row, so heads is more likely next').</div>
+              <details class="gate-evidence">
+                  <summary>Surfacing strategy</summary>
+                  <div class="gate-evidence-body">Run a coin-flip simulation showing a streak of tails, then ask students to predict the next flip. Surface the gambler's fallacy explicitly via a Math_Trap slide before the simulation applet.</div>
+                </details>
+              <div class="gate-item-meta"><span class="tag" style="color:#c0392b">Severity: high</span><span class="tag tag-op">Math_Trap</span><span class="tag" style="background:#f3e8ff;color:#7c3aed">Parameter Manipulation (trial count slider)</span><span class="tag" style="background:#dbeafe;color:#1d4ed8">VIR 211</span></div>
+              <div class="item-decision" data-item-id="misc_1">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_misc_1_accept" onclick="itemDecide('misc_1','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('misc_1')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-misc_1" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('misc_1','rescope')">Re-scope</button>
+      <button class="refine-preset" onclick="refineEntry('misc_1','add_detail')">Add detail</button>
+      <button class="refine-preset" onclick="refineEntry('misc_1','adjust_severity')">Adjust severity</button>
+      <button class="refine-preset" onclick="refineEntry('misc_1','remove')">Remove</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_misc_1" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('misc_1')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item">
+              <div class="gate-item-title">#3 — Students confuse relative frequency (empirical) with theoretical probability, believing that if they flip a coin 10 times and get 6 heads, then P(heads) = 6/10 = 0.6 — permanently, not just as an estimate.</div>
+              <details class="gate-evidence">
+                  <summary>Surfacing strategy</summary>
+                  <div class="gate-evidence-body">Use a convergence simulation (VIR 211): show relative frequency fluctuating wildly at low trial counts and stabilising near 0.5 as trials increase. Ask: 'Does the relative frequency equal the theoretical probability? When does it get close?'</div>
+                </details>
+              <div class="gate-item-meta"><span class="tag" style="color:#c0392b">Severity: high</span><span class="tag" style="background:#f3e8ff;color:#7c3aed">Parameter Manipulation (trial count slider showing convergence)</span><span class="tag" style="background:#dbeafe;color:#1d4ed8">VIR 211</span></div>
+              <div class="item-decision" data-item-id="misc_2">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_misc_2_accept" onclick="itemDecide('misc_2','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('misc_2')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-misc_2" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('misc_2','rescope')">Re-scope</button>
+      <button class="refine-preset" onclick="refineEntry('misc_2','add_detail')">Add detail</button>
+      <button class="refine-preset" onclick="refineEntry('misc_2','adjust_severity')">Adjust severity</button>
+      <button class="refine-preset" onclick="refineEntry('misc_2','remove')">Remove</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_misc_2" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('misc_2')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item">
+              <div class="gate-item-title">#4 — Students omit outcomes from the sample space, especially in compound events — they list some combinations but miss others (e.g., for two coins they list HH, HT, TT but forget TH, treating HT and TH as the same).</div>
+              <details class="gate-evidence">
+                  <summary>Surfacing strategy</summary>
+                  <div class="gate-evidence-body">Use a systematic table (VIR 24) to make all cells visible. Ask students to first list outcomes freely, then complete the table — the empty cells reveal omissions. A Math_Trap slide can show the incomplete list and ask 'what's missing?'</div>
+                </details>
+              <div class="gate-item-meta"><span class="tag" style="color:#c0392b">Severity: high</span><span class="tag tag-op">Math_Trap</span><span class="tag" style="background:#f3e8ff;color:#7c3aed">Drag-to-classify (sorting outcomes into a sample space table)</span><span class="tag" style="background:#dbeafe;color:#1d4ed8">VIR 24</span></div>
+              <div class="item-decision" data-item-id="misc_3">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_misc_3_accept" onclick="itemDecide('misc_3','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('misc_3')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-misc_3" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('misc_3','rescope')">Re-scope</button>
+      <button class="refine-preset" onclick="refineEntry('misc_3','add_detail')">Add detail</button>
+      <button class="refine-preset" onclick="refineEntry('misc_3','adjust_severity')">Adjust severity</button>
+      <button class="refine-preset" onclick="refineEntry('misc_3','remove')">Remove</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_misc_3" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('misc_3')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item">
+              <div class="gate-item-title">#5 — Students believe that equally likely outcomes are always the case — they assume P(head) = P(tail) = 1/2 for any two-outcome experiment, including biased coins or spinners with unequal sectors.</div>
+              <details class="gate-evidence">
+                  <summary>Surfacing strategy</summary>
+                  <div class="gate-evidence-body">Present a spinner with unequal sectors and ask for P(red). Surface the assumption via a Math_Trap: 'There are 3 colours, so P(red) = 1/3?' Correct by counting sector area/proportion.</div>
+                </details>
+              <div class="gate-item-meta"><span class="tag" style="color:#856404">Severity: medium</span><span class="tag tag-op">Math_Trap</span><span class="tag" style="background:#f3e8ff;color:#7c3aed">Parameter Manipulation (spinner sector size adjustment)</span><span class="tag" style="background:#dbeafe;color:#1d4ed8">VIR 254</span></div>
+              <div class="item-decision" data-item-id="misc_4">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_misc_4_accept" onclick="itemDecide('misc_4','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('misc_4')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-misc_4" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('misc_4','rescope')">Re-scope</button>
+      <button class="refine-preset" onclick="refineEntry('misc_4','add_detail')">Add detail</button>
+      <button class="refine-preset" onclick="refineEntry('misc_4','adjust_severity')">Adjust severity</button>
+      <button class="refine-preset" onclick="refineEntry('misc_4','remove')">Remove</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_misc_4" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('misc_4')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item">
+              <div class="gate-item-title">#6 — Students apply the complement rule incorrectly — they subtract from the wrong base (e.g., P(Aᶜ) = 1 − n(A) instead of 1 − P(A)), or they do not recognise when to use the complement as a shortcut.</div>
+              <details class="gate-evidence">
+                  <summary>Surfacing strategy</summary>
+                  <div class="gate-evidence-body">Present a problem where direct calculation is tedious (e.g., P(at least one head in 3 flips)) and ask students to calculate directly. Then reveal the complement shortcut. A Math_Trap can show the error of subtracting counts rather than probabilities.</div>
+                </details>
+              <div class="gate-item-meta"><span class="tag" style="color:#856404">Severity: medium</span><span class="tag tag-op">Math_Trap</span><span class="tag" style="background:#f3e8ff;color:#7c3aed">Drag-to-classify (matching events to their complements on a probability number line)</span><span class="tag" style="background:#dbeafe;color:#1d4ed8">VIR 3</span></div>
+              <div class="item-decision" data-item-id="misc_5">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_misc_5_accept" onclick="itemDecide('misc_5','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('misc_5')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-misc_5" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('misc_5','rescope')">Re-scope</button>
+      <button class="refine-preset" onclick="refineEntry('misc_5','add_detail')">Add detail</button>
+      <button class="refine-preset" onclick="refineEntry('misc_5','adjust_severity')">Adjust severity</button>
+      <button class="refine-preset" onclick="refineEntry('misc_5','remove')">Remove</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_misc_5" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('misc_5')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item">
+              <div class="gate-item-title">#7 — Students confuse population and sample — they treat any group of data as a population, or they believe a large sample IS the population. They do not understand that a sample is a subset selected to represent the whole.</div>
+              <details class="gate-evidence">
+                  <summary>Surfacing strategy</summary>
+                  <div class="gate-evidence-body">Present a scenario: 'A school has 800 students. We survey 40 students about their favourite sport.' Ask: what is the population? What is the sample? Use a Math_Trap showing a student claiming '40 students IS the data' without reference to the 800.</div>
+                </details>
+              <div class="gate-item-meta"><span class="tag" style="color:#856404">Severity: medium</span><span class="tag tag-op">Math_Trap</span><span class="tag" style="background:#f3e8ff;color:#7c3aed">Drag-to-classify (sorting groups into population vs sample)</span></div>
+              <div class="item-decision" data-item-id="misc_6">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_misc_6_accept" onclick="itemDecide('misc_6','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('misc_6')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-misc_6" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('misc_6','rescope')">Re-scope</button>
+      <button class="refine-preset" onclick="refineEntry('misc_6','add_detail')">Add detail</button>
+      <button class="refine-preset" onclick="refineEntry('misc_6','adjust_severity')">Adjust severity</button>
+      <button class="refine-preset" onclick="refineEntry('misc_6','remove')">Remove</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_misc_6" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('misc_6')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item">
+              <div class="gate-item-title">#8 — Students believe that a larger sample is always representative, regardless of how it was selected — they do not understand that a biased sampling method produces biased results even with a large n.</div>
+              <details class="gate-evidence">
+                  <summary>Surfacing strategy</summary>
+                  <div class="gate-evidence-body">Present a scenario where 500 students are surveyed but only from one school in a wealthy district. Ask: is this representative of all Indonesian students? Surface the bias via discussion before formalising random sampling methods.</div>
+                </details>
+              <div class="gate-item-meta"><span class="tag" style="color:#856404">Severity: medium</span><span class="tag tag-op">Math_Trap</span><span class="tag" style="background:#f3e8ff;color:#7c3aed">Drag-to-classify (evaluating sampling scenarios as representative or biased)</span></div>
+              <div class="item-decision" data-item-id="misc_7">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_misc_7_accept" onclick="itemDecide('misc_7','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('misc_7')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-misc_7" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('misc_7','rescope')">Re-scope</button>
+      <button class="refine-preset" onclick="refineEntry('misc_7','add_detail')">Add detail</button>
+      <button class="refine-preset" onclick="refineEntry('misc_7','adjust_severity')">Adjust severity</button>
+      <button class="refine-preset" onclick="refineEntry('misc_7','remove')">Remove</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_misc_7" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('misc_7')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item">
+              <div class="gate-item-title">#9 — Students confuse expected frequency with guaranteed frequency — they believe P(A) × k gives the exact number of times A will occur in k trials, not the expected (average) number.</div>
+              <details class="gate-evidence">
+                  <summary>Surfacing strategy</summary>
+                  <div class="gate-evidence-body">Run a simulation of k = 60 dice rolls. Ask: how many 6s do you expect? (Expected = 10.) Then show the actual result — it will rarely be exactly 10. Discuss why 'expected' means average over many repetitions.</div>
+                </details>
+              <div class="gate-item-meta"><span class="tag" style="color:#856404">Severity: medium</span><span class="tag tag-op">Math_Trap</span><span class="tag" style="background:#f3e8ff;color:#7c3aed">Parameter Manipulation (simulation showing actual vs expected frequency)</span><span class="tag" style="background:#dbeafe;color:#1d4ed8">VIR 211</span></div>
+              <div class="item-decision" data-item-id="misc_8">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_misc_8_accept" onclick="itemDecide('misc_8','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('misc_8')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-misc_8" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('misc_8','rescope')">Re-scope</button>
+      <button class="refine-preset" onclick="refineEntry('misc_8','add_detail')">Add detail</button>
+      <button class="refine-preset" onclick="refineEntry('misc_8','adjust_severity')">Adjust severity</button>
+      <button class="refine-preset" onclick="refineEntry('misc_8','remove')">Remove</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_misc_8" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('misc_8')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item">
+              <div class="gate-item-title">#10 — Students treat tree diagrams as only applicable to sequential events and do not recognise that a two-way table and a tree diagram represent the same sample space — they see them as different tools for different problems rather than equivalent representations.</div>
+              <details class="gate-evidence">
+                  <summary>Surfacing strategy</summary>
+                  <div class="gate-evidence-body">Present the same compound event (e.g., flipping a coin and rolling a die) using both a tree diagram and a two-way table. Ask students to match outcomes across both representations.</div>
+                </details>
+              <div class="gate-item-meta"><span class="tag" style="color:#666">Severity: low</span><span class="tag" style="background:#f3e8ff;color:#7c3aed">Drag-to-classify (matching tree diagram branches to table cells)</span><span class="tag" style="background:#dbeafe;color:#1d4ed8">VIR 24</span></div>
+              <div class="item-decision" data-item-id="misc_9">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_misc_9_accept" onclick="itemDecide('misc_9','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('misc_9')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-misc_9" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('misc_9','rescope')">Re-scope</button>
+      <button class="refine-preset" onclick="refineEntry('misc_9','add_detail')">Add detail</button>
+      <button class="refine-preset" onclick="refineEntry('misc_9','adjust_severity')">Adjust severity</button>
+      <button class="refine-preset" onclick="refineEntry('misc_9','remove')">Remove</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_misc_9" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('misc_9')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+    </div></div>
+
+    <div class="section-header">Visual Model Recommendations (4)</div>
+    <div class="card"><div class="card-body">
+      
+            <div class="gate-item">
+              <div class="gate-item-title">VIR 3 — Probability Number Line (0 to 1)</div>
+              <details class="gate-evidence">
+                  <summary>Rationale</summary>
+                  <div class="gate-evidence-body">Establishing probability as a measurable quantity between 0 (impossible) and 1 (certain); placing events on the line; showing complement symmetry around 0.5. Entry point for the chapter — bridges everyday language to numerical probability.</div>
+                </details>
+              <div class="gate-item-meta">
+                <span class="bp-cpa bp-cpa-c">Concrete</span>
+                <span class="tag">introduce_concept</span>
+                <span class="tag" style="color:#856404">moderate</span>
+              </div>
+              <div class="item-decision" data-item-id="vir_0">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_vir_0_accept" onclick="itemDecide('vir_0','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('vir_0')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-vir_0" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('vir_0','reassess')">Re-assess</button>
+      <button class="refine-preset" onclick="refineEntry('vir_0','adjust_scope')">Adjust scope</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_vir_0" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('vir_0')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item">
+              <div class="gate-item-title">VIR 24 — Systematic Sample Space Table (Two-Way Grid)</div>
+              <details class="gate-evidence">
+                  <summary>Rationale</summary>
+                  <div class="gate-evidence-body">Listing all outcomes of compound events systematically; counting favourable vs total cells for P(A) = n(A)/n(S); preventing omission of outcomes. Primary tool for Section A sample space work.</div>
+                </details>
+              <div class="gate-item-meta">
+                <span class="bp-cpa bp-cpa-p">Pictorial</span>
+                <span class="tag">introduce_concept</span>
+                <span class="tag" style="color:#1e7e34">strong</span>
+              </div>
+              <div class="item-decision" data-item-id="vir_1">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_vir_1_accept" onclick="itemDecide('vir_1','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('vir_1')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-vir_1" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('vir_1','reassess')">Re-assess</button>
+      <button class="refine-preset" onclick="refineEntry('vir_1','adjust_scope')">Adjust scope</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_vir_1" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('vir_1')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item">
+              <div class="gate-item-title">VIR 211 — Probability Simulation: Convergence of Relative Frequency</div>
+              <details class="gate-evidence">
+                  <summary>Rationale</summary>
+                  <div class="gate-evidence-body">Demonstrating that relative frequency fluctuates at low trial counts and converges toward theoretical probability as trials increase (Law of Large Numbers). Core visual for Section B empirical probability and expected frequency.</div>
+                </details>
+              <div class="gate-item-meta">
+                <span class="bp-cpa bp-cpa-p">Pictorial</span>
+                <span class="tag">bridge_cpa</span>
+                <span class="tag" style="color:#856404">moderate</span>
+              </div>
+              <div class="item-decision" data-item-id="vir_2">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_vir_2_accept" onclick="itemDecide('vir_2','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('vir_2')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-vir_2" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('vir_2','reassess')">Re-assess</button>
+      <button class="refine-preset" onclick="refineEntry('vir_2','adjust_scope')">Adjust scope</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_vir_2" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('vir_2')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item">
+              <div class="gate-item-title">VIR 254 — Probability = Relative Frequency = Area = Proportion</div>
+              <details class="gate-evidence">
+                  <summary>Rationale</summary>
+                  <div class="gate-evidence-body">Unifying the four representations of probability (fraction, relative frequency, spinner area, proportion) into a single structural insight. Consolidation tool after students have worked with both theoretical and empirical probability.</div>
+                </details>
+              <div class="gate-item-meta">
+                <span class="bp-cpa bp-cpa-p">Pictorial</span>
+                <span class="tag">consolidate</span>
+                <span class="tag" style="color:#856404">moderate</span>
+              </div>
+              <div class="item-decision" data-item-id="vir_3">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_vir_3_accept" onclick="itemDecide('vir_3','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('vir_3')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-vir_3" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('vir_3','reassess')">Re-assess</button>
+      <button class="refine-preset" onclick="refineEntry('vir_3','adjust_scope')">Adjust scope</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_vir_3" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('vir_3')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+    </div></div>
+
+    <div class="section-header">IAS Patterns (5)</div>
+    <div class="card"><div class="card-body">
+      
+            <div class="gate-item">
+              <div class="gate-item-title">Parameter Manipulation — Probability Number Line Placement</div>
+              <div class="gate-item-detail">Cognitive actions: Students drag event markers onto a 0-to-1 number line, adjusting position to reflect estimated or calculated probability. Immediate feedback shows whether the placement is in the correct region (impossible / unlikely / equally likely / likely / certain).</div>
+              <div class="gate-item-detail">When to use: Introducing probability as a quantity; surfacing the false-friend misconception between everyday language and mathematical probability (Misconception 1); complement rule visualisation (Misconception 6).</div>
+              <div class="item-decision" data-item-id="ias_0">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_ias_0_accept" onclick="itemDecide('ias_0','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('ias_0')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-ias_0" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('ias_0','clarify')">Clarify usage</button>
+      <button class="refine-preset" onclick="refineEntry('ias_0','custom')">Custom…</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_ias_0" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('ias_0')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item">
+              <div class="gate-item-title">Parameter Manipulation — Trial Count Slider (Simulation)</div>
+              <div class="gate-item-detail">Cognitive actions: Students adjust a slider to increase the number of trials in a coin/die/spinner simulation. The running relative frequency graph updates in real time, showing convergence toward the theoretical value. Students record relative frequency at n=10, 50, 100, 500, 1000.</div>
+              <div class="gate-item-detail">When to use: Empirical vs theoretical probability (Misconception 3); gambler's fallacy (Misconception 2); expected frequency vs guaranteed frequency (Misconception 9); Law of Large Numbers convergence.</div>
+              <div class="item-decision" data-item-id="ias_1">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_ias_1_accept" onclick="itemDecide('ias_1','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('ias_1')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-ias_1" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('ias_1','clarify')">Clarify usage</button>
+      <button class="refine-preset" onclick="refineEntry('ias_1','custom')">Custom…</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_ias_1" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('ias_1')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item">
+              <div class="gate-item-title">Drag-to-Classify — Sample Space Builder</div>
+              <div class="gate-item-detail">Cognitive actions: Students drag outcome tiles into a two-way table or tree diagram scaffold. The applet highlights empty cells and duplicate entries, forcing systematic enumeration. Students then count favourable outcomes to compute P(A).</div>
+              <div class="gate-item-detail">When to use: Systematic sample space construction (Misconception 4); equivalence of table and tree diagram representations (Misconception 10); P(A) = n(A)/n(S) calculation.</div>
+              <div class="item-decision" data-item-id="ias_2">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_ias_2_accept" onclick="itemDecide('ias_2','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('ias_2')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-ias_2" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('ias_2','clarify')">Clarify usage</button>
+      <button class="refine-preset" onclick="refineEntry('ias_2','custom')">Custom…</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_ias_2" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('ias_2')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item">
+              <div class="gate-item-title">Drag-to-Classify — Population vs Sample Sorter</div>
+              <div class="gate-item-detail">Cognitive actions: Students are presented with scenario cards describing groups of people or data. They drag each card into 'Population' or 'Sample' bins, then evaluate whether the sample is representative or biased. Feedback explains why each classification is correct.</div>
+              <div class="gate-item-detail">When to use: Population vs sample distinction (Misconception 7); representative vs biased sampling (Misconception 8); evaluating random sampling methods.</div>
+              <div class="item-decision" data-item-id="ias_3">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_ias_3_accept" onclick="itemDecide('ias_3','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('ias_3')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-ias_3" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('ias_3','clarify')">Clarify usage</button>
+      <button class="refine-preset" onclick="refineEntry('ias_3','custom')">Custom…</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_ias_3" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('ias_3')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item">
+              <div class="gate-item-title">Parameter Manipulation — Spinner Sector Adjuster</div>
+              <div class="gate-item-detail">Cognitive actions: Students resize spinner sectors by dragging boundaries. The applet recalculates P(each colour) in real time. Students observe that unequal sectors produce unequal probabilities, breaking the equally-likely assumption.</div>
+              <div class="gate-item-detail">When to use: Equally-likely outcomes misconception (Misconception 5); probability as proportion of area (VIR 254).</div>
+              <div class="item-decision" data-item-id="ias_4">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_ias_4_accept" onclick="itemDecide('ias_4','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('ias_4')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-ias_4" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('ias_4','clarify')">Clarify usage</button>
+      <button class="refine-preset" onclick="refineEntry('ias_4','custom')">Custom…</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_ias_4" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('ias_4')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+    </div></div>
+
+    <div class="section-header">Convention Flags (7)</div>
+    <div class="card"><div class="card-body">
+      
+            <div class="gate-item">
+              <div class="gate-item-title">Probability notation P(A)</div>
+              <div class="gate-item-detail" style="color:#666">Risk: Kurikulum Merdeka textbooks use P(A) consistently, but some Indonesian classroom traditions write P(kejadian A) or use the letter K for kejadian. Students may encounter inconsistent notation across teachers and resources.</div>
+              <div class="gate-item-detail">Mitigation: Establish P(A) as the standard notation throughout all modules. Define A as the event label and make clear that the letter inside the parentheses names the event, not the outcome.</div>
+              <div class="item-decision" data-item-id="conv_0">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_conv_0_accept" onclick="itemDecide('conv_0','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('conv_0')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-conv_0" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('conv_0','reassess')">Re-assess risk</button>
+      <button class="refine-preset" onclick="refineEntry('conv_0','update_mitigation')">Update mitigation</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_conv_0" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('conv_0')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item">
+              <div class="gate-item-title">Sample space notation S vs Ω</div>
+              <div class="gate-item-detail" style="color:#666">Risk: International textbooks use Ω (omega) for sample space; Kurikulum Merdeka uses S. Students who consult external resources may encounter Ω and be confused.</div>
+              <div class="gate-item-detail">Mitigation: Use S consistently for sample space throughout. In a Math_Vault or convention note, acknowledge that some books use Ω and that both mean the same thing.</div>
+              <div class="item-decision" data-item-id="conv_1">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_conv_1_accept" onclick="itemDecide('conv_1','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('conv_1')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-conv_1" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('conv_1','reassess')">Re-assess risk</button>
+      <button class="refine-preset" onclick="refineEntry('conv_1','update_mitigation')">Update mitigation</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_conv_1" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('conv_1')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item">
+              <div class="gate-item-title">Complement notation Aᶜ vs A' vs Ā</div>
+              <div class="gate-item-detail" style="color:#666">Risk: Three notations are in common use: Aᶜ (superscript c), A' (prime), and Ā (A-bar). Kurikulum Merdeka Grade 9 textbooks use Aᶜ. Students may see A' in older resources.</div>
+              <div class="gate-item-detail">Mitigation: Use Aᶜ as the primary notation. Acknowledge A' as an equivalent alternative in a convention note. Do not use Ā as it is less standard at this level.</div>
+              <div class="item-decision" data-item-id="conv_2">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_conv_2_accept" onclick="itemDecide('conv_2','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('conv_2')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-conv_2" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('conv_2','reassess')">Re-assess risk</button>
+      <button class="refine-preset" onclick="refineEntry('conv_2','update_mitigation')">Update mitigation</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_conv_2" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('conv_2')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item">
+              <div class="gate-item-title">Relative frequency formula presentation</div>
+              <div class="gate-item-detail" style="color:#666">Risk: Some resources write relative frequency as f/n (frequency over total trials) while others write it as the ratio of occurrences to total. The variable names differ across textbooks.</div>
+              <div class="gate-item-detail">Mitigation: Define relative frequency explicitly as (number of times A occurred) ÷ (total number of trials), and introduce the formula with consistent variable names aligned to the Kurikulum Merdeka textbook.</div>
+              <div class="item-decision" data-item-id="conv_3">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_conv_3_accept" onclick="itemDecide('conv_3','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('conv_3')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-conv_3" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('conv_3','reassess')">Re-assess risk</button>
+      <button class="refine-preset" onclick="refineEntry('conv_3','update_mitigation')">Update mitigation</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_conv_3" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('conv_3')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item">
+              <div class="gate-item-title">Expected frequency formula P(A) × k</div>
+              <div class="gate-item-detail" style="color:#666">Risk: No KB lo_code exists for expected frequency. The variable k (number of trials) may conflict with k used for other purposes in algebra modules. Some resources use n instead of k.</div>
+              <div class="gate-item-detail">Mitigation: Use k consistently for the number of trials in the expected frequency formula P(A) × k, and distinguish it clearly from n(A) (number of favourable outcomes) and n(S) (size of sample space).</div>
+              <div class="item-decision" data-item-id="conv_4">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_conv_4_accept" onclick="itemDecide('conv_4','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('conv_4')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-conv_4" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('conv_4','reassess')">Re-assess risk</button>
+      <button class="refine-preset" onclick="refineEntry('conv_4','update_mitigation')">Update mitigation</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_conv_4" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('conv_4')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item">
+              <div class="gate-item-title">Tree diagram orientation (left-to-right vs top-to-bottom)</div>
+              <div class="gate-item-detail" style="color:#666">Risk: Tree diagrams are drawn left-to-right in some textbooks and top-to-bottom in others. Inconsistency can confuse students when reading branching paths.</div>
+              <div class="gate-item-detail">Mitigation: Adopt left-to-right orientation consistently across all modules, matching the Kurikulum Merdeka textbook convention.</div>
+              <div class="item-decision" data-item-id="conv_5">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_conv_5_accept" onclick="itemDecide('conv_5','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('conv_5')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-conv_5" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('conv_5','reassess')">Re-assess risk</button>
+      <button class="refine-preset" onclick="refineEntry('conv_5','update_mitigation')">Update mitigation</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_conv_5" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('conv_5')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item">
+              <div class="gate-item-title">Probability as fraction vs decimal vs percentage</div>
+              <div class="gate-item-detail" style="color:#666">Risk: Students may express probability as a percentage (e.g., 50%) rather than a fraction or decimal, which is technically correct but can cause errors when applying formulas like P(A) × k.</div>
+              <div class="gate-item-detail">Mitigation: Accept all three forms (fraction, decimal, percentage) as correct representations of probability, but require students to convert to fraction or decimal before applying P(A) × k or the complement rule.</div>
+              <div class="item-decision" data-item-id="conv_6">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_conv_6_accept" onclick="itemDecide('conv_6','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('conv_6')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-conv_6" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('conv_6','reassess')">Re-assess risk</button>
+      <button class="refine-preset" onclick="refineEntry('conv_6','update_mitigation')">Update mitigation</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_conv_6" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('conv_6')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+    </div></div>
+
+    <div class="section-header">Research Gaps (6)</div>
+    <div class="card"><div class="card-body">
+      
+            <div class="gate-item" style="border-left:3px solid #ef4444;padding-left:12px">
+              <div class="gate-item-meta" style="margin-bottom:4px">
+                <span class="tag" style="background:#fde8e8;color:#c0392b">misconception</span>
+              </div>
+              <div class="gate-item-title" style="color:#c0392b">No KB lo_code exists for expected frequency (frekuensi harapan = P(A) × k). The misconception that expected frequency is a guaranteed count (Misconception 9) has no KB-grounded misconception record — it is inferred from the textbook section and general probability research. A KB entry for CR.9.PB.EF or equivalent is needed.</div>
+              <div class="gate-item-detail">Blueprint builders and scorers cannot reference a KB misconception ID for expected frequency errors. The gap must be filled by design — the simulation applet (VIR 211) partially covers this, but a dedicated Math_Trap slide is needed.</div>
+              <div class="item-decision" data-item-id="gap_0">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_gap_0_accept" onclick="itemDecide('gap_0','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('gap_0')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-gap_0" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('gap_0','clarify')">Clarify</button>
+      <button class="refine-preset" onclick="refineEntry('gap_0','propose_mitigation')">Propose mitigation</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_gap_0" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('gap_0')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item" style="border-left:3px solid #ef4444;padding-left:12px">
+              <div class="gate-item-meta" style="margin-bottom:4px">
+                <span class="tag" style="background:#fde8e8;color:#c0392b">misconception</span>
+              </div>
+              <div class="gate-item-title" style="color:#c0392b">No KB lo_code or misconception record exists for population vs sample confusion or biased sampling (Misconceptions 7 and 8). Section D of the textbook (25 pages) is entirely outside the KB coverage.</div>
+              <div class="gate-item-detail">The sampling methodology cluster (population, representative sample, random sampling methods) has no KB-grounded misconception IDs, visual models, or IAS archetypes. All design for this cluster must be gap-filled by the blueprint builder. A KB insertion for a sampling strand at Grade 9 is flagged as required.</div>
+              <div class="item-decision" data-item-id="gap_1">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_gap_1_accept" onclick="itemDecide('gap_1','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('gap_1')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-gap_1" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('gap_1','clarify')">Clarify</button>
+      <button class="refine-preset" onclick="refineEntry('gap_1','propose_mitigation')">Propose mitigation</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_gap_1" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('gap_1')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item" style="border-left:3px solid #ef4444;padding-left:12px">
+              <div class="gate-item-meta" style="margin-bottom:4px">
+                <span class="tag" style="background:#fde8e8;color:#c0392b">visual_model</span>
+              </div>
+              <div class="gate-item-title" style="color:#c0392b">No KB visual model exists for a tree diagram used at the sample-space-listing level (as opposed to the compound probability multiplication level of VIR 20, which is Grade 10 scope). VIR 20 is beyond this chapter's syllabus. A pictorial tree diagram VIR scoped to Grade 8-9 sample space enumeration is missing.</div>
+              <div class="gate-item-detail">Tree diagrams are a required sample space tool in the LO and the textbook. The blueprint builder must design a tree diagram visual without KB VIR grounding. Flag for KB insertion.</div>
+              <div class="item-decision" data-item-id="gap_2">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_gap_2_accept" onclick="itemDecide('gap_2','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('gap_2')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-gap_2" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('gap_2','clarify')">Clarify</button>
+      <button class="refine-preset" onclick="refineEntry('gap_2','propose_mitigation')">Propose mitigation</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_gap_2" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('gap_2')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item" style="border-left:3px solid #ef4444;padding-left:12px">
+              <div class="gate-item-meta" style="margin-bottom:4px">
+                <span class="tag" style="background:#fde8e8;color:#c0392b">visual_model</span>
+              </div>
+              <div class="gate-item-title" style="color:#c0392b">No KB visual model exists for population-sample relationship (e.g., a Venn-style diagram showing sample as a subset of population, or a visual of random sampling methods such as simple random, systematic, stratified). Section D has no visual model support in the KB.</div>
+              <div class="gate-item-detail">The sampling methodology modules will lack KB-grounded visual anchors. Blueprint builder must design from scratch.</div>
+              <div class="item-decision" data-item-id="gap_3">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_gap_3_accept" onclick="itemDecide('gap_3','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('gap_3')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-gap_3" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('gap_3','clarify')">Clarify</button>
+      <button class="refine-preset" onclick="refineEntry('gap_3','propose_mitigation')">Propose mitigation</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_gap_3" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('gap_3')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item" style="border-left:3px solid #ef4444;padding-left:12px">
+              <div class="gate-item-meta" style="margin-bottom:4px">
+                <span class="tag" style="background:#fde8e8;color:#c0392b">interactive</span>
+              </div>
+              <div class="gate-item-title" style="color:#c0392b">No KB IAS pattern exists for a random sampling simulator — an interactive where students draw samples from a population and observe how sample statistics vary. This is the natural interactive for Section D (random sampling methods).</div>
+              <div class="gate-item-detail">The sampling cluster's interactive design is entirely gap-filled. The closest available archetype is Drag-to-Classify (Population vs Sample Sorter), which addresses conceptual classification but not the procedural experience of drawing a random sample.</div>
+              <div class="item-decision" data-item-id="gap_4">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_gap_4_accept" onclick="itemDecide('gap_4','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('gap_4')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-gap_4" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('gap_4','clarify')">Clarify</button>
+      <button class="refine-preset" onclick="refineEntry('gap_4','propose_mitigation')">Propose mitigation</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_gap_4" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('gap_4')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+            <div class="gate-item" style="border-left:3px solid #ef4444;padding-left:12px">
+              <div class="gate-item-meta" style="margin-bottom:4px">
+                <span class="tag" style="background:#fde8e8;color:#c0392b">convention</span>
+              </div>
+              <div class="gate-item-title" style="color:#c0392b">No KB convention entry addresses the Kurikulum Merdeka-specific scope addition of sampling methodology within a probability chapter. International curricula place sampling in statistics strands; this chapter's placement is unusual and may cause cross-curriculum confusion for teachers using international resources.</div>
+              <div class="gate-item-detail">Teachers and content designers may inadvertently import statistical sampling conventions (e.g., margin of error, confidence intervals) that are beyond Grade 9 scope. A clear scope boundary note is needed in the chapter brief.</div>
+              <div class="item-decision" data-item-id="gap_5">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_gap_5_accept" onclick="itemDecide('gap_5','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('gap_5')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-gap_5" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('gap_5','clarify')">Clarify</button>
+      <button class="refine-preset" onclick="refineEntry('gap_5','propose_mitigation')">Propose mitigation</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_gap_5" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('gap_5')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+            </div>
+    </div></div>
+
+    <div class="section-header">Synthesis Narrative</div>
+    <div class="card"><div class="card-body">
+      <div class="gate-narrative">This chapter spans five conceptually distinct but interconnected probability strands, and the central instructional challenge is building a coherent progression from informal likelihood language to formal theoretical probability, then outward to empirical probability, expected frequency, and finally to the statistical infrastructure of sampling. The entry point — VIR 3, the probability number line — is not merely a warm-up; it is the conceptual anchor that resolves the chapter's most pervasive false friend (Misconception 1): students arrive with a rich everyday vocabulary of 'probably', 'unlikely', and 'certain' that feels sufficient but is mathematically imprecise. Placing events on a 0-to-1 number line forces the transition from register to quantity, and the complement rule (P(Aᶜ) = 1 − P(A)) emerges naturally as a symmetry around 0.5 on that same line. The Math_Trap trope is the right vehicle for surfacing Misconceptions 1 and 6 early, before students have calcified their informal intuitions into procedural errors.
+
+The sample space cluster (Misconceptions 4 and 10) is best resolved through the systematic two-way table (VIR 24, strong evidence), which makes omitted outcomes visible as empty cells — a concrete, self-correcting structure. The Drag-to-Classify Sample Space Builder archetype operationalises this: students who list outcomes freely will miss TH when they have HT, but the table's grid forces them to populate every cell. The tree diagram gap (no KB VIR at Grade 9 scope) means the blueprint builder must design a tree diagram visual from scratch, but it should be introduced as a parallel representation to the table, not a replacement — Misconception 10 (treating them as different tools) is resolved precisely by showing both representations side by side for the same experiment. The convergence from concrete (physical coin flips) to pictorial (table/tree) to abstract (P(A) = n(A)/n(S)) follows the CPA spine naturally across the Section A modules.
+
+The empirical probability cluster (Misconceptions 2, 3, and 9) is where the simulation archetype (Parameter Manipulation — Trial Count Slider, VIR 211) does its heaviest lifting. The gambler's fallacy and the conflation of relative frequency with theoretical probability are both rooted in the same cognitive error: treating short-run results as definitive. The simulation makes the Law of Large Numbers visible — students watch relative frequency oscillate wildly at n=10 and stabilise near the theoretical value at n=1000 — and this single interactive experience addresses all three misconceptions in sequence. Expected frequency (P(A) × k) then becomes the forward application of this insight: if relative frequency converges to P(A), then in k trials we expect P(A) × k occurrences on average, not exactly. The Math_Trap for Misconception 9 should follow the simulation, not precede it, so students have the experiential grounding to understand why 'expected' is an average. The sampling methodology cluster (Section D, Misconceptions 7 and 8) is the chapter's largest KB gap — no visual models, no misconception IDs, no IAS archetypes exist in the KB for this content. The Drag-to-Classify Population vs Sample Sorter is a gap-filled design that addresses the conceptual distinction, but the blueprint builder will need to design the random sampling simulator from scratch. The structural isomorphism between probability as relative frequency and sampling as a proportion (VIR 254) provides a conceptual bridge: a representative sample is one whose relative frequencies mirror the population's — the same convergence logic that governs the Law of Large Numbers applies here at the level of sampling design.</div>
+      <div class="item-decision" data-item-id="synthesis">
+  <div class="item-btns">
+    <button class="ibtn" id="ibtn_synthesis_accept" onclick="itemDecide('synthesis','accept')">&#10003; Accept</button>
+    <button class="ibtn mod-refine-trigger" onclick="toggleEntryRefinePanel('synthesis')">&#8635; Refine &#9662;</button>
+  </div>
+  <div class="mod-refine-panel" id="refine-panel-synthesis" style="display:none">
+    <div class="refine-presets">
+      <button class="refine-preset" onclick="refineEntry('synthesis','rescope')">Re-scope</button>
+      <button class="refine-preset" onclick="refineEntry('synthesis','sharpen')">Sharpen</button>
+      <button class="refine-preset" onclick="refineEntry('synthesis','expand')">Expand</button>
+    </div>
+  </div>
+  <div class="item-comment-inline">
+    <textarea id="ca_synthesis" class="inline-comment" placeholder="Add a comment..." rows="1"
+      oninput="autoGrow(this);saveItemComment('synthesis')"
+      onfocus="this.rows=3" onblur="if(!this.value)this.rows=1"></textarea>
+  </div>
+</div>
+    </div></div>
+
+    <div class="section-header">Translation Notes (15)</div>
+    <div class="card"><div class="card-body">
+      <div style="font-size:11px;color:#666;margin-bottom:8px">
+        Localisation metadata — bilingual vocabulary references from non-delivery-language curricula. Not scored; not a delivery mandate.
+      </div>
+      <table class="align-table" style="font-size:12px">
+        <thead><tr><th>Primary Term</th><th>Native Term</th><th>Language</th><th>Type</th><th>Context</th></tr></thead>
+        <tbody><tr>
+                  <td style="font-weight:600">probability</td>
+                  <td>peluang</td>
+                  <td><span class="tag" style="background:#f3e8ff;color:#7c3aed;font-size:10px">Indonesian</span></td>
+                  <td><span class="tag" style="font-size:10px">vocabulary</span></td>
+                  <td style="font-size:11px;color:#666">Primary Indonesian term for probability used in Kurikulum Merdeka textbooks; 'kemungkinan' is also used informally but 'peluang' is the formal mathematical term at Grade 9.</td>
+                </tr><tr>
+                  <td style="font-weight:600">probability</td>
+                  <td>kemungkinan</td>
+                  <td><span class="tag" style="background:#f3e8ff;color:#7c3aed;font-size:10px">Indonesian</span></td>
+                  <td><span class="tag" style="font-size:10px">vocabulary</span></td>
+                  <td style="font-size:11px;color:#666">Informal Indonesian term for likelihood/chance; used in everyday speech but 'peluang' is preferred in formal mathematical contexts at Grade 9.</td>
+                </tr><tr>
+                  <td style="font-weight:600">sample space</td>
+                  <td>ruang sampel</td>
+                  <td><span class="tag" style="background:#f3e8ff;color:#7c3aed;font-size:10px">Indonesian</span></td>
+                  <td><span class="tag" style="font-size:10px">vocabulary</span></td>
+                  <td style="font-size:11px;color:#666">The set of all possible outcomes of a probability experiment; denoted S in Kurikulum Merdeka notation.</td>
+                </tr><tr>
+                  <td style="font-weight:600">event</td>
+                  <td>kejadian</td>
+                  <td><span class="tag" style="background:#f3e8ff;color:#7c3aed;font-size:10px">Indonesian</span></td>
+                  <td><span class="tag" style="font-size:10px">vocabulary</span></td>
+                  <td style="font-size:11px;color:#666">A subset of the sample space; the mathematical term for a specific outcome or set of outcomes of interest.</td>
+                </tr><tr>
+                  <td style="font-weight:600">outcome</td>
+                  <td>hasil</td>
+                  <td><span class="tag" style="background:#f3e8ff;color:#7c3aed;font-size:10px">Indonesian</span></td>
+                  <td><span class="tag" style="font-size:10px">vocabulary</span></td>
+                  <td style="font-size:11px;color:#666">A single possible result of a probability experiment; an element of the sample space.</td>
+                </tr><tr>
+                  <td style="font-weight:600">complement</td>
+                  <td>komplemen</td>
+                  <td><span class="tag" style="background:#f3e8ff;color:#7c3aed;font-size:10px">Indonesian</span></td>
+                  <td><span class="tag" style="font-size:10px">vocabulary</span></td>
+                  <td style="font-size:11px;color:#666">The complement of event A is the set of all outcomes in the sample space that are not in A; denoted Aᶜ in Kurikulum Merdeka.</td>
+                </tr><tr>
+                  <td style="font-weight:600">relative frequency</td>
+                  <td>frekuensi relatif</td>
+                  <td><span class="tag" style="background:#f3e8ff;color:#7c3aed;font-size:10px">Indonesian</span></td>
+                  <td><span class="tag" style="font-size:10px">vocabulary</span></td>
+                  <td style="font-size:11px;color:#666">The ratio of the number of times an event occurs to the total number of trials; used as an empirical estimate of probability.</td>
+                </tr><tr>
+                  <td style="font-weight:600">expected frequency</td>
+                  <td>frekuensi harapan</td>
+                  <td><span class="tag" style="background:#f3e8ff;color:#7c3aed;font-size:10px">Indonesian</span></td>
+                  <td><span class="tag" style="font-size:10px">vocabulary</span></td>
+                  <td style="font-size:11px;color:#666">The expected number of times an event will occur in k trials, calculated as P(A) × k; a Kurikulum Merdeka Grade 9 specific term.</td>
+                </tr><tr>
+                  <td style="font-weight:600">population</td>
+                  <td>populasi</td>
+                  <td><span class="tag" style="background:#f3e8ff;color:#7c3aed;font-size:10px">Indonesian</span></td>
+                  <td><span class="tag" style="font-size:10px">vocabulary</span></td>
+                  <td style="font-size:11px;color:#666">The entire group being studied; the complete set from which a sample is drawn.</td>
+                </tr><tr>
+                  <td style="font-weight:600">sample</td>
+                  <td>sampel</td>
+                  <td><span class="tag" style="background:#f3e8ff;color:#7c3aed;font-size:10px">Indonesian</span></td>
+                  <td><span class="tag" style="font-size:10px">vocabulary</span></td>
+                  <td style="font-size:11px;color:#666">A subset of the population selected for study; note that 'sampel' in Indonesian is a near-cognate but should be distinguished from 'contoh' (example).</td>
+                </tr><tr>
+                  <td style="font-weight:600">representative sample</td>
+                  <td>sampel representatif</td>
+                  <td><span class="tag" style="background:#f3e8ff;color:#7c3aed;font-size:10px">Indonesian</span></td>
+                  <td><span class="tag" style="font-size:10px">vocabulary</span></td>
+                  <td style="font-size:11px;color:#666">A sample whose characteristics proportionally reflect those of the population from which it was drawn.</td>
+                </tr><tr>
+                  <td style="font-weight:600">random sampling</td>
+                  <td>pengambilan sampel acak</td>
+                  <td><span class="tag" style="background:#f3e8ff;color:#7c3aed;font-size:10px">Indonesian</span></td>
+                  <td><span class="tag" style="font-size:10px">vocabulary</span></td>
+                  <td style="font-size:11px;color:#666">A sampling method in which every member of the population has an equal chance of being selected.</td>
+                </tr><tr>
+                  <td style="font-weight:600">tree diagram</td>
+                  <td>diagram pohon</td>
+                  <td><span class="tag" style="background:#f3e8ff;color:#7c3aed;font-size:10px">Indonesian</span></td>
+                  <td><span class="tag" style="font-size:10px">vocabulary</span></td>
+                  <td style="font-size:11px;color:#666">A branching diagram used to systematically list all outcomes of a compound probability experiment.</td>
+                </tr><tr>
+                  <td style="font-weight:600">P(A)</td>
+                  <td>P(kejadian A)</td>
+                  <td><span class="tag" style="background:#f3e8ff;color:#7c3aed;font-size:10px">Indonesian</span></td>
+                  <td><span class="tag" style="font-size:10px">notation</span></td>
+                  <td style="font-size:11px;color:#666">Some Indonesian classroom traditions write P(kejadian A) in full; the standard Kurikulum Merdeka notation is P(A) where A is the event label.</td>
+                </tr><tr>
+                  <td style="font-weight:600">S (sample space)</td>
+                  <td>S (ruang sampel)</td>
+                  <td><span class="tag" style="background:#f3e8ff;color:#7c3aed;font-size:10px">Indonesian</span></td>
+                  <td><span class="tag" style="font-size:10px">notation</span></td>
+                  <td style="font-size:11px;color:#666">Kurikulum Merdeka uses S for sample space; international textbooks may use Ω (omega). Both denote the set of all possible outcomes.</td>
+                </tr></tbody>
+      </table>
+    </div></div>
+</div>
+
+<div class="val-panel">
+  <div class="val-progress" id="val-progress"></div>
+  <div id="val-btns"></div>
+  <div id="val-overall"></div>
+</div>
+<div class="overall-comment-box" id="ocb">
+  <textarea id="oca" placeholder="Directives for downstream agents (e.g. 'use balance-scale model for equations', 'prioritize misconception M250')..."></textarea>
+  <div class="btn-row">
+    <button class="btn btn-approve" onclick="submitOverall()">Submit</button>
+    <button class="btn btn-neutral" onclick="cancelOverallComment()">Cancel</button>
+  </div>
+</div>
+
+<div class="detail-modal-bg" id="detail-modal-bg" onclick="if(event.target===this)closeDetailModal()">
+  <div class="detail-modal" id="detail-modal">
+    <button class="tt-close" onclick="closeDetailModal()">&times;</button>
+    <div id="detail-modal-content"></div>
+  </div>
+</div>
+
+<script>
+// RKEY must be run-scoped, not just title-scoped, or state from a previous
+// review cycle (different run_dir, same gate name) leaks into a freshly
+// generated HTML via localStorage and shows a stale "Approved · <old date>"
+// decision on a gate the user has never touched in this session.
+// We derive run_dir from <body data-run-dir="..."> which render_gate always
+// sets. basename() keeps the key short — the run_dir basename is already
+// timestamp-unique (e.g. 2026-04-10T11-58-20).
+const RKEY = (function() {
+  var title = document.title.replace(/[^a-z0-9]/gi,'_');
+  var rd = (document.body && document.body.dataset && document.body.dataset.runDir) || '';
+  var rdBase = rd ? rd.split(/[\\/]/).filter(Boolean).pop() : '';
+  rdBase = rdBase.replace(/[^a-z0-9]/gi,'_');
+  return 'acrlds_gate_' + (rdBase ? rdBase + '_' : '') + title;
+})();
+
+// One-time garbage collection: sweep any legacy title-only acrlds_gate_* keys
+// that match this gate's title but have no run_dir component. Prevents stale
+// entries from accumulating in the browser forever.
+(function() {
+  try {
+    var title = document.title.replace(/[^a-z0-9]/gi,'_');
+    var legacyKey = 'acrlds_gate_' + title;
+    if (legacyKey !== RKEY && localStorage.getItem(legacyKey) !== null) {
+      localStorage.removeItem(legacyKey);
+    }
+  } catch(e) {}
+})();
+
+const load  = () => { try { return JSON.parse(localStorage.getItem(RKEY)||'{}'); } catch(e) { return {}; } };
+const save  = (d) => { try { localStorage.setItem(RKEY, JSON.stringify(d)); } catch(e) {} };
+const esc   = (s) => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+function autoGrow(el) {
+  el.style.height = 'auto';
+  el.style.height = el.scrollHeight + 'px';
+  el.classList.toggle('has-text', !!el.value.trim());
+}
+
+function itemDecide(id, type) {
+  var state = load();
+  if (!state.items) state.items = {};
+  var current = (state.items[id] || {}).type;
+  if (current === type) {
+    // Toggle off
+    if (state.items[id]) { delete state.items[id].type; }
+    if (state.items[id] && !state.items[id].type && !state.items[id].comment) delete state.items[id];
+  } else {
+    if (!state.items[id]) state.items[id] = {};
+    state.items[id].type = type;
+  }
+  save(state); renderItem(id); renderProgress(); renderOverall();
+}
+
+function saveItemComment(id) {
+  var area = document.getElementById('ca_' + id);
+  if (!area) return;
+  var state = load();
+  if (!state.items) state.items = {};
+  if (!state.items[id]) state.items[id] = {};
+  state.items[id].comment = area.value.trim();
+  // Clean up empty entries
+  if (!state.items[id].type && !state.items[id].comment) delete state.items[id];
+  save(state); renderProgress();
+}
+
+function renderItem(id) {
+  var state = load();
+  var item  = (state.items || {})[id] || {};
+  var activeType = item.type || null;
+  ['accept','flag'].forEach(function(t) {
+    var el = document.getElementById('ibtn_' + id + '_' + t);
+    if (el) el.className = 'ibtn' + (activeType === t ? ' active-' + t : '');
+  });
+  // Restore comment text
+  var area = document.getElementById('ca_' + id);
+  if (area && item.comment && !area.value) {
+    area.value = item.comment;
+    autoGrow(area);
+  }
+}
+
+function _countFlags() {
+  var state = load();
+  var items = state.items || {};
+  return Object.values(items).filter(function(i) { return i.type === 'flag'; }).length;
+}
+
+function renderProgress() {
+  const state = load();
+  const items = state.items || {};
+  const total = document.querySelectorAll('[data-item-id]').length;
+  const accepted = Object.values(items).filter(i => i.type === 'accept').length;
+  const flagged  = Object.values(items).filter(i => i.type === 'flag').length;
+  const commented = Object.values(items).filter(i => i.comment && !i.type).length;
+  const el = document.getElementById('val-progress');
+  if (!el) return;
+  var parts = [];
+  if (accepted > 0) parts.push('<span style="color:#1e7e34">' + accepted + ' accepted</span>');
+  if (flagged > 0) parts.push('<span style="color:#856404">' + flagged + ' flagged</span>');
+  if (commented > 0) parts.push(commented + ' commented');
+  var remaining = total - accepted - flagged;
+  if (remaining > 0) parts.push(remaining + ' pending');
+  el.innerHTML = '<strong>' + parts.join(' &middot; ') + '</strong> of ' + total + ' items';
+}
+
+function openOverallComment(pending) {
+  document.getElementById('ocb').style.display = 'block';
+  document.getElementById('ocb')._p = pending || 'rework';
+  document.getElementById('oca').focus();
+}
+function submitOverall() {
+  var pending = document.getElementById('ocb')._p || 'rework';
+  var comment = document.getElementById('oca').value.trim();
+  var state = load();
+  state.overall = { type: pending, comment: comment, timestamp: Date.now() };
+  save(state);
+  document.getElementById('ocb').style.display = 'none';
+  if (pending === 'rework') {
+    _submitGateDecision('rework_llm');
+  } else if (pending === 'approve_comments') {
+    _submitGateDecision('approved_with_comments');
+  } else {
+    _submitGateDecision('approved_with_flags');
+  }
+}
+
+function renderOverall() {
+  const state   = load();
+  const overall = state.overall || {};
+  const btns    = document.getElementById('val-btns');
+  const status  = document.getElementById('val-overall');
+  const flags   = _countFlags();
+
+  if (overall.type) {
+    const lbl = {approve:'Approved', approve_flags:'Approved with flags', rework:'Rework requested'};
+    const cls = {approve:'badge-approved', approve_flags:'badge-commented', rework:'badge-rework'};
+    const ts  = overall.timestamp ? ' \u00b7 '+new Date(overall.timestamp).toLocaleString() : '';
+    status.innerHTML = '<span class="'+(cls[overall.type]||'badge-approved')+'">'+
+      (lbl[overall.type]||overall.type)+'</span>'
+      + (overall.comment ? ' &mdash; <em>'+esc(overall.comment.slice(0,80))+'</em>' : '')
+      + ts;
+    btns.innerHTML = '<button class="btn btn-neutral" onclick="resetOverall()">Change decision</button>';
+  } else {
+    status.innerHTML = '';
+    if (flags > 0) {
+      btns.innerHTML =
+        '<button class="btn btn-approve" disabled title="'+flags+' items flagged — unflag or use Approve with Flags" style="opacity:.5;cursor:not-allowed">Approve</button>'+
+        '<button class="btn btn-neutral" style="background:#fff3cd;color:#856404;border:1px solid #f59e0b" onclick="openOverallComment(\'approve_flags\')">Approve with Flags ('+flags+')</button>'+
+        '<button class="btn btn-rework"  onclick="openOverallComment(\'rework\')">Request Rework</button>'+
+        '<button class="btn btn-neutral" onclick="editJsonAndExport()" style="font-size:12px">Edit JSON</button>';
+    } else {
+      btns.innerHTML =
+        '<button class="btn btn-approve" onclick="approveAndExport()">Approve</button>'+
+        '<button class="btn btn-neutral" onclick="approveWithCommentsAndExport()">Approve with Directives</button>'+
+        '<button class="btn btn-rework"  onclick="openOverallComment(\'rework\')">Request Rework</button>'+
+        '<button class="btn btn-neutral" onclick="editJsonAndExport()" style="font-size:12px">Edit JSON</button>';
+    }
+  }
+}
+function resetOverall() {
+  const state = load(); delete state.overall; save(state);
+  document.getElementById('oca').value = '';
+  renderOverall();
+}
+function exportAll() {
+  const state = load();
+  const blob = new Blob([JSON.stringify(state,null,2)],{type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = RKEY + '_decisions.json';
+  a.click();
+}
+function _getGateName() {
+  // Derive gate name from page title for standardized filename
+  var t = document.title;
+  if (t.match(/module.*sequence/i)) return 'CHAPTER_MODULE_SEQUENCE';
+  if (t.match(/lo.*brief/i) && t.match(/chapter/i)) return 'CHAPTER_LO_BRIEF';
+  if (t.match(/chapter.*research.*brief/i)) return 'CHAPTER_RESEARCH_BRIEF';
+  if (t.match(/applet.*research.*brief/i)) return 'APPLET_RESEARCH_BRIEF';
+  if (t.match(/applet.*ideal.*screen/i)) return 'APPLET_IDEAL_SCREENS';
+  if (t.match(/module.*research.*brief/i)) return 'MODULE_RESEARCH_BRIEF';
+  if (t.match(/module.*blueprint/i)) return 'IDEAL_MODULE_BLUEPRINT';
+  if (t.match(/research.*brief/i)) return 'MODULE_RESEARCH_BRIEF';
+  return t.replace(/[^a-zA-Z0-9]/g, '_').toUpperCase();
+}
+
+function _getGateType() {
+  // Hard gates: CHAPTER_MODULE_SEQUENCE, APPLET_IDEAL_SCREENS
+  var name = _getGateName();
+  return (name === 'CHAPTER_MODULE_SEQUENCE' || name === 'APPLET_IDEAL_SCREENS') ? 'hard' : 'soft';
+}
+
+function _captureEditedSequence() {
+  // For module sequence page: capture edited module list from DOM
+  var seqCards = document.querySelectorAll('#mod-list > .mod-card[data-pos]');
+  if (seqCards.length === 0) return null;
+  var state = load();
+  var items = state.items || {};
+  var seq = [];
+  seqCards.forEach(function(c) {
+    var pos = parseInt(c.dataset.pos);
+    var titleEl = c.querySelector('.mod-title-input') || c.querySelector('.mod-title');
+    var loEl = c.querySelector('.mod-lo-input') || c.querySelector('.mod-lo');
+    var ctEl = c.querySelector('.mod-ct-select');
+    var itemId = 'mod_' + pos;
+    var comment = (items[itemId] || {}).comment || '';
+    // Also check the textarea directly (may not be saved to localStorage yet)
+    var ta = document.getElementById('ca_' + itemId);
+    if (ta && ta.value.trim()) comment = ta.value.trim();
+    var entry = {
+      position: pos,
+      module_title: titleEl ? (titleEl.value || titleEl.textContent || '').trim() : '',
+      content_type: ctEl ? ctEl.value : (c.dataset.ct || 'Learn'),
+      lo: loEl ? (loEl.value || loEl.textContent || '').trim() : '',
+      lo_codes: JSON.parse(c.dataset.codes || '[]'),
+    };
+    if (comment) entry.entry_comments = comment;
+    seq.push(entry);
+  });
+  return { module_sequence: seq };
+}
+
+function _submitGateDecision(status) {
+  var runDir = document.body.dataset.runDir || '';
+  var gateName = document.body.dataset.gateName || _getGateName();
+  var state = load();
+  var comment = (state.overall || {}).comment || '';
+  var editedSeq = _captureEditedSequence();
+
+  // Separate flagged items for downstream consumption
+  var items = state.items || {};
+  var flags = {};
+  Object.keys(items).forEach(function(k) {
+    if (items[k].type === 'flag') {
+      flags[k] = { comment: items[k].comment || '' };
+    }
+  });
+
+  var payload = {
+    type: 'gate_decision',
+    run_dir: runDir,
+    gate_name: gateName,
+    status: status,
+    comment: comment,
+    decisions: items,
+    flags_for_downstream: flags,
+    approved_sequence: editedSeq,
+  };
+
+  // Update badge immediately
+  var badge = document.querySelector('.gate-badge');
+  if (badge) {
+    badge.textContent = status === 'rework_llm' ? 'REWORK REQUESTED' : 'APPROVED';
+    badge.style.background = status === 'rework_llm' ? '#f59e0b' : '#22c55e';
+  }
+
+  // If inside an iframe (LMS viewer), send to parent via postMessage
+  if (window.parent !== window) {
+    window.parent.postMessage(payload, '*');
+    return;
+  }
+
+  // If top-level (direct URL), POST to LMS API directly
+  fetch('/api/gates/submit', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(payload),
+  }).then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (data.error) { alert('Gate submission failed: ' + data.error); return; }
+      var msg = status === 'rework_llm'
+        ? 'Rework requested.'
+        : 'Gate approved' + (data.all_gates_approved ? ' — all gates done, finalizing...' : '.');
+      alert(msg);
+    })
+    .catch(function(err) {
+      // Fallback: download the file
+      console.warn('LMS API unavailable, falling back to file download:', err);
+      var decision = Object.assign({}, payload, { timestamp: new Date().toISOString() });
+      delete decision.type;
+      var blob = new Blob([JSON.stringify(decision,null,2)], {type:'application/json'});
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = gateName + '.gate.json';
+      a.click();
+    });
+}
+
+function approveAndExport() {
+  if (_countFlags() > 0) { renderOverall(); return; }
+  const state = load();
+  state.overall = { type: 'approve', comment: '', timestamp: Date.now() };
+  save(state);
+  renderOverall();
+  _submitGateDecision('approved');
+}
+
+function editJsonAndExport() {
+  // Open a textarea with the source JSON for manual editing
+  var jsonArea = document.getElementById('json-edit-area');
+  if (!jsonArea) {
+    var panel = document.createElement('div');
+    panel.id = 'json-edit-panel';
+    panel.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:200;display:flex;align-items:center;justify-content:center';
+    panel.innerHTML = '<div style="background:#fff;border-radius:12px;padding:24px;max-width:800px;width:90%;max-height:80vh;display:flex;flex-direction:column">'
+      + '<div style="font-size:16px;font-weight:700;margin-bottom:12px">Edit Source JSON</div>'
+      + '<textarea id="json-edit-area" style="flex:1;min-height:400px;font-family:monospace;font-size:13px;border:1px solid #ddd;border-radius:6px;padding:12px;resize:vertical"></textarea>'
+      + '<div style="margin-top:12px;display:flex;gap:10px">'
+      + '<button class="btn btn-approve" onclick="submitEditedJson()">Save &amp; Export</button>'
+      + '<button class="btn btn-neutral" onclick="cancelJsonEdit()">Cancel</button>'
+      + '</div></div>';
+    document.body.appendChild(panel);
+  }
+  // Load the source JSON file content (look for the backing .json file)
+  var srcEl = document.getElementById('gate-source-json');
+  if (srcEl) {
+    document.getElementById('json-edit-area').value = srcEl.textContent;
+  } else {
+    document.getElementById('json-edit-area').value = '// Source JSON not embedded. Paste your edited version here.';
+  }
+}
+
+function submitEditedJson() {
+  var area = document.getElementById('json-edit-area');
+  if (!area) return;
+  try {
+    var edited = JSON.parse(area.value);
+    const state = load();
+    state.overall = { type: 'rework', comment: 'Manual JSON edit', timestamp: Date.now() };
+    save(state);
+    // Export with edited_data
+    const gateName = _getGateName();
+    const gateType = _getGateType();
+    const decision = {
+      gate_name: gateName,
+      gate_type: gateType,
+      status: 'rework_manual',
+      timestamp: new Date().toISOString(),
+      overall_comment: 'Manual JSON edit',
+      decisions: state.items || {},
+      edited_data: edited,
+    };
+    var filename = gateName + '.gate.json';
+    var blob = new Blob([JSON.stringify(decision,null,2)],{type:'application/json'});
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = filename;
+    a.click();
+    document.getElementById('json-edit-panel').remove();
+    renderOverall();
+  } catch(e) {
+    alert('Invalid JSON: ' + e.message);
+  }
+}
+
+function cancelOverallComment() {
+  document.getElementById('ocb').style.display = 'none';
+}
+
+function cancelJsonEdit() {
+  var panel = document.getElementById('json-edit-panel');
+  if (panel) panel.remove();
+}
+
+// Detail modal — replaces hover tooltips
+function openDetailModal(html) {
+  document.getElementById('detail-modal-content').innerHTML = html;
+  document.getElementById('detail-modal-bg').classList.add('open');
+}
+function closeDetailModal() {
+  document.getElementById('detail-modal-bg').classList.remove('open');
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeDetailModal();
+});
+// Click handler for .tag-link elements — read nested .tag-tooltip content
+document.addEventListener('click', function(e) {
+  var link = e.target.closest('.tag-link');
+  if (!link) return;
+  var tip = link.querySelector('.tag-tooltip');
+  if (tip) { e.preventDefault(); e.stopPropagation(); openDetailModal(tip.innerHTML); }
+});
+
+function scrollToRef(id) {
+  var el = document.getElementById(id);
+  if (el) { el.scrollIntoView({behavior:'smooth',block:'center'});
+             el.classList.add('highlight-flash');
+             setTimeout(function(){el.classList.remove('highlight-flash')},900); }
+}
+
+/* ── Generalized entry refine (all gate types) ──────────────────── */
+function toggleEntryRefinePanel(entryId) {
+  var panel = document.getElementById('refine-panel-' + entryId);
+  if (!panel) return;
+  document.querySelectorAll('.mod-refine-panel').forEach(function(p) { if (p !== panel) p.style.display = 'none'; });
+  panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+}
+
+function refineEntry(entryId, preset) {
+  var decDiv = document.querySelector('[data-item-id="' + entryId + '"]');
+  if (!decDiv) return;
+
+  var promptMessages = {
+    'rescope': 'How should this entry be re-scoped?',
+    'add_detail': 'What detail should be added?',
+    'adjust_severity': 'What should the severity be changed to and why?',
+    'remove': 'Confirm removal — why should this entry be removed?',
+    'reassess': 'How should the confidence/evidence be re-assessed?',
+    'adjust_scope': 'How should the scope be adjusted?',
+    'clarify': 'What needs clarification?',
+    'update_mitigation': 'What is the updated mitigation strategy?',
+    'propose_mitigation': 'Propose a mitigation for this gap:',
+    'change_trope': 'Which trope should be used instead?',
+    'adjust_cpa': 'What CPA phase should this be?',
+    'change_interaction': 'What interaction mode should be used?',
+    'adjust_scaffolding': 'What scaffolding level should this be?',
+    'adjust_placement': 'How should the placement be adjusted?',
+    'sharpen': 'How should this be sharpened?',
+    'expand': 'What should be expanded?',
+    'add': 'What entry should be added?',
+    'split': 'How should this be split?',
+    'custom': 'Describe the refinement:'
+  };
+
+  var instruction = prompt(promptMessages[preset] || 'Instruction for ' + preset + ':');
+  if (instruction === null) return;
+  if (!instruction.trim() && preset !== 'remove') return;
+
+  var runDir = document.body.dataset.runDir || '';
+  var gateName = document.body.dataset.gateName || _getGateName();
+  if (!runDir) { alert('Cannot refine: run_dir not set. Open this page via LMS.'); return; }
+
+  // Find the entry's parent card/section for loading state
+  var card = decDiv.closest('.card, .mod-card, .gate-item, [id^="gate-"]') || decDiv.parentElement;
+  if (card) card.style.opacity = '0.5';
+
+  // Close refine panel
+  var panel = document.getElementById('refine-panel-' + entryId);
+  if (panel) panel.style.display = 'none';
+
+  fetch(_lmsApiBase() + '/api/gates/refine-entry', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      run_dir: runDir,
+      gate_name: gateName,
+      entry_id: entryId,
+      preset: preset,
+      instruction: instruction
+    }),
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (card) card.style.opacity = '1';
+    if (data.error) { alert('Refine failed: ' + data.error); return; }
+    // Reload the page to show updated gate HTML (re-rendered server-side)
+    window.location.reload();
+  })
+  .catch(function(e) {
+    if (card) card.style.opacity = '1';
+    alert('Refine failed: ' + e + '\n\nMake sure LMS is running.');
+  });
+}
+
+function _lmsApiBase() {
+  if (window.location.protocol === 'file:') return 'http://localhost:8420';
+  return '';
+}
+
+/* ── Shared read-helper: prime local UI from server gate state ───────
+ * Both entry points to gate approval (the chapter-page table buttons and
+ * this page's own Approve/Rework buttons) POST through the same
+ * /api/gates/submit endpoint. But until now only the in-page flow wrote
+ * to this HTML's localStorage, so when a reviewer approved via the
+ * chapter-page table the gate HTML would still show "Approve" buttons
+ * at the bottom — disconnected from the server's .gate.json.
+ *
+ * This function is the read-side equivalent of submitGateDecision: one
+ * place that fetches /api/gates/status and reconciles the UI with the
+ * server's decision. Called once on DOMContentLoaded. Silent on any
+ * failure (no LMS, CORS, offline file:// review) — renderOverall will
+ * still show whatever localStorage has.
+ * ────────────────────────────────────────────────────────────────────*/
+function primeStateFromServer() {
+  var runDir = (document.body && document.body.dataset && document.body.dataset.runDir) || '';
+  var gateName = (document.body && document.body.dataset && document.body.dataset.gateName)
+                 || (typeof _getGateName === 'function' ? _getGateName() : '');
+  if (!runDir || !gateName) return;
+
+  var url = _lmsApiBase() + '/api/gates/status?run_dir=' + encodeURIComponent(runDir);
+  fetch(url)
+    .then(function(r) { return r.ok ? r.json() : null; })
+    .then(function(data) {
+      if (!data || !data.gates) return;
+      var serverGate = data.gates[gateName];
+      if (!serverGate || serverGate.status === 'not_found') return;
+
+      // Map server status → local overall.type vocabulary
+      var typeMap = {
+        'approved':               'approve',
+        'approved_with_comments': 'approve',
+        'approved_with_flags':    'approve_flags',
+        'rework_llm':             'rework',
+        'rework_manual':          'rework'
+      };
+      var overallType = typeMap[serverGate.status];
+      if (!overallType) return;
+
+      var state = load();
+      var existing = state.overall || {};
+      // If the user has an unsynced local decision, leave it alone.
+      // A `fromServer: true` marker lets us tell "primed from server"
+      // apart from "user clicked something and hasn't pushed yet".
+      if (existing.type && !existing.fromServer) return;
+
+      state.overall = {
+        type: overallType,
+        comment: serverGate.comment || '',
+        timestamp: serverGate.submitted_at || null,
+        fromServer: true
+      };
+      save(state);
+      renderOverall();
+    })
+    .catch(function() { /* silent — not fatal */ });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('[data-item-id]').forEach(el => renderItem(el.dataset.itemId));
+  renderProgress(); renderOverall();
+  primeStateFromServer();
+});
+</script>
+</body>
+</html>
