@@ -24,8 +24,8 @@ a{color:#93c5fd;text-decoration:none}
 .filter-btn.active{background:#334155;color:#f8fafc;border-color:#64748b}
 
 /* ── Legend ────────────────────────────────────────────────────────── */
-.legend{display:flex;flex-wrap:wrap;gap:12px;padding:10px 20px;
-        background:#1e293b;border-bottom:1px solid #334155;font-size:11px}
+/* Desktop: hidden — uses same modal trigger as mobile */
+.legend{display:none}
 .legend-item{display:flex;align-items:center;gap:5px;color:#94a3b8}
 .legend-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
 
@@ -183,8 +183,12 @@ a{color:#93c5fd;text-decoration:none}
 /* Bottom agent nav */
 .agent-nav{display:none}
 
-/* Legend modal trigger (hidden on desktop) */
-.legend-trigger{display:none}
+/* Legend modal trigger — always visible (desktop + mobile) */
+.legend-trigger{display:inline-flex;align-items:center;gap:4px;
+  font-size:10px;font-weight:700;color:#94a3b8;cursor:pointer;
+  background:#0f172a;border:1px solid #334155;border-radius:5px;
+  padding:3px 10px;margin-left:auto}
+.legend-trigger:hover{border-color:#64748b;color:#e2e8f0}
 
 @media (max-width:1024px) {
   /* Canvas: remove min-width, lanes stack as switchable columns */
@@ -208,13 +212,8 @@ a{color:#93c5fd;text-decoration:none}
   .toolbar-label{font-size:9px;margin-right:3px}
   .filter-btn{font-size:9px;padding:2px 6px}
 
-  /* Hide legend, show trigger button */
-  .legend{display:none!important}
-  .legend-trigger{display:inline-flex;align-items:center;gap:4px;
-    font-size:9px;font-weight:700;color:#94a3b8;cursor:pointer;
-    background:#0f172a;border:1px solid #334155;border-radius:5px;
-    padding:2px 8px;margin-left:auto}
-  .legend-trigger:hover{border-color:#64748b;color:#e2e8f0}
+  /* Legend trigger: slightly smaller on mobile */
+  .legend-trigger{font-size:9px;padding:2px 8px}
 
   /* Legend modal (reuses .modal-bg) */
   .legend-modal{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;
@@ -302,6 +301,48 @@ a{color:#93c5fd;text-decoration:none}
       <span class="env-tag"><span class="opt">OPT</span>VOYAGE_API_KEY (embeddings)</span>
       <span class="env-tag"><span class="opt">OPT</span>LibreOffice (PPTX thumbnails)</span>
       <span class="env-tag"><span class="opt">OPT</span>DYLD_LIBRARY_PATH (macOS)</span>
+    </div>
+  </details>
+</div>
+
+<!-- ── S22 Infrastructure Layer ────────────────────────────────────── -->
+<div class="env-box" style="border-color:#8b5cf633">
+  <details>
+    <summary style="color:#c4b5fd">S22 Infrastructure: Validation + Domain Rules + Field Contracts</summary>
+    <div style="margin-top:10px;font-size:12px;color:#cbd5e1;line-height:1.7">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin-top:8px">
+
+        <div style="background:#0f172a;border:1px solid #334155;border-left:3px solid #8b5cf6;border-radius:6px;padding:10px 12px">
+          <div style="font-size:11px;font-weight:700;color:#c4b5fd;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Validation Layer</div>
+          <div style="font-family:monospace;font-size:10px;color:#93c5fd;line-height:1.8">
+            api_call() &rarr; fix_output() &rarr; validate_output()<br>
+            &nbsp;&nbsp;PASS &rarr; continue<br>
+            &nbsp;&nbsp;CRITICAL &rarr; retry(1x) with feedback &rarr; fix &rarr; validate<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;PASS &rarr; continue<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;FAIL &rarr; SkillOutputError &rarr; manifest + LMS
+          </div>
+          <div style="margin-top:6px;font-size:10px;color:#94a3b8">Deterministic fixes: null&rarr;[], stringified JSON&rarr;parse, legacy field rename, type cast, envelope unwrap</div>
+        </div>
+
+        <div style="background:#0f172a;border:1px solid #334155;border-left:3px solid #22c55e;border-radius:6px;padding:10px 12px">
+          <div style="font-size:11px;font-weight:700;color:#86efac;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Domain Rules (24 files)</div>
+          <div style="font-size:11px;color:#cbd5e1">
+            <span style="color:#86efac;font-weight:600">Tier A</span> (shared, 3+ skills): scope_discipline, delivery_language, applet_conventions, storyboard_read_rules, module_level_tropes, visual_hierarchy<br>
+            <span style="color:#86efac;font-weight:600">Tier B</span> (unique): slide_role_observations, concept_attribution, visual_model_protocol, media_insertion, coverage_audit, +13 more
+          </div>
+          <div style="margin-top:6px;font-size:10px;color:#94a3b8">Each skill gets ONLY its mapped rules via <code style="background:#1e293b;padding:1px 4px;border-radius:3px;font-size:10px;color:#93c5fd">{{domain_rules}}</code>. Templates slimmed 72% (1633&rarr;464 lines).</div>
+        </div>
+
+        <div style="background:#0f172a;border:1px solid #334155;border-left:3px solid #f59e0b;border-radius:6px;padding:10px 12px">
+          <div style="font-size:11px;font-weight:700;color:#fde68a;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Field Contracts + Handoff Checks</div>
+          <div style="font-size:11px;color:#cbd5e1">
+            <code style="background:#1e293b;padding:1px 4px;border-radius:3px;font-size:10px;color:#93c5fd">field_contracts.json</code>: declares required/optional fields per skill + downstream consumers.<br>
+            <span style="color:#fde68a;font-weight:600">14 boundary checks</span>: 7 in A2 (S1b&rarr;S2&rarr;S3&rarr;S5&rarr;S6&times;4&rarr;S7&rarr;S8) + 7 in A3.
+          </div>
+          <div style="margin-top:6px;font-size:10px;color:#94a3b8">Catches missing/wrong-type fields at skill boundaries before downstream consumers silently drop data.</div>
+        </div>
+
+      </div>
     </div>
   </details>
 </div>
@@ -434,11 +475,11 @@ const NODES = [
    model:null,gate:null,cost:'$0',caveats:null,schema:null,constraints:['data-run-dir must be filesystem path, not /files/ URL']},
 
   {id:'a1_gates',agent:'A1',type:'gate',label:'3 Chapter Gates',
-   blurb:'Human reviews gates in LMS. CHAPTER_MODULE_SEQUENCE is HARD (blocks finalize). LO_BRIEF and RESEARCH_BRIEF are SOFT (can auto-pass).',
-   inp:['3 gate HTMLs in iframe'],proc:['Per-entry: Accept / Refine / Comment / Insert After (S21)','Page-level: Approve / Approve with Comments / Rework','Refine calls /api/gates/refine-module (split/merge/refine/insert)'],
+   blurb:'Human reviews gates in LMS. CHAPTER_MODULE_SEQUENCE is HARD (blocks finalize). LO_BRIEF and RESEARCH_BRIEF are SOFT (can auto-pass). Refine actions trigger optional Haiku LLM calls.',
+   inp:['3 gate HTMLs in iframe'],proc:['Per-entry: Accept / Refine / Comment / Insert After (S21)','Page-level: Approve / Approve with Comments / Rework','Refine calls /api/gates/refine-module (split/merge/refine/insert) — Haiku LLM'],
    out:['*.gate.json files','GATE_REFINE_LOG.jsonl (if refined)','reviewer_directives (from page comments)'],
-   model:null,gate:'mixed',cost:'$0 (or ~$0.02 per refine call)',
-   caveats:'Module sequence gate is HARD. When all hard gates approved, auto-finalize triggers.',
+   model:'haiku',gate:'mixed',cost:'$0 (or ~$0.02 per refine call)',
+   caveats:'Module sequence gate is HARD. Refine = optional Haiku LLM call per entry. When all hard gates approved, auto-finalize triggers.',
    schema:'{\n  gate_name, status, overall_comment,\n  reviewer_directives: string,\n  decisions: {item_id: {type, comment}},\n  flags_for_downstream: {}\n}',
    constraints:['Hard gates MUST be approved before finalize','Soft gates auto-pass if not reviewed','postMessage from iframe to parent for gate decisions'],
    prompts:[{title:'Refine Prompts — refine_gate_entry + refine_module_entry',body:`<h4>refine_gate_entry (Haiku, any gate entry)</h4>
@@ -500,7 +541,7 @@ const NODES = [
    proc:['LLM tool_use: derive_module_lo schema'],out:['MODULE_LO_BRIEF.json'],
    model:'sonnet',gate:null,cost:'~$0.03-0.08',caveats:null,
    schema:'{\n  module_lo: string,\n  prerequisite_chain: string[],\n  content_type: "Learn"|"Practice"|"Challenge",\n  lo_codes: string[],\n  notes: string\n}',
-   constraints:['LO must be testable, 1 sentence','content_type must match A1 sequence entry'],
+   constraints:['LO must be testable, 1 sentence','content_type must match A1 sequence entry','validated_api_call: fix→validate→retry→halt','Handoff check after output'],
    prompts:[{title:'System Prompt — derive_module_lo',body:`<h4>Role</h4>
 <div class="rule">Your job is to <span class="emphasis">refine and confirm</span> — not to invent. The KB evidence supplies the atomic LOs. You scope and sharpen them.</div>
 <h4>Rules</h4>
@@ -509,25 +550,30 @@ const NODES = [
 <div class="rule">lo_codes must map to KB <code>classroots_topics</code> — semantic match, not keyword.</div>`}]},
 
   {id:'a2_s2',agent:'A2',type:'skill',label:'S2: Research (Module)',
-   blurb:'Module-scoped research: misconceptions, VIRs, IAS, conventions, gaps. Inherits chapter research and applies module focus.',
+   blurb:'Module-scoped research: misconceptions, VIRs, IAS, conventions, gaps, prerequisites_to_reactivate. Inherits chapter research and applies module focus. S22: domain rules injected via {{domain_rules}} (4 rules).',
    inp:['T2 extract','T6_module_kb.json','curriculum_context','CHAPTER_RESEARCH_BRIEF'],
-   proc:['LLM tool_use: research_deep, scope="module"'],out:['MODULE_RESEARCH_BRIEF.json'],
-   model:'sonnet',gate:null,cost:'~$0.08-0.20',caveats:'Reviewer directives from A1 gates injected into prompt',
-   schema:'Same as Chapter Research Brief\n+ inheritance_notes field',constraints:null,
+   proc:['LLM tool_use: research_deep, scope="module"','Handoff check after output'],out:['MODULE_RESEARCH_BRIEF.json'],
+   model:'sonnet',gate:null,cost:'~$0.08-0.20',caveats:'Reviewer directives from A1 gates injected. S22: prerequisites_to_reactivate REQUIRED for position > 1.',
+   schema:'Same as Chapter Research Brief\n+ inheritance_notes\n+ prerequisites_to_reactivate: [\n    {concept, source_module, reactivation_strategy}\n  ]  (S22: REQUIRED for module position > 1)',constraints:['validated_api_call: fix→validate→retry→halt','S22: prerequisites_to_reactivate required non-empty when position > 1'],
    prompts:[{title:'System Prompt — research_deep (module scope)',body:`<h4>Same core rules as Chapter S2, plus:</h4>
 <div class="rule critical"><code>lo_misconceptions</code> — COMPLETE list REQUIRED. Every KB checklist item must appear.</div>
 <div class="rule mandatory">Reviewer directives from A1 gates are injected into <code>CURRICULUM_CONTEXT</code> — these take priority over KB defaults and model choices.</div>
 <div class="rule">Module scope: trope recommendations are valid and expected.</div>
-<div class="rule"><code>inheritance_notes</code> field documents what was refined from chapter-level research.</div>`}]},
+<div class="rule"><code>inheritance_notes</code> field documents what was refined from chapter-level research.</div>
+<h4>S22: Prerequisites to Reactivate (REQUIRED for module scope, position > 1)</h4>
+<div class="rule critical">Populate <code>prerequisites_to_reactivate</code> with prior-module concepts this module must explicitly recall. Empty <code>[]</code> ONLY for position 1 or non-module scope.</div>
+<div class="rule">Each entry: <code>concept</code>, <code>source_module</code> (if known), <code>reactivation_strategy</code> (retrieval_practice | explicit_reference | embedded_example | visual_callback).</div>
+<h4>S22: Domain Rules Injection</h4>
+<div class="rule">Template slimmed from 162→42 lines. 4 domain rules injected: scope_discipline, delivery_language, module_level_tropes, vocabulary_status_protocol.</div>`}]},
 
   {id:'a2_s3',agent:'A2',type:'skill',label:'S3: Blueprint (Module)',
-   blurb:'Slide-by-slide blueprint: sections (ATGAR), CPA phases, tropes, applet placements, video placements, visual models, conventions.',
+   blurb:'Slide-by-slide blueprint: sections (ATGAR), CPA phases, tropes, applet placements, video placements, visual models, conventions. S22: 9 domain rules injected, template 267→104 lines.',
    inp:['T2 extract + thumbnails','MODULE_RESEARCH_BRIEF','curriculum_context','screen_map'],
-   proc:['LLM tool_use + VISION: build_blueprint, level="module"','Thumbnails sent as base64 images'],
+   proc:['LLM tool_use + VISION: build_blueprint, level="module"','Thumbnails sent as base64 images','Handoff check after output'],
    out:['IDEAL_MODULE_BLUEPRINT.json'],model:'sonnet',gate:null,cost:'~$0.15-0.40',
    caveats:'Only skill that uses VISION (thumbnails). Most expensive single call.',
    schema:'{\n  slides: [{position, section, purpose,\n    cpa_phase, tropes[], visual_model_vir_id,\n    applet_placement_ref}],\n  applet_placements: [{label, after_slide,\n    pedagogical_stage, lo_served,\n    recommended_ias_archetype}],\n  video_placements: [...],\n  visual_models: [...],\n  trope_map: {math_vault:[], exit_question:[], ...},\n  cpa_summary: {concrete_slides:[], ...},\n  convention_requirements: [...]\n}',
-   constraints:['vision_enabled must be true in infrastructure.json','Thumbnails max 400px width'],
+   constraints:['vision_enabled must be true in infrastructure.json','Thumbnails max 400px width','validated_api_call: fix→validate→retry→halt','Handoff check after output'],
    prompts:[{title:'System Prompt — build_blueprint (module)',body:`<h4>Scoping — Use Module's Assignments, NOT Full KB</h4>
 <div class="rule critical">Vocabulary: introduce only terms assigned to THIS module. Misconceptions: surface only IDs assigned to this module. CPA phase: this module's primary phase determines VIRs.</div>
 <div class="rule">The <code>research_brief</code> contains the FULL chapter/module research — more misconceptions, VIRs, and IAS patterns than this module needs. Scope down.</div>
@@ -551,19 +597,19 @@ const NODES = [
    schema:null,constraints:null},
 
   {id:'a2_gates',agent:'A2',type:'gate',label:'2 Module Gates',
-   blurb:'Both SOFT gates. MODULE_RESEARCH_BRIEF shows misconceptions/VIRs. IDEAL_MODULE_BLUEPRINT shows slide sequence with applet placements.',
-   inp:['2 gate HTMLs'],proc:['Accept / Refine / Comment per entry','Approve / Rework page-level'],
-   out:['*.gate.json','reviewer_directives (flow to A3)'],model:null,gate:'soft',cost:'~$0.02 per refine',
-   caveats:'Both soft — can auto-pass. But review improves A3 quality.',
-   schema:null,constraints:['Directives from these gates flow into A3 curriculum_context']},
+   blurb:'Both SOFT gates. MODULE_RESEARCH_BRIEF shows misconceptions/VIRs. IDEAL_MODULE_BLUEPRINT shows slide sequence with applet placements. Refine actions trigger optional Haiku LLM calls.',
+   inp:['2 gate HTMLs'],proc:['Accept / Refine / Comment per entry','Approve / Rework page-level','Refine calls refine_gate_entry / refine_module_entry — Haiku LLM'],
+   out:['*.gate.json','GATE_REFINE_LOG.jsonl (if refined)','reviewer_directives (flow to A3)'],model:'haiku',gate:'soft',cost:'~$0.02 per refine',
+   caveats:'Both soft — can auto-pass. Refine = optional Haiku LLM call per entry. Review improves A3 quality.',
+   schema:null,constraints:['Directives from these gates flow into A3 curriculum_context','Refine log written to GATE_REFINE_LOG.jsonl with before/after diff']},
 
   // A2 Phase B-D
-  {id:'a2_s4',agent:'A2',type:'skill',label:'S4: Antipatterns',
-   blurb:'Scans for common pedagogical antipatterns: vocab without definition, misconception not surfaced before practice, CPA skip, false friend unwarned.',
-   inp:['T2 extract','IDEAL_MODULE_BLUEPRINT','prior trace'],proc:['LLM tool_use: scan_antipatterns','pattern_set="shared"'],
-   out:['T5_antipatterns.json'],model:'sonnet',gate:null,cost:'~$0.03-0.08',caveats:null,
-   schema:'{\n  violations: [{pattern_id, pattern_name,\n    present: bool, location, description,\n    fix: {operation, text, confidence}|null}]\n}',
-   constraints:null,
+  {id:'a2_s4',agent:'A2',type:'skill',label:'S7: Antipatterns',
+   blurb:'Scans for pedagogical antipatterns (AP1-AP3 shared). S22: 7 domain rules injected, template 140→17 lines, handoff check after output.',
+   inp:['T2 extract','IDEAL_MODULE_BLUEPRINT','prior trace','screen_map','thumbnails'],proc:['LLM tool_use: scan_antipatterns, pattern_set="shared"','Handoff check after output'],
+   out:['S7_antipatterns.json'],model:'sonnet',gate:null,cost:'~$0.03-0.08',caveats:null,
+   schema:'{\n  violations: [{pattern_id, pattern_name,\n    present: bool, location, description,\n    fix: {operation, text, confidence}|null,\n    suspended_by_role: string|null}],\n  slide_role_observations: [...]\n}',
+   constraints:['validated_api_call: fix→validate→retry→halt','S22: pattern_name required (legacy name/type fallback logs warning)'],
    prompts:[{title:'System Prompt — scan_antipatterns',body:`<h4>Animation Sequence Detection (CRITICAL)</h4>
 <div class="rule critical">Adjacent slides with near-identical shape counts = animation frames for one logical screen.</div>
 <div class="rule critical"><code>&raquo;</code> alone is NOT evidence of a tap affordance — it's a standard navigation arrow. Click-to-reveal only when: "Tap &raquo;", "Tap to reveal", "Tap to continue".</div>
@@ -574,11 +620,11 @@ const NODES = [
 <div class="rule mandatory">Tropes are module-level only. Do NOT flag the absence of a trope inside the applet. Recommend trope-need as module-level action.</div>`}]},
 
   {id:'a2_s5',agent:'A2',type:'skill',label:'S5: Gate Scores',
-   blurb:'Scores hard/critical gates: alignment, completeness, misconception coverage, vocabulary coverage.',
-   inp:['T2 extract','research_brief','blueprint','KB','antipatterns'],proc:['LLM tool_use: score_gates, gate_set="module"'],
-   out:['S5_gate_scores.json'],model:'sonnet',gate:null,cost:'~$0.03-0.08',caveats:null,
-   schema:'{\n  gates: [{gate_id, gate_name, gate_type,\n    what_this_checks, passed: bool,\n    evidence, recommendation}]\n}',
-   constraints:['gate_blocked=true if any hard gate fails'],
+   blurb:'Scores hard/critical/advisory gates. S22: 7 domain rules injected, template 146→14 lines, handoff check after output.',
+   inp:['T2 extract','research_brief','blueprint','KB','screen_map','thumbnails'],proc:['LLM tool_use: score_gates, gate_set="module"','Handoff check after output'],
+   out:['S5_gates.json'],model:'sonnet',gate:null,cost:'~$0.03-0.08',caveats:null,
+   schema:'{\n  gates: [{gate_id, gate_name,\n    gate_type: "hard"|"critical"|"advisory_recommendation",\n    what_this_checks, passed: bool,\n    evidence, recommendation (string|null),\n    recommendations: [{what,where,why,how}] (advisory only)\n  }]\n}',
+   constraints:['gate_blocked=true if any hard gate fails','validated_api_call: fix→validate→retry→halt','S22: advisory_gate_protocol rule injected'],
    prompts:[{title:'System Prompt — score_gates',body:`<h4>Storyboard Screen-Read Rule (BEFORE evaluating G5-G7)</h4>
 <div class="rule critical">Use <code>screen_map</code> if provided — groups slides into logical screens. Feedback states (Not quite, Yay, Try again) are part of same screen. Animation frames = one logical screen.</div>
 <div class="rule critical"><code>&raquo;</code> is NOT always a tap affordance — must be in explicit action sentence. Default: sequential auto-advance, NOT tap-to-reveal.</div>
@@ -588,57 +634,51 @@ const NODES = [
 <div class="rule mandatory">Tropes are module-level only. Do NOT flag absence of a trope inside the applet.</div>`}]},
 
   {id:'a2_s6',agent:'A2',type:'skill',label:'S6: 4 Quadrant Scores',
-   blurb:'Four LLM calls scoring P (Pedagogical), D (Delivery), X (Expert alignment), L (Learning sciences). Each 0-100 with per-criterion evidence.',
+   blurb:'Four LLM calls scoring P (Pedagogical), D (Delivery), X (Expert alignment), L (Learning sciences). Each 0-100 with per-criterion evidence. S22: kb_mismatches per criterion, 12 domain rules injected, template 381→37 lines.',
    inp:['T2 extract + thumbnails','research_brief','blueprint','prior_trace','antipatterns'],
-   proc:['score_quadrant("P")','score_quadrant("D") + vision','score_quadrant("X") + vision','score_quadrant("L")'],
+   proc:['score_quadrant("P")','score_quadrant("D") + vision','score_quadrant("X") + vision','score_quadrant("L")','Handoff check after each quadrant'],
    out:['S6_P_scores.json','S6_D_scores.json','S6_X_scores.json','S6_L_scores.json'],
    model:'sonnet',gate:null,cost:'~$0.15-0.40 (4 calls)',
    caveats:'35s delay between each quadrant call. D and X use thumbnails.',
-   schema:'{\n  criteria: [{criterion_id, criterion_name,\n    max_score, score, evidence, reasoning,\n    recommendation: {operation, text,\n      confidence, source}|null}],\n  quadrant_total: int,\n  quadrant_verdict: "Ship"|"Upgrade"|"Rework"\n}',
-   constraints:['Each call enforced via tool_use','Verdicts: Ship>=90%, Upgrade>=75%, Rework<75%'],
+   schema:'{\n  criteria: [{criterion_id, criterion_name,\n    max_score, score, evidence, reasoning,\n    recommendation: {operation, text,\n      confidence, source}|null,\n    kb_mismatches: [{table, flag, note}]  (S22)\n  }],\n  quadrant_total: int,\n  quadrant_verdict: "Ship"|"Upgrade"|"Rework",\n  observed_visuals: [...] (D/X only),\n  concepts_on_slide: [...] (P only),\n  slide_role_observations: [...] (D/X/S7)\n}',
+   constraints:['Each call enforced via tool_use','Verdicts: Ship>=90%, Upgrade>=75%, Rework<75%','validated_api_call: fix→validate→retry→halt','S22: max_score per criterion = 3 (not 5)'],
    prompts:[{title:'System Prompt — score_quadrant (P/D/X/L)',body:`<h4>Scoring Source of Truth</h4>
 <div class="rule critical">Score against the <span class="emphasis">rubric criteria</span> only. The <code>ideal_blueprint</code> is a design reference.</div>
 <div class="rule critical">Do NOT deduct points because the submission differs from the blueprint. Use blueprint to inform EDIT/INSERT recommendations, not as comparison checklist.</div>
 <h4>Content-Type Column</h4>
 <div class="rule mandatory">Do NOT penalise a Learn module for missing Practice-column behaviours. Each rubric criterion has Learn / Practice / Challenge columns — score against the correct one.</div>
-<h4>Animation Sequences</h4>
-<div class="rule">Adjacent similar slides = one logical screen. Do not penalise designed temporal reveals as cognitive-load violations.</div>
-<h4>Trope Scope</h4>
-<div class="rule mandatory">When scoring applet: do NOT recommend inserting a trope within the applet. Recommend as "module-level action".</div>
-<h4>Blueprint Context per Quadrant</h4>
-<div class="rule">P-quadrant: check CPA progression + misconception surfacing via Math Trap.</div>
-<div class="rule">L-quadrant: verify conventions addressed at specified locations.</div>
-<div class="rule">Score against module's SPECIFIC assignments, not full research_brief.</div>
 <h4>Verdict Thresholds</h4>
-<div class="rule">Ship: &ge;90% max_points. Upgrade: &ge;75%. Rework: &lt;75%.</div>`}]},
+<div class="rule">Ship: &ge;90% max_points. Upgrade: &ge;75%. Rework: &lt;75%.</div>
+<h4>S22: KB Evidence Quality (kb_mismatches)</h4>
+<div class="rule mandatory">For each criterion, assess KB evidence fit. Populate <code>kb_mismatches</code> when imperfect: <code>adjacent</code> (wrong grade), <code>domain</code> (domain-level only), <code>embedding</code> (semantic only), <code>not_found</code>. Empty <code>[]</code> when KB evidence was strong.</div>
+<div class="rule">Feeds compile aggregation + render KB Reference Notes panel + KB enrichment pipeline.</div>
+<h4>S22: Domain Rules Injection (12 rules)</h4>
+<div class="rule">Template slimmed from 381&rarr;37 lines. All domain knowledge now in <code>config/rubric/rules/</code>.</div>
+<div class="rule">Injected rules: scope_discipline, delivery_language, applet_conventions, storyboard_read_rules, module_level_tropes, visual_hierarchy, slide_role_observations, concept_attribution, visual_model_protocol, media_insertion_heuristics, applicable_field_protocol, dev_note_anchoring.</div>`}]},
 
   {id:'a2_t7',agent:'A2',type:'tool',label:'T7: Compile Review',
-   blurb:'Merges all scores into final CompiledReview: overall score, verdict, upgrade map, must-fix list, KB mismatches.',
-   inp:['S5_gate_scores','S6_P/D/X/L_scores','T5_antipatterns','S8_mastery','topic'],
-   proc:['compile_review()','Sort priority_actions by gap descending','Build upgrade_map'],
-   out:['T7_compiled_review.json'],model:null,gate:null,cost:'$0',caveats:null,
-   schema:'{\n  overall_score: float,\n  verdict: "ship"|"upgrade"|"rework"|"reject",\n  gate_blocked: bool,\n  scores: {P:{total,max,percent,criteria},D:{...},X:{...},L:{...}},\n  recommendations: {must_fix:[], should_upgrade:[]},\n  upgrade_map: {priority_actions:[], gate_recommendations:[]}\n}',
-   constraints:['Thresholds: ship>=95, upgrade>=85, rework>=60, reject<60']},
+   blurb:'Merges all scores into final CompiledReview. S22: 5 bug fixes (KeyError guards, max_score 3, gate_name field fix), handoff checks fire before compile, kb_mismatches now populated from S6.',
+   inp:['S5_gate_scores','S6_P/D/X/L_scores (with kb_mismatches)','S7_antipatterns','S8_mastery','topic','blueprint','research_brief','quadrant_meta','antipatterns_meta'],
+   proc:['Handoff checks on all inputs','compile_review()','Applicable-to filtering (applet rubric)','Slide role merge (S6+S7 observations)','Antipattern role-based suspension','Sort priority_actions by gap descending','Build upgrade_map','Translation notes aggregation'],
+   out:['MODULE_REVIEW.json'],model:null,gate:null,cost:'$0',caveats:'S22: all .get() guards verified, no bracket-access crash risks remain',
+   schema:'{\n  overall_score: float,\n  verdict: "ship"|"upgrade"|"rework"|"reject",\n  gate_blocked: bool,\n  scores: {P:{total,max,percent,criteria,\n    observed_visuals,concepts_on_slide},\n    D:{...},X:{...},L:{...}},\n  gates: {hard:[], critical:[], advisory:[]},\n  advisory_recommendations: [],\n  antipatterns: [] (with suspension info),\n  mastery: {...},\n  recommendations: {must_fix:[], should_upgrade:[]},\n  upgrade_map: {priority_actions:[], gate_recommendations:[], mastery_gaps:[]},\n  kb_mismatches: [] (S22: now populated from S6),\n  kb_quality: {...},\n  blueprint_compliance: {...},\n  translation_notes: [],\n  slide_roles: {}\n}',
+   constraints:['Thresholds: ship>=95, upgrade>=85, rework>=60, reject<60','S22: max_score default 3 (was 5)','S22: gate_name read from gate_name field (was incorrectly reading name)','S22: antipattern legacy field fallback logs warning']},
 
   {id:'a2_s8',agent:'A2',type:'skill',label:'S8: Assess Mastery',
-   blurb:'Estimates mastery: what students can/cannot do, misconception coverage %, vocabulary coverage %, path to 100%.',
-   inp:['T2 extract','research_brief','blueprint','prior_trace'],
-   proc:['LLM tool_use: assess_mastery'],out:['S8_mastery.json'],
+   blurb:'Estimates mastery: what students can/cannot do, misconception coverage %, vocabulary coverage %, path to 100%. S22: 5 domain rules injected, template 237→34 lines.',
+   inp:['T2 extract','research_brief','blueprint','prior_trace','compiled_review (S5+S6+S7)'],
+   proc:['LLM tool_use: assess_mastery','Handoff check after output'],out:['S8_mastery.json'],
    model:'sonnet',gate:null,cost:'~$0.03-0.08',caveats:null,
-   schema:'{\n  mastery_estimate: {\n    fluency_achieved, fluency_gaps,\n    misconception_coverage: {total, addressed_count, gap:[]},\n    vocabulary_coverage: {expected:[], found:[], missing:[]},\n    coverage_percent: int,\n    path_to_100: [{gap, closure_step, impact}]\n  }\n}',
-   constraints:null,
+   schema:'{\n  mastery_estimate: {\n    fluency_achieved, fluency_gaps,\n    misconception_coverage: {total, addressed_count, gap:[]},\n    vocabulary_coverage: {expected:[], found:[], missing:[]},\n    visual_model_coverage: {expected_virs:[], found_virs:[], missing:[]},\n    content_role: {fulfilled, notes},\n    interaction_progression: {fulfilled, notes},\n    coverage_percent: int,\n    path_to_100: [{gap, closure_step, impact}]\n  }\n}',
+   constraints:['validated_api_call: fix→validate→retry→halt','S22: compile.py guards vocab/vm missing fields (B1 bug fix)'],
    prompts:[{title:'System Prompt — assess_mastery',body:`<h4>Coverage Grounding (IMPORTANT)</h4>
 <div class="rule critical">Frame in terms of <span class="emphasis">LO and student experience</span>.</div>
 <div class="rule">DO: "Students have no independent transfer task"</div>
 <div class="rule">DO NOT: "Two of three blueprint applets are absent"</div>
-<div class="rule">Describe what students CAN and CANNOT do — not what artifacts are present.</div>
-<h4>Misconception Coverage — Structured Cross-Reference (REQUIRED)</h4>
-<div class="rule critical">Two sources count as "addressed": (1) Applet-surfaced (from compiled_review applet summaries). (2) Module-slide-addressed (from P4 evidence naming misconception with described strategy).</div>
-<div class="rule critical">A generic warning sentence alone does NOT count as addressed.</div>
-<div class="rule mandatory">Populate: <code>total</code>, <code>addressed_count</code>, <code>addressed[]</code>, <code>gap[]</code> (with severity + recommendation for each gap).</div>
-<h4>Vocabulary &amp; Visual Model Coverage</h4>
-<div class="rule">If Expected Vocabulary provided: populate <code>found</code>, <code>missing</code>, <code>missing_note</code>.</div>
-<div class="rule">If blueprint references VIRs: populate <code>expected_virs</code>, <code>found_virs</code>, <code>missing</code>.</div>
+<h4>S22: Domain Rules Injection (5 rules)</h4>
+<div class="rule">Template slimmed from 237&rarr;34 lines. Injected rules: scope_discipline, delivery_language, applet_conventions, applet_scope_discipline, coverage_audit_protocol.</div>
+<div class="rule mandatory"><code>applet_scope_discipline</code>: module-level tropes are NOT applet mastery gaps. Parent-module failures don't drag applet coverage_percent down.</div>
+<div class="rule mandatory"><code>coverage_audit_protocol</code>: structured cross-reference for misconception + vocabulary + VIR coverage (expected&rarr;found&rarr;missing).</div>
 <h4>Assessment Rules</h4>
 <div class="rule mandatory">Ground every claim in compiled_review evidence. Do not infer mastery from content that scored below max.</div>
 <div class="rule"><code>path_to_100</code> ordered by impact (highest first). <code>coverage_percent</code> is estimate — be honest about uncertainty.</div>`}]},
@@ -675,12 +715,12 @@ const NODES = [
    out:['T6_applet_kb.json'],model:null,gate:null,cost:'$0',caveats:null,schema:null,constraints:null},
 
   {id:'a3_s1c',agent:'A3',type:'skill',label:'S1c: Applet LO',
-   blurb:'Derives applet LO, IAS archetype, 6-stage scope, applet type (standard/misconception/exit_question).',
+   blurb:'Derives applet LO, IAS archetype, 6-stage scope, applet type (standard/misconception/exit_question). S22: handoff check, validated_api_call.',
    inp:['T2/T3 extract','T6_applet_kb','curriculum_context','applet placement from blueprint'],
    proc:['LLM tool_use: derive_applet_lo'],out:['APPLET_LO_BRIEF.json'],
    model:'sonnet',gate:null,cost:'~$0.03-0.08',caveats:null,
    schema:'{\n  applet_lo: string,\n  ias_archetype: string,\n  applet_type: "standard"|"misconception"|"exit_question",\n  pedagogical_stage: "Explore"|"Consolidation"|"Practice"|"Assessment",\n  six_stage_scope: {\n    stages_covered: string[],\n    entry_stage, exit_stage, notes\n  }\n}',
-   constraints:null,
+   constraints:['validated_api_call: fix→validate→retry→halt','Handoff check after output'],
    prompts:[{title:'System Prompt — derive_applet_lo',body:`<h4>Applet LO</h4>
 <div class="rule critical">Narrow the module LO to what this applet specifically handles. Must be observable/testable within ~5-7 min applet.</div>
 <div class="rule">"Explain" and "identify" valid; "understand" and "appreciate" NOT valid.</div>
@@ -694,25 +734,28 @@ const NODES = [
 <div class="rule">Map to KB <code>classroots_topics</code>; use only codes present in <code>kb_evidence</code>.</div>`}]},
 
   {id:'a3_s2',agent:'A3',type:'skill',label:'S2: Research (Applet)',
-   blurb:'Applet-scoped research. Inherits module research + applies applet focus. False friends given prominent display.',
+   blurb:'Applet-scoped research. Inherits module research + applies applet focus. False friends prominent. S22: domain rules injected (4 rules), handoff check after output.',
    inp:['T2/T3 extract','T6_applet_kb','curriculum_context (with A1+A2 directives)'],
-   proc:['LLM tool_use: research_deep, scope="applet"'],out:['APPLET_RESEARCH_BRIEF.json'],
-   model:'sonnet',gate:null,cost:'~$0.08-0.20',caveats:'A1 + A2 reviewer directives injected into curriculum_context',
-   schema:'Same as Module Research Brief\n+ false_friends prominently featured',constraints:null,
+   proc:['LLM tool_use: research_deep, scope="applet"','Handoff check after output'],out:['APPLET_RESEARCH_BRIEF.json'],
+   model:'sonnet',gate:null,cost:'~$0.08-0.20',caveats:'A1 + A2 reviewer directives injected. S22: prerequisites_to_reactivate emitted as [] for applet scope.',
+   schema:'Same as Module Research Brief\n+ false_friends prominently featured\n+ prerequisites_to_reactivate: [] (applet scope)',constraints:['validated_api_call: fix→validate→retry→halt'],
    prompts:[{title:'System Prompt — research_deep (applet scope)',body:`<h4>Same core rules as Module S2, plus:</h4>
 <div class="rule critical"><code>lo_misconceptions</code> — COMPLETE list REQUIRED from KB checklist.</div>
 <div class="rule critical">Applet scope: do NOT recommend placing tropes within the applet. If trope needed, recommend as "module-level action".</div>
 <div class="rule mandatory">A1 + A2 reviewer directives are injected into <code>CURRICULUM_CONTEXT</code>. These take priority over KB defaults.</div>
-<div class="rule">False friends given PROMINENT display (dedicated section) — not buried in conventions.</div>`}]},
+<div class="rule">False friends given PROMINENT display (dedicated section) — not buried in conventions.</div>
+<h4>S22: Domain Rules + Validation</h4>
+<div class="rule">4 domain rules injected via <code>{{domain_rules}}</code>: scope_discipline, delivery_language, module_level_tropes, vocabulary_status_protocol.</div>
+<div class="rule"><code>prerequisites_to_reactivate: []</code> valid for applet scope (not position-checked).</div>`}]},
 
   {id:'a3_s3',agent:'A3',type:'skill',label:'S3: Ideal Screens',
-   blurb:'6-stage screen sequence: Launch, Explore, Notice, Explain, Apply, Consolidate. Each screen has interaction mode, cognitive action, scaffolding level.',
+   blurb:'6-stage screen sequence: Launch, Explore, Notice, Explain, Apply, Consolidate. Each screen has interaction mode, cognitive action, scaffolding level. S22: 5 domain rules injected, handoff check.',
    inp:['T2/T3 extract','APPLET_RESEARCH_BRIEF','curriculum_context','parent module trace'],
    proc:['LLM tool_use + VISION: build_blueprint, level="applet"'],
    out:['APPLET_IDEAL_SCREENS.json'],model:'sonnet',gate:null,cost:'~$0.15-0.35',
    caveats:'Uses vision (screen thumbnails)',
    schema:'{\n  screens: [{stage:1-6, stage_name,\n    interaction_mode, cognitive_action,\n    scaffolding_level, cpa_phase,\n    content_description, visual_model,\n    visual_model_vir_id, feedback_type}],\n  scaffolding_arc: string,\n  visual_models_referenced: [...],\n  convention_requirements: [...]\n}',
-   constraints:['minItems: 6 screens (one per stage)'],
+   constraints:['minItems: 6 screens (one per stage)','validated_api_call: fix→validate→retry→halt','Handoff check after output'],
    prompts:[{title:'System Prompt — build_blueprint (applet)',body:`<h4>Same core rules as Module S3, plus applet-specific:</h4>
 <h4>Scoping</h4>
 <div class="rule critical">Use module's assignments, not full KB. Vocabulary: only terms assigned to parent module. Misconceptions: only IDs assigned.</div>
@@ -736,20 +779,20 @@ const NODES = [
    model:null,gate:null,cost:'$0',caveats:'data-run-dir points to APPLET run_dir',schema:null,constraints:null},
 
   {id:'a3_gates',agent:'A3',type:'gate',label:'2 Applet Gates',
-   blurb:'APPLET_RESEARCH_BRIEF is SOFT. APPLET_IDEAL_SCREENS is HARD (blocks scoring). Must approve screens before Phase B-D.',
-   inp:['2 gate HTMLs'],proc:['Accept / Refine / Comment per entry','Approve / Rework page-level'],
-   out:['*.gate.json'],model:null,gate:'hard',cost:'~$0.02 per refine',
-   caveats:'APPLET_IDEAL_SCREENS is the 2nd hard gate in the system (with CHAPTER_MODULE_SEQUENCE)',
-   schema:null,constraints:['Hard gate blocks resume_applet_reviewer()']},
+   blurb:'APPLET_RESEARCH_BRIEF is SOFT. APPLET_IDEAL_SCREENS is HARD (blocks scoring). Must approve screens before Phase B-D. Refine actions trigger optional Haiku LLM calls.',
+   inp:['2 gate HTMLs'],proc:['Accept / Refine / Comment per entry','Approve / Rework page-level','Refine calls refine_gate_entry — Haiku LLM'],
+   out:['*.gate.json','GATE_REFINE_LOG.jsonl (if refined)'],model:'haiku',gate:'hard',cost:'~$0.02 per refine',
+   caveats:'APPLET_IDEAL_SCREENS is the 2nd hard gate in the system. Refine = optional Haiku LLM call per entry.',
+   schema:null,constraints:['Hard gate blocks resume_applet_reviewer()','Refine log written to GATE_REFINE_LOG.jsonl']},
 
-  {id:'a3_scoring',agent:'A3',type:'skill',label:'S4-S6: Score Applet',
-   blurb:'Same scoring pipeline as A2: antipatterns, gate scores, 4 quadrant scores. Applet-scoped criteria.',
+  {id:'a3_scoring',agent:'A3',type:'skill',label:'S5-S7: Score Applet',
+   blurb:'Same scoring pipeline as A2: gate scores, 4 quadrant scores (with kb_mismatches), antipatterns. S22: handoff checks at S5→S6→S7 boundaries, validated_api_call on every call.',
    inp:['T2/T3 extract','research_brief','ideal_screens','KB','prior trace'],
-   proc:['scan_antipatterns(pattern_set="applet")','score_gates(gate_set="applet")','score_quadrant x4'],
-   out:['T5_antipatterns.json','S5_gate_scores.json','S6_P/D/X/L_scores.json'],
+   proc:['score_gates(gate_set="applet") + handoff check','score_quadrant x4 + handoff check each','scan_antipatterns(pattern_set="applet") + handoff check'],
+   out:['S5_gates.json','S6_P/D/X/L.json (with kb_mismatches)','S7_antipatterns.json'],
    model:'sonnet',gate:null,cost:'~$0.20-0.50 (6 calls)',
    caveats:'Applet antipatterns include AP1-AP9 (broader than module AP1-AP3)',
-   schema:null,constraints:null,
+   schema:null,constraints:['validated_api_call: fix→validate→retry→halt on every call','Handoff checks at 3 boundaries (S5, S6×4, S7)'],
    prompts:[{title:'Prompts — S4+S5+S6 (applet scope)',body:`<h4>S4 scan_antipatterns (applet)</h4>
 <div class="rule">Uses <code>pattern_set="applet"</code> — AP1-AP9 (broader than module AP1-AP3).</div>
 <div class="rule critical">Animation detection: adjacent similar slides = one screen. <code>&raquo;</code> alone ≠ tap affordance.</div>
@@ -763,13 +806,13 @@ const NODES = [
 <div class="rule">Verdicts: Ship &ge;90%, Upgrade &ge;75%, Rework &lt;75%.</div>`}]},
 
   {id:'a3_final',agent:'A3',type:'finalize',label:'T7+S8+S9+T9+T8: Compile',
-   blurb:'Compile review, assess mastery, generate per-slide action blurbs (S9, Haiku), write applet trace entry, render HTML with structured slide_actions.',
-   inp:['All score files','research_brief','ideal_screens'],
-   proc:['compile_review()','assess_mastery()','generate_blurbs() [S21: now wired for applets]','write_trace()','render_html(blurbs=blurbs)'],
-   out:['APPLET_REVIEW.json','S8_mastery.json','S9_blurbs.json [S21: NEW for applets]','APPLET_REVIEW.html','KNOWLEDGE_TRACE.jsonl (applet entry)'],
+   blurb:'Compile review (with S22 bug fixes), assess mastery (with handoff check), generate per-slide action blurbs (S9, Haiku), write applet trace entry (with prerequisites from S2), render HTML.',
+   inp:['All score files (with kb_mismatches)','research_brief (with prerequisites_to_reactivate)','ideal_screens'],
+   proc:['compile_review() [S22: bug fixes, kb_mismatches populated]','assess_mastery() + handoff check','generate_blurbs() [S21: wired for applets]','write_trace() [S22: prerequisites flow through]','render_html(blurbs=blurbs)'],
+   out:['APPLET_REVIEW.json (with kb_mismatches, translation_notes, slide_roles)','S8_mastery.json','S9_blurbs.json','APPLET_REVIEW.html','KNOWLEDGE_TRACE.jsonl (applet entry)'],
    model:'sonnet + haiku (S9)',gate:null,cost:'~$0.40',
-   caveats:'S9 generates structured slide_actions[] — eliminates regex fallback for per-slide action routing. Without S9, renderer falls back to regex extraction from recommendation text (less accurate).',
-   schema:null,constraints:['Trace entry appended (not replacing) — applet entries live alongside module entries','compile.py: P4 applicable_to gates on applet_type presence (not content_type). score:null defaults to 0.']},
+   caveats:'S22: compile.py guards all .get() accesses. kb_mismatches aggregated from S6 criteria. Advisory gate names rendered correctly.',
+   schema:null,constraints:['Trace entry appended — applet entries live alongside module entries','S22: validated_api_call on S8, handoff check before compile','compile.py: applicable_to gates on applet_type (S20 FIX-H), max_score default 3 (S22)']},
 ];
 
 /* ── Pipeline structure: which nodes go in which lanes ───────────── */
