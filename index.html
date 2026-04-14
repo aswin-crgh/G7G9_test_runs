@@ -24,10 +24,16 @@ a{color:#93c5fd;text-decoration:none}
 .filter-btn.active{background:#334155;color:#f8fafc;border-color:#64748b}
 
 /* ── Legend ────────────────────────────────────────────────────────── */
-/* Desktop: hidden — uses same modal trigger as mobile */
-.legend{display:none}
-.legend-item{display:flex;align-items:center;gap:5px;color:#94a3b8}
-.legend-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
+/* Desktop: compact single-line strip inside toolbar */
+.legend{display:flex;align-items:center;gap:10px;flex-basis:100%;
+        border-top:1px solid #334155;margin-top:4px;padding-top:6px}
+.legend-item{display:inline-flex;align-items:center;gap:3px;color:#94a3b8;
+             font-size:9px;white-space:nowrap}
+.legend-dot{width:7px;height:7px;border-radius:2px;flex-shrink:0}
+/* Legend modal: hidden by default on all viewports, shown only via .active on mobile */
+.legend-modal{display:none}
+/* Legend trigger button: hidden on desktop (inline legend is shown instead) */
+.legend-trigger{display:none}
 
 /* ── Environment Callout ──────────────────────────────────────────── */
 .env-box{margin:16px 20px;background:#1e293b;border:1px solid #334155;
@@ -109,6 +115,12 @@ a{color:#93c5fd;text-decoration:none}
 .node[data-type="render"]{border-left:3px solid #22c55e}
 .node[data-type="finalize"]{border-left:3px solid #22c55e}
 .node[data-gate="hard"]{border-left:3px solid #ef4444}
+.node[data-type="rubric"]{border-left:3px solid #ec4899}
+.node[data-type="rule"]{border-left:3px solid #14b8a6}
+.lane[data-agent="rubrics"] .lane-flow,
+.lane[data-agent="rules"] .lane-flow{flex-wrap:wrap}
+.lane[data-agent="rubrics"] .node,
+.lane[data-agent="rules"] .node{min-width:180px;max-width:220px}
 
 /* ── Gate pulse animation ─────────────────────────────────────────── */
 .node[data-type="gate"]{animation:gate-pulse 2.5s ease-in-out infinite}
@@ -183,12 +195,13 @@ a{color:#93c5fd;text-decoration:none}
 /* Bottom agent nav */
 .agent-nav{display:none}
 
-/* Legend modal trigger — always visible (desktop + mobile) */
-.legend-trigger{display:inline-flex;align-items:center;gap:4px;
-  font-size:10px;font-weight:700;color:#94a3b8;cursor:pointer;
-  background:#0f172a;border:1px solid #334155;border-radius:5px;
-  padding:3px 10px;margin-left:auto}
-.legend-trigger:hover{border-color:#64748b;color:#e2e8f0}
+/* Legend modal trigger — mobile only (desktop shows inline legend) */
+.legend-trigger{display:none}
+
+@media (min-width:1025px) {
+  /* Desktop: hide trigger, inline legend is in toolbar */
+  .legend-trigger{display:none!important}
+}
 
 @media (max-width:1024px) {
   /* Canvas: remove min-width, lanes stack as switchable columns */
@@ -212,8 +225,12 @@ a{color:#93c5fd;text-decoration:none}
   .toolbar-label{font-size:9px;margin-right:3px}
   .filter-btn{font-size:9px;padding:2px 6px}
 
-  /* Legend trigger: slightly smaller on mobile */
-  .legend-trigger{font-size:9px;padding:2px 8px}
+  /* Mobile: show trigger button, hide inline legend */
+  .legend-trigger{display:inline-flex!important;align-items:center;gap:4px;
+    font-size:9px;font-weight:700;color:#94a3b8;cursor:pointer;
+    background:#0f172a;border:1px solid #334155;border-radius:5px;
+    padding:2px 8px;margin-left:auto}
+  .legend{display:none!important}
 
   /* Legend modal (reuses .modal-bg) */
   .legend-modal{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;
@@ -246,9 +263,9 @@ a{color:#93c5fd;text-decoration:none}
 <div class="toolbar">
   <span class="toolbar-label">Filter</span>
   <button class="filter-btn active" data-filter="all">All</button>
-  <button class="filter-btn" data-filter="agent:A1">A1 Chapter</button>
-  <button class="filter-btn" data-filter="agent:A2">A2 Module</button>
-  <button class="filter-btn" data-filter="agent:A3">A3 Applet</button>
+  <button class="filter-btn" data-filter="agent:ch_research">ch_research</button>
+  <button class="filter-btn" data-filter="agent:mod_review">mod_review Module</button>
+  <button class="filter-btn" data-filter="agent:app_review">app_review Applet</button>
   <span class="toolbar-label" style="margin-left:8px">Type</span>
   <button class="filter-btn" data-filter="gate:hard">Hard Gates</button>
   <button class="filter-btn" data-filter="gate:soft">Soft Gates</button>
@@ -258,7 +275,22 @@ a{color:#93c5fd;text-decoration:none}
   <button class="filter-btn" data-filter="type:skill">Skills</button>
   <button class="filter-btn" data-filter="type:user_action">User Actions</button>
   <button class="filter-btn" data-filter="type:gate">Gates</button>
+  <button class="filter-btn" data-filter="type:rubric">Rubrics</button>
+  <button class="filter-btn" data-filter="type:rule">Rules</button>
   <button class="legend-trigger" onclick="document.getElementById('legendModal').classList.add('active')">&#9679; Key</button>
+  <div class="legend">
+    <span class="toolbar-label">Key</span>
+    <div class="legend-item"><div class="legend-dot" style="background:#06b6d4"></div>User/LMS</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#eab308"></div>Preflight</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#8b5cf6"></div>Skill</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#6b7280"></div>Tool</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#22c55e"></div>Output</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#f59e0b"></div>Soft Gate</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#ef4444"></div>Hard Gate</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#3b82f6"></div>Input</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#ec4899"></div>Rubric</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#14b8a6"></div>Rule</div>
+  </div>
 </div>
 
 <!-- ── Legend Modal (mobile only) ─────────────────────────────────── -->
@@ -274,20 +306,11 @@ a{color:#93c5fd;text-decoration:none}
     <div class="legend-item"><div class="legend-dot" style="background:#f59e0b;display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px"></div>Soft Gate</div>
     <div class="legend-item"><div class="legend-dot" style="background:#ef4444;display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px"></div>Hard Gate</div>
     <div class="legend-item"><div class="legend-dot" style="background:#3b82f6;display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px"></div>Input Data</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#ec4899;display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px"></div>Rubric</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#14b8a6;display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px"></div>Domain Rule</div>
   </div>
 </div>
 
-<!-- ── Legend (desktop) ───────────────────────────────────────────── -->
-<div class="legend">
-  <div class="legend-item"><div class="legend-dot" style="background:#06b6d4"></div>User Action / LMS</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#eab308"></div>Preflight</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#8b5cf6"></div>LLM Skill Call</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#6b7280"></div>Tool (no LLM)</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#22c55e"></div>Output / Render</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#f59e0b"></div>Soft Gate</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#ef4444"></div>Hard Gate</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#3b82f6"></div>Input Data</div>
-</div>
 
 <!-- ── Environment Requirements ───────────────────────────────────── -->
 <div class="env-box">
@@ -337,7 +360,7 @@ a{color:#93c5fd;text-decoration:none}
           <div style="font-size:11px;font-weight:700;color:#fde68a;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Field Contracts + Handoff Checks</div>
           <div style="font-size:11px;color:#cbd5e1">
             <code style="background:#1e293b;padding:1px 4px;border-radius:3px;font-size:10px;color:#93c5fd">field_contracts.json</code>: declares required/optional fields per skill + downstream consumers.<br>
-            <span style="color:#fde68a;font-weight:600">14 boundary checks</span>: 7 in A2 (S1b&rarr;S2&rarr;S3&rarr;S5&rarr;S6&times;4&rarr;S7&rarr;S8) + 7 in A3.
+            <span style="color:#fde68a;font-weight:600">14 boundary checks</span>: 7 in mod_review (derive_module_lo&rarr;research_deep&rarr;build_blueprint&rarr;score_gates&rarr;score_rubric_domain&times;4&rarr;scan_design_pitfalls&rarr;assess_learning_coverage) + 7 in app_review.
           </div>
           <div style="margin-top:6px;font-size:10px;color:#94a3b8">Catches missing/wrong-type fields at skill boundaries before downstream consumers silently drop data.</div>
         </div>
@@ -364,53 +387,53 @@ a{color:#93c5fd;text-decoration:none}
  * ====================================================================
  */
 const NODES = [
-  // ── A1: CHAPTER RESEARCHER ──────────────────────────────────────
-  {id:'a1_trigger',agent:'A1',type:'user_action',label:'LMS: Start A1',
-   blurb:'User clicks "Run A1 Preflight" on the chapter page. POST /api/agents/a1/preflight.',
+  // ── ch_research: CHAPTER RESEARCHER ──────────────────────────────────────
+  {id:'a1_trigger',agent:'ch_research',type:'user_action',label:'LMS: Start ch_research',
+   blurb:'User clicks "Run ch_research Preflight" on the chapter page. POST /api/agents/ch_research/preflight.',
    inp:['chapter_path (PROJECTS/ folder)'],proc:['LMS router dispatches to preflight_chapter_researcher()'],
    out:['Preflight HTML form'],model:null,gate:null,cost:'$0',
    caveats:null,
    schema:null,
    constraints:['Chapter folder must exist in PROJECTS/Grade X/Chapter Y/']},
 
-  {id:'a1_preflight',agent:'A1',type:'preflight',label:'A1 Preflight',
-   blurb:'Scans chapter folder. Detects textbooks (PDF/JSON), scope docs, resources. Auto-extracts PDF if needed. A0 extractor (S20 overhaul): scope classification, ToC parsing, strand-to-ToC recovery, in-book page offsets, content verification, no per-page truncation.',
-   inp:['Chapter folder','Raw PDF (if no JSON)'],proc:['_scan_chapter_folder()','extract_textbook_from_pdf() if raw PDF (A0 overhaul: chapter-boundary detection, 60K aggregate cap)'],
+  {id:'a1_preflight',agent:'ch_research',type:'preflight',label:'ch_research Preflight',
+   blurb:'Scans chapter folder. Detects textbooks (PDF/JSON), scope docs, resources. Auto-extracts PDF if needed. textbook_extract extractor (S20 overhaul): scope classification, ToC parsing, strand-to-ToC recovery, in-book page offsets, content verification, no per-page truncation.',
+   inp:['Chapter folder','Raw PDF (if no JSON)'],proc:['_scan_chapter_folder()','extract_textbook_from_pdf() if raw PDF (textbook_extract overhaul: chapter-boundary detection, 60K aggregate cap)'],
    out:['Detected metadata','Textbook JSON (if extracted)'],model:'haiku',gate:null,cost:'~$0.15 (if PDF extraction)',
    caveats:'PDF extraction uses Haiku. Needs pymupdf.',
    schema:'{\n  chapter_id, grade, strand, chapter_num,\n  textbooks: [{path, format, curriculum_detected}],\n  scope_docs: [path],\n  conflicts: [{field, detected, default}]\n}',
    constraints:['check_environment(need_llm=True, need_kb=True)','Textbook must be PDF, JSON, PPTX, TXT, CSV, or XLSX']},
 
-  {id:'a1_confirm',agent:'A1',type:'user_action',label:'User Confirms Inputs',
+  {id:'a1_confirm',agent:'ch_research',type:'user_action',label:'User Confirms Inputs',
    blurb:'User reviews/edits detected values: grade, strand, target_curriculum, geography, grade_band, language. This becomes CONFIRMED_INPUTS.json — the single source of truth.',
    inp:['Preflight HTML form'],proc:['User edits fields, clicks Confirm'],
    out:['CONFIRMED_INPUTS.json'],model:null,gate:null,cost:'$0',
    caveats:null,schema:'{\n  chapter_id: "G7C4",\n  grade: 7,\n  strand: "Algebra",\n  target_curriculum: "Kurikulum Merdeka",\n  geography: "ID",\n  grade_band: "7-9",\n  language: "en"\n}',
    constraints:['All downstream steps use ONLY confirmed_inputs','Levers and folder names are ignored after confirmation']},
 
-  {id:'a1_t6_struct',agent:'A1',type:'tool',label:'T6: KB Structural',
+  {id:'a1_t6_struct',agent:'ch_research',type:'tool',label:'kb_query: KB Structural',
    blurb:'Queries PostgreSQL KB for structural tables: classroots_topics, classroots_stages, curricula, learning_progressions, convention_differences, false_friends, cluster_mappings.',
    inp:['strand, grade, grade_band'],proc:['kb_query() per strand per table','Fuzzy strand matching','Grade +-1 window'],
    out:['Structural KB results (merged)'],model:null,gate:null,cost:'$0 (DB only)',
    caveats:'Fails if 0 structural results',
    schema:null,constraints:['PostgreSQL must be running','KB tables must have data for this strand/grade']},
 
-  {id:'a1_t6_sem',agent:'A1',type:'tool',label:'T6: KB Semantic',
+  {id:'a1_t6_sem',agent:'ch_research',type:'tool',label:'kb_query: KB Semantic',
    blurb:'Queries semantic tables: misconceptions, visual_insight_records, interactive_landscape, ias_patterns. Optional Voyage embedding search.',
    inp:['strand, grade, grade_band','VOYAGE_API_KEY (optional)'],proc:['kb_query() with optional embedding','ILIKE substring + cosine similarity','Merge + deduplicate'],
-   out:['T6_chapter_kb.json (merged structural+semantic)'],model:null,gate:null,cost:'$0 (or ~$0.01 if Voyage)',
+   out:['chapter_kb.json (merged structural+semantic)'],model:null,gate:null,cost:'$0 (or ~$0.01 if Voyage)',
    caveats:'Voyage API optional — falls back to substring matching',
    schema:'{\n  results: {\n    misconceptions: [{id, topic, severity, ...}],\n    visual_insight_records: [{id, title, cpa_phase, ...}],\n    classroots_topics: [{lo_code, lo_text, grade, ...}],\n    ...\n  }\n}',
    constraints:['Limit: 30 structural, 20 semantic per table']},
 
-  {id:'a1_s1a1',agent:'A1',type:'skill',label:'S1a.1: Derive LO Brief',
+  {id:'a1_s1a1',agent:'ch_research',type:'skill',label:'derive_chapter_sequence (1): Derive LO Brief',
    blurb:'LLM derives chapter learning outcome, prerequisites, and curriculum alignment from scope text + KB + textbook extract.',
-   inp:['chapter_scope_text','T6_chapter_kb.json','textbook_extract'],proc:['LLM tool_use: derive_lo_brief schema','Sonnet, temp 0.2, max 8192 tokens'],
+   inp:['chapter_scope_text','chapter_kb.json','textbook_extract'],proc:['LLM tool_use: derive_lo_brief schema','Sonnet, temp 0.2, max 8192 tokens'],
    out:['CHAPTER_LO_BRIEF.json'],model:'sonnet',gate:null,cost:'~$0.05-0.15',
    caveats:'35s rate delay after this call',
    schema:'{\n  chapter_lo: string (testable LO),\n  prerequisite_chain: string[],\n  curriculum_alignment: [\n    {curriculum, standard_code, description}\n  ],\n  notes: string\n}',
    constraints:['tool_use_required: true','LO must be 1-3 sentences, testable'],
-   prompts:[{title:'System Prompt — derive_lo_brief',body:`<h4>CRITICAL RULES</h4>
+   prompts:[{title:'System Prompt — derive_chapter_sequence (LO brief)',body:`<h4>CRITICAL RULES</h4>
 <div class="rule critical">Chapter LO must trace to KB <code>lo_codes</code> — not invented from textbook alone.</div>
 <div class="rule critical">Prerequisites must be concepts from <span class="emphasis">PRIOR grades/chapters</span> — not content within this chapter.</div>
 <div class="rule">Curriculum alignment should span international curricula (Merdeka, CCSS, Singapore, etc.).</div>
@@ -419,31 +442,31 @@ const NODES = [
 <div class="rule">Rubric loaded from <code>config/rubric/chapter_sequence_guide.json</code> and injected as <code>{{rubric_section}}</code>.</div>
 <div class="rule">Anti-bias protocol injected as <code>{{anti_bias}}</code>.</div>`}]},
 
-  {id:'a1_s2',agent:'A1',type:'skill',label:'S2: Research Brief (Chapter)',
+  {id:'a1_s2',agent:'ch_research',type:'skill',label:'research_deep: KB Synthesis (Chapter)',
    blurb:'Deep research: misconceptions, VIRs, IAS patterns, convention flags, gaps, synthesis narrative. Chapter-scoped.',
-   inp:['chapter_scope_text','T6_chapter_kb.json','module_sequence (if available)'],proc:['LLM tool_use: research_deep schema','scope="chapter"'],
-   out:['CHAPTER_RESEARCH_BRIEF.json'],model:'sonnet',gate:null,cost:'~$0.10-0.25',
-   caveats:'Run BEFORE S1a.2 (research informs sequencing)',
+   inp:['chapter_scope_text','chapter_kb.json','module_sequence (if available)'],proc:['LLM tool_use: research_deep schema','scope="chapter"'],
+   out:['CHAPTER_KB_SYNTHESIS.json'],model:'sonnet',gate:null,cost:'~$0.10-0.25',
+   caveats:'Run BEFORE derive_chapter_sequence step 2 (research informs sequencing)',
    schema:'{\n  misconceptions: [{id, description, severity,\n    surfacing_strategy, recommended_vir_id,\n    recommended_ias_archetype, trope}],\n  visual_models: [{vir_id, title, cpa_phase,\n    positioning, evidence_strength, use_for}],\n  ias_patterns: [{archetype_name, cognitive_actions, when_to_use}],\n  conventions_flags: [{term_or_aspect, risk, mitigation}],\n  gaps: [{gap_type, description, impact}],\n  synthesis_narrative: string\n}',
    constraints:['MANDATORY: misconceptions, visual_models, synthesis_narrative','Missing fields = Haiku quality issue'],
    prompts:[{title:'System Prompt — research_deep',body:`<h4>CRITICAL: lo_misconceptions completeness</h4>
 <div class="rule critical">You <span class="emphasis">MUST</span> include every item from the KB checklist in <code>lo_misconceptions</code> — do not filter, drop, or merge items.</div>
-<div class="rule critical">Copy <code>id</code>, <code>topic</code>, and <code>severity</code> exactly from the checklist. This field is consumed by S4 and S8 to measure which misconceptions the actual content addresses — completeness is essential.</div>
+<div class="rule critical">Copy <code>id</code>, <code>topic</code>, and <code>severity</code> exactly from the checklist. This field is consumed by extract_applet_summary and assess_learning_coverage to measure which misconceptions the actual content addresses — completeness is essential.</div>
 <h4>Scope-Dependent Trope Rules</h4>
 <div class="rule mandatory">Applet scope: do NOT recommend placing tropes within the applet. If a trope is needed, recommend as "module-level action".</div>
 <div class="rule">Module scope: trope recommendations are valid and expected.</div>
 <h4>Synthesis Narrative</h4>
 <div class="rule">2-3 paragraphs connecting misconceptions, VIRs, IAS patterns, and conventions into a coherent research story. Must be KB-grounded.</div>`}]},
 
-  {id:'a1_s1a2',agent:'A1',type:'skill',label:'S1a.2: Module Sequence',
+  {id:'a1_s1a2',agent:'ch_research',type:'skill',label:'derive_chapter_sequence (2): Module Sequence',
    blurb:'Derives ideal module sequence with LOs, vocabulary, notation, misconceptions, tropes, CPA phases, textbook validation, reconciliation map.',
-   inp:['chapter_scope_text','T6_chapter_kb.json','textbook_extract','CHAPTER_RESEARCH_BRIEF.json'],
+   inp:['chapter_scope_text','chapter_kb.json','textbook_extract','CHAPTER_KB_SYNTHESIS.json'],
    proc:['LLM tool_use: derive_module_sequence schema','Research-informed sequencing'],
    out:['CHAPTER_MODULE_SEQUENCE.json'],model:'sonnet',gate:null,cost:'~$0.15-0.30',
    caveats:'textbook_validation MANDATORY when textbook exists. reconciliation_map MANDATORY when S&S exists.',
    schema:'{\n  module_sequence: [\n    {position, module_title, content_type,\n     lo, lo_codes[], vocabulary_to_introduce[],\n     notation_to_introduce[], misconceptions_to_address[],\n     false_friends_to_watch[], tropes_expected[],\n     cpa_phase, curriculum_standards[],\n     textbook_examples[], video_assignments[], notes}\n  ],\n  textbook_validation: {...},\n  reconciliation_map: [{operation, ss_item, ideal_position, justification}]\n}',
    constraints:['Schema required array enforces critical fields','Smaller models may skip optional fields'],
-   prompts:[{title:'System Prompt — derive_module_sequence',body:`<h4>30-Minute Module Constraint (HARD)</h4>
+   prompts:[{title:'System Prompt — derive_chapter_sequence (module sequence)',body:`<h4>30-Minute Module Constraint (HARD)</h4>
 <div class="rule critical">Each module must be completable in ~30 minutes. A module is too large if it introduces more than 2 vocabulary terms, covers more than 2 KB <code>lo_codes</code>, or requires more than 2 worked examples.</div>
 <div class="rule">Expected module count for 15-20 atomic LOs: 25-35 modules.</div>
 <h4>KB lo_code Assignment (CRITICAL)</h4>
@@ -467,15 +490,15 @@ const NODES = [
 <div class="rule critical"><code>video_assignments</code> — MANDATORY if video/resource inventory mentioned</div>
 <div class="rule">Placed last in user message for maximum model attention.</div>`}]},
 
-  {id:'a1_render',agent:'A1',type:'render',label:'Render 3 Gate HTMLs',
-   blurb:'Generates self-contained HTML files for each gate output. Embeds CSS + JS for interactive review. S21: Translation Notes panel rendered on research brief (own JSON) and module sequence (cross-refs from research brief).',
-   inp:['CHAPTER_LO_BRIEF.json','CHAPTER_MODULE_SEQUENCE.json','CHAPTER_RESEARCH_BRIEF.json'],
-   proc:['render_lo_brief_html()','render_module_sequence_html() [S21: reads translation_notes from sibling CHAPTER_RESEARCH_BRIEF.json]','render_research_brief_html() [S21: renders translation_notes panel]'],
-   out:['CHAPTER_LO_BRIEF.html','CHAPTER_MODULE_SEQUENCE.html','CHAPTER_RESEARCH_BRIEF.html'],
+  {id:'a1_render',agent:'ch_research',type:'render',label:'Render 3 Gate HTMLs',
+   blurb:'Generates self-contained HTML files for each gate output. Embeds CSS + JS for interactive review. S21: Translation Notes panel rendered on KB synthesis (own JSON) and module sequence (cross-refs from KB synthesis).',
+   inp:['CHAPTER_LO_BRIEF.json','CHAPTER_MODULE_SEQUENCE.json','CHAPTER_KB_SYNTHESIS.json'],
+   proc:['render_lo_brief_html()','render_module_sequence_html() [S21: reads translation_notes from sibling CHAPTER_KB_SYNTHESIS.json]','render_kb_synthesis_html() [S21: renders translation_notes panel]'],
+   out:['CHAPTER_LO_BRIEF.html','CHAPTER_MODULE_SEQUENCE.html','CHAPTER_KB_SYNTHESIS.html'],
    model:null,gate:null,cost:'$0',caveats:null,schema:null,constraints:['data-run-dir must be filesystem path, not /files/ URL']},
 
-  {id:'a1_gates',agent:'A1',type:'gate',label:'3 Chapter Gates',
-   blurb:'Human reviews gates in LMS. CHAPTER_MODULE_SEQUENCE is HARD (blocks finalize). LO_BRIEF and RESEARCH_BRIEF are SOFT (can auto-pass). Refine actions trigger optional Haiku LLM calls.',
+  {id:'a1_gates',agent:'ch_research',type:'gate',label:'3 Chapter Gates',
+   blurb:'Human reviews gates in LMS. CHAPTER_MODULE_SEQUENCE is HARD (blocks finalize). LO_BRIEF and KB_SYNTHESIS are SOFT (can auto-pass). Refine actions trigger optional Haiku LLM calls.',
    inp:['3 gate HTMLs in iframe'],proc:['Per-entry: Accept / Refine / Comment / Insert After (S21)','Page-level: Approve / Approve with Comments / Rework','Refine calls /api/gates/refine-module (split/merge/refine/insert) — Haiku LLM'],
    out:['*.gate.json files','GATE_REFINE_LOG.jsonl (if refined)','reviewer_directives (from page comments)'],
    model:'haiku',gate:'mixed',cost:'$0 (or ~$0.02 per refine call)',
@@ -502,46 +525,46 @@ const NODES = [
 <div class="rule mandatory">Mandatory population reminder: when KB has misconceptions, curricula, false_friends, textbook pages, or videos — MUST populate relevant fields. Return <code>[]</code> only if genuinely nothing aligns.</div>
 <div class="rule">Same schema as refine. Same enrichment enforcement.</div>`}]},
 
-  {id:'a1_finalize',agent:'A1',type:'finalize',label:'A1 Finalize',
+  {id:'a1_finalize',agent:'ch_research',type:'finalize',label:'ch_research Finalize',
    blurb:'Creates knowledge trace skeleton (one pending entry per module). Enriches modules with module_id (G7C4M1, G7C4M2, ...). Re-sequences trace if prior reviewed entries exist.',
    inp:['CHAPTER_MODULE_SEQUENCE.json (approved)','Existing KNOWLEDGE_TRACE.jsonl (if any)'],
    proc:['write_trace_skeleton()','re_sequence_trace() if reviewed entries exist'],
    out:['KNOWLEDGE_TRACE.jsonl (at chapter dir)'],model:null,gate:null,cost:'$0',
    caveats:'Trace matching uses module_title (stable key), not position',
    schema:'Trace entry:\n{\n  module_id, content_type: "module",\n  review_verdict: "pending",\n  assertions: {},\n  inventory: {vocabulary, notation, visual_models, misconceptions},\n  scorecard: {}\n}',
-   constraints:['Skeleton entries have verdict="pending"','A2 fills them after scoring']},
+   constraints:['Skeleton entries have verdict="pending"','mod_review fills them after scoring']},
 
-  // ── A2: MODULE REVIEWER ─────────────────────────────────────────
-  {id:'a2_preflight',agent:'A2',type:'preflight',label:'A2 Preflight',
-   blurb:'Validates A1 completed, module PPTX exists, loads A1 outputs, resolves module in sequence, detects applet storyboards.',
-   inp:['module_pptx','a1_run_dir','CONFIRMED_INPUTS.json'],proc:['check_environment()','Resolve module_id in CHAPTER_MODULE_SEQUENCE','Scan applet-storyboards/ subdir'],
+  // ── mod_review: MODULE REVIEWER ─────────────────────────────────────────
+  {id:'a2_preflight',agent:'mod_review',type:'preflight',label:'mod_review Preflight',
+   blurb:'Validates ch_research completed, module PPTX exists, loads ch_research outputs, resolves module in sequence, detects applet storyboards.',
+   inp:['module_pptx','ch_research_run_dir','CONFIRMED_INPUTS.json'],proc:['check_environment()','Resolve module_id in CHAPTER_MODULE_SEQUENCE','Scan applet-storyboards/ subdir'],
    out:['Preflight validation report'],model:null,gate:null,cost:'$0',
-   caveats:'A1 manifest must be "completed" (not gate_pending)',
-   schema:null,constraints:['Module PPTX must be .pptx','A1 must have 5 required output files']},
+   caveats:'ch_research manifest must be "completed" (not gate_pending)',
+   schema:null,constraints:['Module PPTX must be .pptx','ch_research must have 5 required output files']},
 
-  {id:'a2_confirm',agent:'A2',type:'user_action',label:'User Confirms A2',
-   blurb:'User reviews preflight: module entry, curriculum context, detected applets. Confirms to start A2 run.',
-   inp:['Preflight report'],proc:['User clicks Confirm'],out:['A2 run starts'],
+  {id:'a2_confirm',agent:'mod_review',type:'user_action',label:'User Confirms mod_review',
+   blurb:'User reviews preflight: module entry, curriculum context, detected applets. Confirms to start mod_review run.',
+   inp:['Preflight report'],proc:['User clicks Confirm'],out:['mod_review run starts'],
    model:null,gate:null,cost:'$0',caveats:null,schema:null,constraints:null},
 
-  {id:'a2_t2',agent:'A2',type:'tool',label:'T2: Extract PPTX',
+  {id:'a2_t2',agent:'mod_review',type:'tool',label:'extract_topic / extract_full_text: Extract PPTX',
    blurb:'Extracts full text from module PPTX: per-slide text, slide numbers, joined text. Generates thumbnails for vision.',
    inp:['module_pptx'],proc:['extract_full_text()','extract_thumbnails() (needs LibreOffice — S21: per-invocation profile for concurrency)'],
-   out:['T2_extract.json','Thumbnail PNGs (base64)'],model:null,gate:null,cost:'$0',
+   out:['extract.json','Thumbnail PNGs (base64)'],model:null,gate:null,cost:'$0',
    caveats:'LibreOffice needed for thumbnail generation',schema:null,constraints:['PPTX must be valid python-pptx format']},
 
-  {id:'a2_t6',agent:'A2',type:'tool',label:'T6: Module KB',
+  {id:'a2_t6',agent:'mod_review',type:'tool',label:'kb_query: Module KB',
    blurb:'Module-scoped KB query. Merges with chapter-level KB. Same tables, narrower filters.',
-   inp:['strand, grade (module-specific)','T6_chapter_kb.json'],proc:['kb_query() module-scoped','merge_kb_results()'],
-   out:['T6_module_kb.json'],model:null,gate:null,cost:'$0',caveats:null,schema:null,constraints:null},
+   inp:['strand, grade (module-specific)','chapter_kb.json'],proc:['kb_query() module-scoped','merge_kb_results()'],
+   out:['module_kb.json'],model:null,gate:null,cost:'$0',caveats:null,schema:null,constraints:null},
 
-  {id:'a2_s1b',agent:'A2',type:'skill',label:'S1b: Module LO',
-   blurb:'Derives precise, testable LO for this module. Inherits chapter LO and module entry from A1 sequence.',
-   inp:['T2 extract','T6_module_kb.json','curriculum_context','module_entry from sequence'],
+  {id:'a2_s1b',agent:'mod_review',type:'skill',label:'derive_module_lo: Module LO',
+   blurb:'Derives precise, testable LO for this module. Inherits chapter LO and module entry from ch_research sequence.',
+   inp:['PPTX extract','module_kb.json','curriculum_context','module_entry from sequence'],
    proc:['LLM tool_use: derive_module_lo schema'],out:['MODULE_LO_BRIEF.json'],
    model:'sonnet',gate:null,cost:'~$0.03-0.08',caveats:null,
    schema:'{\n  module_lo: string,\n  prerequisite_chain: string[],\n  content_type: "Learn"|"Practice"|"Challenge",\n  lo_codes: string[],\n  notes: string\n}',
-   constraints:['LO must be testable, 1 sentence','content_type must match A1 sequence entry','validated_api_call: fix→validate→retry→halt','Handoff check after output'],
+   constraints:['LO must be testable, 1 sentence','content_type must match ch_research sequence entry','validated_api_call: fix→validate→retry→halt','Handoff check after output'],
    prompts:[{title:'System Prompt — derive_module_lo',body:`<h4>Role</h4>
 <div class="rule">Your job is to <span class="emphasis">refine and confirm</span> — not to invent. The KB evidence supplies the atomic LOs. You scope and sharpen them.</div>
 <h4>Rules</h4>
@@ -549,15 +572,15 @@ const NODES = [
 <div class="rule">Inherit chapter LO context — module LO is a subset, not a restatement.</div>
 <div class="rule">lo_codes must map to KB <code>classroots_topics</code> — semantic match, not keyword.</div>`}]},
 
-  {id:'a2_s2',agent:'A2',type:'skill',label:'S2: Research (Module)',
+  {id:'a2_s2',agent:'mod_review',type:'skill',label:'research_deep: Research (Module)',
    blurb:'Module-scoped research: misconceptions, VIRs, IAS, conventions, gaps, prerequisites_to_reactivate. Inherits chapter research and applies module focus. S22: domain rules injected via {{domain_rules}} (4 rules).',
-   inp:['T2 extract','T6_module_kb.json','curriculum_context','CHAPTER_RESEARCH_BRIEF'],
-   proc:['LLM tool_use: research_deep, scope="module"','Handoff check after output'],out:['MODULE_RESEARCH_BRIEF.json'],
-   model:'sonnet',gate:null,cost:'~$0.08-0.20',caveats:'Reviewer directives from A1 gates injected. S22: prerequisites_to_reactivate REQUIRED for position > 1.',
-   schema:'Same as Chapter Research Brief\n+ inheritance_notes\n+ prerequisites_to_reactivate: [\n    {concept, source_module, reactivation_strategy}\n  ]  (S22: REQUIRED for module position > 1)',constraints:['validated_api_call: fix→validate→retry→halt','S22: prerequisites_to_reactivate required non-empty when position > 1'],
-   prompts:[{title:'System Prompt — research_deep (module scope)',body:`<h4>Same core rules as Chapter S2, plus:</h4>
+   inp:['PPTX extract','module_kb.json','curriculum_context','CHAPTER_KB_SYNTHESIS'],
+   proc:['LLM tool_use: research_deep, scope="module"','Handoff check after output'],out:['MODULE_KB_SYNTHESIS.json'],
+   model:'sonnet',gate:null,cost:'~$0.08-0.20',caveats:'Reviewer directives from ch_research gates injected. S22: prerequisites_to_reactivate REQUIRED for position > 1.',
+   schema:'Same as Chapter KB Synthesis\n+ inheritance_notes\n+ prerequisites_to_reactivate: [\n    {concept, source_module, reactivation_strategy}\n  ]  (S22: REQUIRED for module position > 1)',constraints:['validated_api_call: fix→validate→retry→halt','S22: prerequisites_to_reactivate required non-empty when position > 1'],
+   prompts:[{title:'System Prompt — research_deep (module scope)',body:`<h4>Same core rules as Chapter research_deep, plus:</h4>
 <div class="rule critical"><code>lo_misconceptions</code> — COMPLETE list REQUIRED. Every KB checklist item must appear.</div>
-<div class="rule mandatory">Reviewer directives from A1 gates are injected into <code>CURRICULUM_CONTEXT</code> — these take priority over KB defaults and model choices.</div>
+<div class="rule mandatory">Reviewer directives from ch_research gates are injected into <code>CURRICULUM_CONTEXT</code> — these take priority over KB defaults and model choices.</div>
 <div class="rule">Module scope: trope recommendations are valid and expected.</div>
 <div class="rule"><code>inheritance_notes</code> field documents what was refined from chapter-level research.</div>
 <h4>S22: Prerequisites to Reactivate (REQUIRED for module scope, position > 1)</h4>
@@ -566,17 +589,17 @@ const NODES = [
 <h4>S22: Domain Rules Injection</h4>
 <div class="rule">Template slimmed from 162→42 lines. 4 domain rules injected: scope_discipline, delivery_language, module_level_tropes, vocabulary_status_protocol.</div>`}]},
 
-  {id:'a2_s3',agent:'A2',type:'skill',label:'S3: Blueprint (Module) [Multi-Pass]',
-   blurb:'S25: Decomposed into 5 focused passes — S3a spine (structure), S3b1 concepts (WHAT), S3b2 engagement (HOW), S3b3 experience (FLOW + delivery mode), S3c compile (deterministic). context_anchor limits to 1-2 contexts. delivery_changes[] can escalate dense slides to applets, insert segues, add setup-reveal.',
-   inp:['MODULE_RESEARCH_BRIEF','MODULE_LO_BRIEF','curriculum_context','sibling_scopes','module_trace'],
-   proc:['S3a: build_spine (structure only, ~$0.10)','S3b1: enrich_concepts (~$0.15)','S3b2: enrich_engagement (~$0.15)','S3b3: enrich_experience + delivery_changes (~$0.15)','S3c: deterministic compile + validate_blueprint_structure()','Per-pass checkpointing: S3a_spine.json, S3b1_concepts.json, S3b2_engagement.json, S3b3_experience.json','Handoff check after output'],
-   out:['IDEAL_MODULE_BLUEPRINT.json','S3a_spine.json','S3b1_concepts.json','S3b2_engagement.json','S3b3_experience.json'],model:'sonnet',gate:null,cost:'~$0.40-0.70',
-   caveats:'4 LLM calls (was 1). No context bleed between passes. Spine validated immediately — bad spines retried at ~$0.05. delivery_changes applied deterministically in S3c.',
+  {id:'a2_s3',agent:'mod_review',type:'skill',label:'build_blueprint: Blueprint (Module) [Multi-Pass]',
+   blurb:'S25: Decomposed into 5 focused passes — build_spine (structure), enrich_concepts (WHAT), enrich_engagement (HOW), enrich_experience (FLOW + delivery mode), compile_validate (deterministic). context_anchor limits to 1-2 contexts. delivery_changes[] can escalate dense slides to applets, insert segues, add setup-reveal.',
+   inp:['MODULE_KB_SYNTHESIS','MODULE_LO_BRIEF','curriculum_context','sibling_scopes','module_trace'],
+   proc:['build_spine (structure only, ~$0.10)','enrich_concepts (~$0.15)','enrich_engagement (~$0.15)','enrich_experience + delivery_changes (~$0.15)','compile_validate: deterministic compile + validate_blueprint_structure()','Per-pass checkpointing: build_spine.json, enrich_concepts.json, enrich_engagement.json, enrich_experience.json','Handoff check after output'],
+   out:['REFERENCE_MODULE_BLUEPRINT.json','build_spine.json','enrich_concepts.json','enrich_engagement.json','enrich_experience.json'],model:'sonnet',gate:null,cost:'~$0.40-0.70',
+   caveats:'4 LLM calls (was 1). No context bleed between passes. Spine validated immediately — bad spines retried at ~$0.05. delivery_changes applied deterministically in compile_validate.',
    schema:'{\n  slides: [{position, section, purpose,\n    cpa_phase, tropes[], visual_model_vir_id,\n    applet_placement_ref}],\n  applet_placements: [{label, after_slide,\n    pedagogical_stage, lo_served,\n    recommended_ias_archetype}],\n  video_placements: [...],\n  visual_models: [...],\n  trope_map: {math_vault:[], exit_question:[], ...},\n  cpa_summary: {concrete_slides:[], ...},\n  convention_requirements: [...]\n}',
    constraints:['vision_enabled must be true in infrastructure.json','Thumbnails max 400px width','validated_api_call: fix→validate→retry→halt','Handoff check after output'],
    prompts:[{title:'System Prompt — build_blueprint (module)',body:`<h4>Scoping — Use Module's Assignments, NOT Full KB</h4>
 <div class="rule critical">Vocabulary: introduce only terms assigned to THIS module. Misconceptions: surface only IDs assigned to this module. CPA phase: this module's primary phase determines VIRs.</div>
-<div class="rule">The <code>research_brief</code> contains the FULL chapter/module research — more misconceptions, VIRs, and IAS patterns than this module needs. Scope down.</div>
+<div class="rule">The <code>kb_synthesis</code> contains the FULL chapter/module research — more misconceptions, VIRs, and IAS patterns than this module needs. Scope down.</div>
 <h4>KB Visual Model References (CRITICAL)</h4>
 <div class="rule critical">You <span class="emphasis">MUST</span> reference KB VIR ids wherever a recommended visual model is used. Populate <code>visual_model_vir_id</code> on slides/screens. Attach confidence: high/medium/low.</div>
 <h4>KB Misconception References</h4>
@@ -588,29 +611,29 @@ const NODES = [
 <h4>KB Gaps</h4>
 <div class="rule">A gap does NOT mean the concept should be excluded. Treat gaps as "KB doesn't have this yet" — not "this doesn't matter."</div>`}]},
 
-  {id:'a2_render_gates',agent:'A2',type:'render',label:'Render 2 Module Gates',
-   blurb:'Generates MODULE_RESEARCH_BRIEF.html and IDEAL_MODULE_BLUEPRINT.html. S21: both now render Translation Notes panel (research brief from own JSON, blueprint cross-refs from sibling research brief).',
-   inp:['MODULE_RESEARCH_BRIEF.json','IDEAL_MODULE_BLUEPRINT.json','VIR enrichment from KB'],
-   proc:['render_module_research_html() [S21: translation_notes panel]','render_module_blueprint_html() [S21: translation_notes from sibling MODULE_RESEARCH_BRIEF.json]'],
-   out:['MODULE_RESEARCH_BRIEF.html','IDEAL_MODULE_BLUEPRINT.html'],
+  {id:'a2_render_gates',agent:'mod_review',type:'render',label:'Render 2 Module Gates',
+   blurb:'Generates MODULE_KB_SYNTHESIS.html and REFERENCE_MODULE_BLUEPRINT.html. S21: both now render Translation Notes panel (KB synthesis from own JSON, blueprint cross-refs from sibling KB synthesis).',
+   inp:['MODULE_KB_SYNTHESIS.json','REFERENCE_MODULE_BLUEPRINT.json','VIR enrichment from KB'],
+   proc:['render_module_research_html() [S21: translation_notes panel]','render_module_blueprint_html() [S21: translation_notes from sibling MODULE_KB_SYNTHESIS.json]'],
+   out:['MODULE_KB_SYNTHESIS.html','REFERENCE_MODULE_BLUEPRINT.html'],
    model:null,gate:null,cost:'$0',caveats:'data-run-dir points to MODULE run_dir (not chapter)',
    schema:null,constraints:null},
 
-  {id:'a2_gates',agent:'A2',type:'gate',label:'2 Module Gates',
-   blurb:'Both SOFT gates. MODULE_RESEARCH_BRIEF shows misconceptions/VIRs. IDEAL_MODULE_BLUEPRINT shows slide sequence with applet placements. Refine actions trigger optional Haiku LLM calls.',
+  {id:'a2_gates',agent:'mod_review',type:'gate',label:'2 Module Gates',
+   blurb:'Both SOFT gates. MODULE_KB_SYNTHESIS shows misconceptions/VIRs. REFERENCE_MODULE_BLUEPRINT shows slide sequence with applet placements. Refine actions trigger optional Haiku LLM calls.',
    inp:['2 gate HTMLs'],proc:['Accept / Refine / Comment per entry','Approve / Rework page-level','Refine calls refine_gate_entry / refine_module_entry — Haiku LLM'],
-   out:['*.gate.json','GATE_REFINE_LOG.jsonl (if refined)','reviewer_directives (flow to A3)'],model:'haiku',gate:'soft',cost:'~$0.02 per refine',
-   caveats:'Both soft — can auto-pass. Refine = optional Haiku LLM call per entry. Review improves A3 quality.',
-   schema:null,constraints:['Directives from these gates flow into A3 curriculum_context','Refine log written to GATE_REFINE_LOG.jsonl with before/after diff']},
+   out:['*.gate.json','GATE_REFINE_LOG.jsonl (if refined)','reviewer_directives (flow to app_review)'],model:'haiku',gate:'soft',cost:'~$0.02 per refine',
+   caveats:'Both soft — can auto-pass. Refine = optional Haiku LLM call per entry. Review improves app_review quality.',
+   schema:null,constraints:['Directives from these gates flow into app_review curriculum_context','Refine log written to GATE_REFINE_LOG.jsonl with before/after diff']},
 
-  // A2 Phase B-D
-  {id:'a2_s4',agent:'A2',type:'skill',label:'S7: Antipatterns',
-   blurb:'Scans for pedagogical antipatterns (AP1-AP3 shared). S22: 7 domain rules injected, template 140→17 lines, handoff check after output.',
-   inp:['T2 extract','IDEAL_MODULE_BLUEPRINT','prior trace','screen_map','thumbnails'],proc:['LLM tool_use: scan_antipatterns, pattern_set="shared"','Handoff check after output'],
-   out:['S7_antipatterns.json'],model:'sonnet',gate:null,cost:'~$0.03-0.08',caveats:null,
+  // mod_review Phase B-D
+  {id:'a2_s4',agent:'mod_review',type:'skill',label:'scan_design_pitfalls: Design Pitfalls',
+   blurb:'Scans for pedagogical design_pitfalls (AP1-AP3 shared). S22: 7 domain rules injected, template 140→17 lines, handoff check after output.',
+   inp:['PPTX extract','REFERENCE_MODULE_BLUEPRINT','prior trace','screen_map','thumbnails'],proc:['LLM tool_use: scan_design_pitfalls, pattern_set="shared"','Handoff check after output'],
+   out:['scan_design_pitfalls.json'],model:'sonnet',gate:null,cost:'~$0.03-0.08',caveats:null,
    schema:'{\n  violations: [{pattern_id, pattern_name,\n    present: bool, location, description,\n    fix: {operation, text, confidence}|null,\n    suspended_by_role: string|null}],\n  slide_role_observations: [...]\n}',
    constraints:['validated_api_call: fix→validate→retry→halt','S22: pattern_name required (legacy name/type fallback logs warning)'],
-   prompts:[{title:'System Prompt — scan_antipatterns',body:`<h4>Animation Sequence Detection (CRITICAL)</h4>
+   prompts:[{title:'System Prompt — scan_design_pitfalls',body:`<h4>Animation Sequence Detection (CRITICAL)</h4>
 <div class="rule critical">Adjacent slides with near-identical shape counts = animation frames for one logical screen.</div>
 <div class="rule critical"><code>&raquo;</code> alone is NOT evidence of a tap affordance — it's a standard navigation arrow. Click-to-reveal only when: "Tap &raquo;", "Tap to reveal", "Tap to continue".</div>
 <div class="rule">Use <code>screen_map.reveal_mode</code> to distinguish automatically.</div>
@@ -619,10 +642,10 @@ const NODES = [
 <h4>Trope Scope</h4>
 <div class="rule mandatory">Tropes are module-level only. Do NOT flag the absence of a trope inside the applet. Recommend trope-need as module-level action.</div>`}]},
 
-  {id:'a2_s5',agent:'A2',type:'skill',label:'S5: Gate Scores',
+  {id:'a2_s5',agent:'mod_review',type:'skill',label:'score_gates: Gate Scores',
    blurb:'Scores hard/critical/advisory gates. S22: 7 domain rules injected, template 146→14 lines, handoff check after output.',
-   inp:['T2 extract','research_brief','blueprint','KB','screen_map','thumbnails'],proc:['LLM tool_use: score_gates, gate_set="module"','Handoff check after output'],
-   out:['S5_gates.json'],model:'sonnet',gate:null,cost:'~$0.03-0.08',caveats:null,
+   inp:['PPTX extract','kb_synthesis','blueprint','KB','screen_map','thumbnails'],proc:['LLM tool_use: score_gates, gate_set="module"','Handoff check after output'],
+   out:['score_gates.json'],model:'sonnet',gate:null,cost:'~$0.03-0.08',caveats:null,
    schema:'{\n  gates: [{gate_id, gate_name,\n    gate_type: "hard"|"critical"|"advisory_recommendation",\n    what_this_checks, passed: bool,\n    evidence, recommendation (string|null),\n    recommendations: [{what,where,why,how}] (advisory only)\n  }]\n}',
    constraints:['gate_blocked=true if any hard gate fails','validated_api_call: fix→validate→retry→halt','S22: advisory_gate_protocol rule injected'],
    prompts:[{title:'System Prompt — score_gates',body:`<h4>Storyboard Screen-Read Rule (BEFORE evaluating G5-G7)</h4>
@@ -633,17 +656,17 @@ const NODES = [
 <h4>Trope Scope</h4>
 <div class="rule mandatory">Tropes are module-level only. Do NOT flag absence of a trope inside the applet.</div>`}]},
 
-  {id:'a2_s6',agent:'A2',type:'skill',label:'S6: 4 Quadrant Scores',
+  {id:'a2_s6',agent:'mod_review',type:'skill',label:'score_rubric_domain: 4 Domain Scores',
    blurb:'Four LLM calls scoring P (Pedagogical), D (Delivery), X (Expert alignment), L (Learning sciences). Each 0-100 with per-criterion evidence. S22: kb_mismatches per criterion, 12 domain rules injected, template 381→37 lines.',
-   inp:['T2 extract + thumbnails','research_brief','blueprint','prior_trace','antipatterns'],
-   proc:['score_quadrant("P")','score_quadrant("D") + vision','score_quadrant("X") + vision','score_quadrant("L")','Handoff check after each quadrant'],
-   out:['S6_P_scores.json','S6_D_scores.json','S6_X_scores.json','S6_L_scores.json'],
+   inp:['PPTX extract + thumbnails','kb_synthesis','blueprint','prior_trace','design_pitfalls'],
+   proc:['score_rubric_domain("P")','score_rubric_domain("D") + vision','score_rubric_domain("X") + vision','score_rubric_domain("L")','Handoff check after each domain'],
+   out:['score_P_scores.json','score_D_scores.json','score_X_scores.json','score_L_scores.json'],
    model:'sonnet',gate:null,cost:'~$0.15-0.40 (4 calls)',
-   caveats:'35s delay between each quadrant call. D and X use thumbnails.',
-   schema:'{\n  criteria: [{criterion_id, criterion_name,\n    max_score, score, evidence, reasoning,\n    recommendation: {operation, text,\n      confidence, source}|null,\n    kb_mismatches: [{table, flag, note}]  (S22)\n  }],\n  quadrant_total: int,\n  quadrant_verdict: "Ship"|"Upgrade"|"Rework",\n  observed_visuals: [...] (D/X only),\n  concepts_on_slide: [...] (P only),\n  slide_role_observations: [...] (D/X/S7)\n}',
+   caveats:'35s delay between each domain call. D and X use thumbnails.',
+   schema:'{\n  criteria: [{criterion_id, criterion_name,\n    max_score, score, evidence, reasoning,\n    recommendation: {operation, text,\n      confidence, source}|null,\n    kb_mismatches: [{table, flag, note}]  (S22)\n  }],\n  domain_total: int,\n  domain_verdict: "Ship"|"Upgrade"|"Rework",\n  observed_visuals: [...] (D/X only),\n  concepts_on_slide: [...] (P only),\n  slide_role_observations: [...] (D/X/scan_design_pitfalls)\n}',
    constraints:['Each call enforced via tool_use','Verdicts: Ship>=90%, Upgrade>=75%, Rework<75%','validated_api_call: fix→validate→retry→halt','S22: max_score per criterion = 3 (not 5)'],
-   prompts:[{title:'System Prompt — score_quadrant (P/D/X/L)',body:`<h4>Scoring Source of Truth</h4>
-<div class="rule critical">Score against the <span class="emphasis">rubric criteria</span> only. The <code>ideal_blueprint</code> is a design reference.</div>
+   prompts:[{title:'System Prompt — score_rubric_domain (P/D/X/L)',body:`<h4>Scoring Source of Truth</h4>
+<div class="rule critical">Score against the <span class="emphasis">rubric criteria</span> only. The <code>reference_blueprint</code> is a design reference.</div>
 <div class="rule critical">Do NOT deduct points because the submission differs from the blueprint. Use blueprint to inform EDIT/INSERT recommendations, not as comparison checklist.</div>
 <h4>Content-Type Column</h4>
 <div class="rule mandatory">Do NOT penalise a Learn module for missing Practice-column behaviours. Each rubric criterion has Learn / Practice / Challenge columns — score against the correct one.</div>
@@ -656,67 +679,67 @@ const NODES = [
 <div class="rule">Template slimmed from 381&rarr;37 lines. All domain knowledge now in <code>config/rubric/rules/</code>.</div>
 <div class="rule">Injected rules: scope_discipline, delivery_language, applet_conventions, storyboard_read_rules, module_level_tropes, visual_hierarchy, slide_role_observations, concept_attribution, visual_model_protocol, media_insertion_heuristics, applicable_field_protocol, dev_note_anchoring.</div>`}]},
 
-  {id:'a2_t7',agent:'A2',type:'tool',label:'T7: Compile Review',
-   blurb:'Merges all scores into final CompiledReview. S22: 5 bug fixes (KeyError guards, max_score 3, gate_name field fix), handoff checks fire before compile, kb_mismatches now populated from S6.',
-   inp:['S5_gate_scores','S6_P/D/X/L_scores (with kb_mismatches)','S7_antipatterns','S8_mastery','topic','blueprint','research_brief','quadrant_meta','antipatterns_meta'],
-   proc:['Handoff checks on all inputs','compile_review()','Applicable-to filtering (applet rubric)','Slide role merge (S6+S7 observations)','Antipattern role-based suspension','Sort priority_actions by gap descending','Build upgrade_map','Translation notes aggregation'],
+  {id:'a2_t7',agent:'mod_review',type:'tool',label:'integrate_review: Integrate Review',
+   blurb:'Merges all scores into final IntegratedReview. S22: 5 bug fixes (KeyError guards, max_score 3, gate_name field fix), handoff checks fire before compile, kb_mismatches now populated from score_rubric_domain.',
+   inp:['gate_scores','score_P/D/X/L_scores (with kb_mismatches)','S7_design_pitfalls','assess_learning_coverage_output','topic','blueprint','kb_synthesis','domain_meta','design_pitfalls_meta'],
+   proc:['Handoff checks on all inputs','integrate_review()','Applicable-to filtering (applet rubric)','Slide role merge (score_rubric_domain + scan_design_pitfalls observations)','Design Pitfall role-based suspension','Sort priority_actions by gap descending','Build upgrade_map','Translation notes aggregation'],
    out:['MODULE_REVIEW.json'],model:null,gate:null,cost:'$0',caveats:'S22: all .get() guards verified, no bracket-access crash risks remain',
-   schema:'{\n  overall_score: float,\n  verdict: "ship"|"upgrade"|"rework"|"reject",\n  gate_blocked: bool,\n  scores: {P:{total,max,percent,criteria,\n    observed_visuals,concepts_on_slide},\n    D:{...},X:{...},L:{...}},\n  gates: {hard:[], critical:[], advisory:[]},\n  advisory_recommendations: [],\n  antipatterns: [] (with suspension info),\n  mastery: {...},\n  recommendations: {must_fix:[], should_upgrade:[]},\n  upgrade_map: {priority_actions:[], gate_recommendations:[], mastery_gaps:[]},\n  kb_mismatches: [] (S22: now populated from S6),\n  kb_quality: {...},\n  blueprint_compliance: {...},\n  translation_notes: [],\n  slide_roles: {}\n}',
-   constraints:['Thresholds: ship>=95, upgrade>=85, rework>=60, reject<60','S22: max_score default 3 (was 5)','S22: gate_name read from gate_name field (was incorrectly reading name)','S22: antipattern legacy field fallback logs warning']},
+   schema:'{\n  overall_score: float,\n  verdict: "ship"|"upgrade"|"rework"|"reject",\n  gate_blocked: bool,\n  scores: {P:{total,max,percent,criteria,\n    observed_visuals,concepts_on_slide},\n    D:{...},X:{...},L:{...}},\n  gates: {hard:[], critical:[], advisory:[]},\n  advisory_recommendations: [],\n  design_pitfalls: [] (with suspension info),\n  learning_coverage: {...},\n  recommendations: {must_fix:[], should_upgrade:[]},\n  upgrade_map: {priority_actions:[], gate_recommendations:[], mastery_gaps:[]},\n  kb_mismatches: [] (S22: now populated from score_rubric_domain),\n  kb_quality: {...},\n  blueprint_compliance: {...},\n  translation_notes: [],\n  slide_roles: {}\n}',
+   constraints:['Thresholds: ship>=95, upgrade>=85, rework>=60, reject<60','S22: max_score default 3 (was 5)','S22: gate_name read from gate_name field (was incorrectly reading name)','S22: design_pitfall legacy field fallback logs warning']},
 
-  {id:'a2_s8',agent:'A2',type:'skill',label:'S8: Assess Mastery',
-   blurb:'Estimates mastery: what students can/cannot do, misconception coverage %, vocabulary coverage %, path to 100%. S22: 5 domain rules injected, template 237→34 lines.',
-   inp:['T2 extract','research_brief','blueprint','prior_trace','compiled_review (S5+S6+S7)'],
-   proc:['LLM tool_use: assess_mastery','Handoff check after output'],out:['S8_mastery.json'],
+  {id:'a2_s8',agent:'mod_review',type:'skill',label:'assess_learning_coverage: Learning Coverage',
+   blurb:'Estimates learning_coverage: what students can/cannot do, misconception coverage %, vocabulary coverage %, path to 100%. S22: 5 domain rules injected, template 237→34 lines.',
+   inp:['PPTX extract','kb_synthesis','blueprint','prior_trace','integrated_review (score_gates+score_rubric_domain+scan_design_pitfalls)'],
+   proc:['LLM tool_use: assess_learning_coverage','Handoff check after output'],out:['assess_learning_coverage.json'],
    model:'sonnet',gate:null,cost:'~$0.03-0.08',caveats:null,
-   schema:'{\n  mastery_estimate: {\n    fluency_achieved, fluency_gaps,\n    misconception_coverage: {total, addressed_count, gap:[]},\n    vocabulary_coverage: {expected:[], found:[], missing:[]},\n    visual_model_coverage: {expected_virs:[], found_virs:[], missing:[]},\n    content_role: {fulfilled, notes},\n    interaction_progression: {fulfilled, notes},\n    coverage_percent: int,\n    path_to_100: [{gap, closure_step, impact}]\n  }\n}',
+   schema:'{\n  learning_coverage_estimate: {\n    fluency_achieved, fluency_gaps,\n    misconception_coverage: {total, addressed_count, gap:[]},\n    vocabulary_coverage: {expected:[], found:[], missing:[]},\n    visual_model_coverage: {expected_virs:[], found_virs:[], missing:[]},\n    content_role: {fulfilled, notes},\n    interaction_progression: {fulfilled, notes},\n    coverage_percent: int,\n    path_to_100: [{gap, closure_step, impact}]\n  }\n}',
    constraints:['validated_api_call: fix→validate→retry→halt','S22: compile.py guards vocab/vm missing fields (B1 bug fix)'],
-   prompts:[{title:'System Prompt — assess_mastery',body:`<h4>Coverage Grounding (IMPORTANT)</h4>
+   prompts:[{title:'System Prompt — assess_learning_coverage',body:`<h4>Coverage Grounding (IMPORTANT)</h4>
 <div class="rule critical">Frame in terms of <span class="emphasis">LO and student experience</span>.</div>
 <div class="rule">DO: "Students have no independent transfer task"</div>
 <div class="rule">DO NOT: "Two of three blueprint applets are absent"</div>
 <h4>S22: Domain Rules Injection (5 rules)</h4>
 <div class="rule">Template slimmed from 237&rarr;34 lines. Injected rules: scope_discipline, delivery_language, applet_conventions, applet_scope_discipline, coverage_audit_protocol.</div>
-<div class="rule mandatory"><code>applet_scope_discipline</code>: module-level tropes are NOT applet mastery gaps. Parent-module failures don't drag applet coverage_percent down.</div>
+<div class="rule mandatory"><code>applet_scope_discipline</code>: module-level tropes are NOT applet learning coverage gaps. Parent-module failures don't drag applet coverage_percent down.</div>
 <div class="rule mandatory"><code>coverage_audit_protocol</code>: structured cross-reference for misconception + vocabulary + VIR coverage (expected&rarr;found&rarr;missing).</div>
 <h4>Assessment Rules</h4>
-<div class="rule mandatory">Ground every claim in compiled_review evidence. Do not infer mastery from content that scored below max.</div>
+<div class="rule mandatory">Ground every claim in integrated_review evidence. Do not infer learning coverage from content that scored below max.</div>
 <div class="rule"><code>path_to_100</code> ordered by impact (highest first). <code>coverage_percent</code> is estimate — be honest about uncertainty.</div>`}]},
 
-  {id:'a2_t8t9',agent:'A2',type:'finalize',label:'S9+T9+T8: Blurbs + Trace + Render',
-   blurb:'S9 generate_blurbs (Haiku) synthesises per-slide action plan. T9 writes module trace entry. T8 renders final HTML with structured slide_actions from S9.',
-   inp:['T7_compiled_review','S8_mastery','research_brief','blueprint','KB topics'],
-   proc:['generate_blurbs() -> S9_blurbs.json','write_trace() -> KNOWLEDGE_TRACE.jsonl','render_html(blurbs=blurbs) -> MODULE_REVIEW.html'],
-   out:['S9_blurbs.json','KNOWLEDGE_TRACE.jsonl (updated)','MODULE_REVIEW.html'],model:'haiku (S9)',gate:null,cost:'~$0.03',
+  {id:'a2_t8t9',agent:'mod_review',type:'finalize',label:'generate_action_summaries + write_trace + render_html',
+   blurb:'generate_action_summaries (Haiku) synthesises per-slide action plan. write_trace writes module trace entry. render_html renders final HTML with structured slide_actions from generate_action_summaries.',
+   inp:['integrated_review_output','assess_learning_coverage_output','kb_synthesis','blueprint','KB topics'],
+   proc:['generate_action_summaries() -> generate_action_summaries.json','write_trace() -> KNOWLEDGE_TRACE.jsonl','render_html(action_summaries=action_summaries) -> MODULE_REVIEW.html'],
+   out:['generate_action_summaries.json','KNOWLEDGE_TRACE.jsonl (updated)','MODULE_REVIEW.html'],model:'haiku (generate_action_summaries)',gate:null,cost:'~$0.03',
    caveats:'Trace entry replaces skeleton (verdict changes from pending to actual)',
-   schema:'Trace entry:\n{\n  module_id, content_type: "module",\n  review_verdict: "ship"|"upgrade"|"rework",\n  assertions: {lo_achieved, vocabulary_introduced[],\n    notation_introduced[], visual_models_used[],\n    misconceptions_surfaced[], cpa_phases_covered,\n    tropes_used[], ias_archetypes_used[]},\n  inventory: {...},\n  scorecard: {quadrant_scores, overall_score, verdict}\n}',
+   schema:'Trace entry:\n{\n  module_id, content_type: "module",\n  review_verdict: "ship"|"upgrade"|"rework",\n  assertions: {lo_achieved, vocabulary_introduced[],\n    notation_introduced[], visual_models_used[],\n    misconceptions_surfaced[], cpa_phases_covered,\n    tropes_used[], ias_archetypes_used[]},\n  inventory: {...},\n  scorecard: {domain_scores, overall_score, verdict}\n}',
    constraints:['Trace is append-only','Previous skeleton entry is overwritten by match on module_title']},
 
-  // ── A3: APPLET REVIEWER ─────────────────────────────────────────
-  {id:'a3_preflight',agent:'A3',type:'preflight',label:'A3 Preflight',
-   blurb:'Validates A2 completed, applet PPTX exists, matches applet to placement in module blueprint, loads parent module trace.',
-   inp:['storyboard_pptx','a2_run_dir','CONFIRMED_INPUTS'],proc:['check_environment()','Match applet in IDEAL_MODULE_BLUEPRINT','Load parent module trace for vocabulary continuity'],
+  // ── app_review: APPLET REVIEWER ─────────────────────────────────────────
+  {id:'a3_preflight',agent:'app_review',type:'preflight',label:'app_review Preflight',
+   blurb:'Validates mod_review completed, applet PPTX exists, matches applet to placement in module blueprint, loads parent module trace.',
+   inp:['storyboard_pptx','mod_review_run_dir','CONFIRMED_INPUTS'],proc:['check_environment()','Match applet in REFERENCE_MODULE_BLUEPRINT','Load parent module trace for vocabulary continuity'],
    out:['Preflight validation'],model:null,gate:null,cost:'$0',
-   caveats:'A2 manifest must be "completed"',schema:null,constraints:['Applet PPTX must follow naming: G7C4M1A2_*.pptx']},
+   caveats:'mod_review manifest must be "completed"',schema:null,constraints:['Applet PPTX must follow naming: G7C4M1A2_*.pptx']},
 
-  {id:'a3_confirm',agent:'A3',type:'user_action',label:'User Confirms A3',
+  {id:'a3_confirm',agent:'app_review',type:'user_action',label:'User Confirms app_review',
    blurb:'User reviews applet preflight, confirms to start.',
-   inp:['Preflight report'],proc:['User clicks Confirm'],out:['A3 run starts'],
+   inp:['Preflight report'],proc:['User clicks Confirm'],out:['app_review run starts'],
    model:null,gate:null,cost:'$0',caveats:null,schema:null,constraints:null},
 
-  {id:'a3_extract',agent:'A3',type:'tool',label:'T2/T3: Extract Applet',
+  {id:'a3_extract',agent:'app_review',type:'tool',label:'extract_topic / extract_full_text: Extract Applet',
    blurb:'Extracts topic, full text, and thumbnails from applet storyboard PPTX.',
    inp:['storyboard_pptx'],proc:['extract_topic()','extract_full_text()','build_screen_map()'],
-   out:['T2_topic.json','T3_full_text.json'],model:null,gate:null,cost:'$0',caveats:null,schema:null,constraints:null},
+   out:['topic.json','full_text.json'],model:null,gate:null,cost:'$0',caveats:null,schema:null,constraints:null},
 
-  {id:'a3_t6',agent:'A3',type:'tool',label:'T6: Applet KB',
+  {id:'a3_t6',agent:'app_review',type:'tool',label:'kb_query: Applet KB',
    blurb:'Applet-scoped KB query merged with module KB.',
-   inp:['strand, grade','T6_module_kb (from A2)'],proc:['kb_query()','merge_kb_results()'],
-   out:['T6_applet_kb.json'],model:null,gate:null,cost:'$0',caveats:null,schema:null,constraints:null},
+   inp:['strand, grade','module_kb (from mod_review)'],proc:['kb_query()','merge_kb_results()'],
+   out:['applet_kb.json'],model:null,gate:null,cost:'$0',caveats:null,schema:null,constraints:null},
 
-  {id:'a3_s1c',agent:'A3',type:'skill',label:'S1c: Applet LO',
+  {id:'a3_s1c',agent:'app_review',type:'skill',label:'derive_applet_lo: Applet LO',
    blurb:'Derives applet LO, IAS archetype, 6-stage scope, applet type (standard/misconception/exit_question). S22: handoff check, validated_api_call.',
-   inp:['T2/T3 extract','T6_applet_kb','curriculum_context','applet placement from blueprint'],
+   inp:['topic/text extract','applet_kb','curriculum_context','applet placement from blueprint'],
    proc:['LLM tool_use: derive_applet_lo'],out:['APPLET_LO_BRIEF.json'],
    model:'sonnet',gate:null,cost:'~$0.03-0.08',caveats:null,
    schema:'{\n  applet_lo: string,\n  ias_archetype: string,\n  applet_type: "standard"|"misconception"|"exit_question",\n  pedagogical_stage: "Explore"|"Consolidation"|"Practice"|"Assessment",\n  six_stage_scope: {\n    stages_covered: string[],\n    entry_stage, exit_stage, notes\n  }\n}',
@@ -733,30 +756,30 @@ const NODES = [
 <h4>lo_codes</h4>
 <div class="rule">Map to KB <code>classroots_topics</code>; use only codes present in <code>kb_evidence</code>.</div>`}]},
 
-  {id:'a3_s2',agent:'A3',type:'skill',label:'S2: Research (Applet)',
+  {id:'a3_s2',agent:'app_review',type:'skill',label:'research_deep: Research (Applet)',
    blurb:'Applet-scoped research. Inherits module research + applies applet focus. False friends prominent. S22: domain rules injected (4 rules), handoff check after output.',
-   inp:['T2/T3 extract','T6_applet_kb','curriculum_context (with A1+A2 directives)'],
-   proc:['LLM tool_use: research_deep, scope="applet"','Handoff check after output'],out:['APPLET_RESEARCH_BRIEF.json'],
-   model:'sonnet',gate:null,cost:'~$0.08-0.20',caveats:'A1 + A2 reviewer directives injected. S22: prerequisites_to_reactivate emitted as [] for applet scope.',
-   schema:'Same as Module Research Brief\n+ false_friends prominently featured\n+ prerequisites_to_reactivate: [] (applet scope)',constraints:['validated_api_call: fix→validate→retry→halt'],
-   prompts:[{title:'System Prompt — research_deep (applet scope)',body:`<h4>Same core rules as Module S2, plus:</h4>
+   inp:['topic/text extract','applet_kb','curriculum_context (with ch_research+mod_review directives)'],
+   proc:['LLM tool_use: research_deep, scope="applet"','Handoff check after output'],out:['APPLET_KB_SYNTHESIS.json'],
+   model:'sonnet',gate:null,cost:'~$0.08-0.20',caveats:'ch_research + mod_review reviewer directives injected. S22: prerequisites_to_reactivate emitted as [] for applet scope.',
+   schema:'Same as Module KB Synthesis\n+ false_friends prominently featured\n+ prerequisites_to_reactivate: [] (applet scope)',constraints:['validated_api_call: fix→validate→retry→halt'],
+   prompts:[{title:'System Prompt — research_deep (applet scope)',body:`<h4>Same core rules as Module research_deep, plus:</h4>
 <div class="rule critical"><code>lo_misconceptions</code> — COMPLETE list REQUIRED from KB checklist.</div>
 <div class="rule critical">Applet scope: do NOT recommend placing tropes within the applet. If trope needed, recommend as "module-level action".</div>
-<div class="rule mandatory">A1 + A2 reviewer directives are injected into <code>CURRICULUM_CONTEXT</code>. These take priority over KB defaults.</div>
+<div class="rule mandatory">ch_research + mod_review reviewer directives are injected into <code>CURRICULUM_CONTEXT</code>. These take priority over KB defaults.</div>
 <div class="rule">False friends given PROMINENT display (dedicated section) — not buried in conventions.</div>
 <h4>S22: Domain Rules + Validation</h4>
 <div class="rule">4 domain rules injected via <code>{{domain_rules}}</code>: scope_discipline, delivery_language, module_level_tropes, vocabulary_status_protocol.</div>
 <div class="rule"><code>prerequisites_to_reactivate: []</code> valid for applet scope (not position-checked).</div>`}]},
 
-  {id:'a3_s3',agent:'A3',type:'skill',label:'S3: Ideal Screens',
+  {id:'a3_s3',agent:'app_review',type:'skill',label:'build_blueprint: Reference Screens',
    blurb:'6-stage screen sequence: Launch, Explore, Notice, Explain, Apply, Consolidate. Each screen has interaction mode, cognitive action, scaffolding level. S22: 5 domain rules injected, handoff check.',
-   inp:['T2/T3 extract','APPLET_RESEARCH_BRIEF','curriculum_context','parent module trace'],
+   inp:['topic/text extract','APPLET_KB_SYNTHESIS','curriculum_context','parent module trace'],
    proc:['LLM tool_use + VISION: build_blueprint, level="applet"'],
-   out:['APPLET_IDEAL_SCREENS.json'],model:'sonnet',gate:null,cost:'~$0.15-0.35',
+   out:['REFERENCE_APPLET_SCREENS.json'],model:'sonnet',gate:null,cost:'~$0.15-0.35',
    caveats:'Uses vision (screen thumbnails)',
    schema:'{\n  screens: [{stage:1-6, stage_name,\n    interaction_mode, cognitive_action,\n    scaffolding_level, cpa_phase,\n    content_description, visual_model,\n    visual_model_vir_id, feedback_type}],\n  scaffolding_arc: string,\n  visual_models_referenced: [...],\n  convention_requirements: [...]\n}',
    constraints:['minItems: 6 screens (one per stage)','validated_api_call: fix→validate→retry→halt','Handoff check after output'],
-   prompts:[{title:'System Prompt — build_blueprint (applet)',body:`<h4>Same core rules as Module S3, plus applet-specific:</h4>
+   prompts:[{title:'System Prompt — build_blueprint (applet)',body:`<h4>Same core rules as Module build_blueprint, plus applet-specific:</h4>
 <h4>Scoping</h4>
 <div class="rule critical">Use module's assignments, not full KB. Vocabulary: only terms assigned to parent module. Misconceptions: only IDs assigned.</div>
 <h4>KB VIR References (CRITICAL)</h4>
@@ -771,64 +794,210 @@ const NODES = [
 <h4>Convention &amp; False-Friend Requirements</h4>
 <div class="rule">Populate <code>convention_requirements</code> with specific stage locations for each mitigation.</div>`}]},
 
-  {id:'a3_render_gates',agent:'A3',type:'render',label:'Render 2 Applet Gates',
-   blurb:'Generates APPLET_RESEARCH_BRIEF.html (soft) and APPLET_IDEAL_SCREENS.html (hard).',
-   inp:['APPLET_RESEARCH_BRIEF.json','APPLET_IDEAL_SCREENS.json'],
+  {id:'a3_render_gates',agent:'app_review',type:'render',label:'Render 2 Applet Gates',
+   blurb:'Generates APPLET_KB_SYNTHESIS.html (soft) and REFERENCE_APPLET_SCREENS.html (hard).',
+   inp:['APPLET_KB_SYNTHESIS.json','REFERENCE_APPLET_SCREENS.json'],
    proc:['render_applet_research_html()','render_applet_blueprint_html()'],
-   out:['APPLET_RESEARCH_BRIEF.html','APPLET_IDEAL_SCREENS.html'],
+   out:['APPLET_KB_SYNTHESIS.html','REFERENCE_APPLET_SCREENS.html'],
    model:null,gate:null,cost:'$0',caveats:'data-run-dir points to APPLET run_dir',schema:null,constraints:null},
 
-  {id:'a3_gates',agent:'A3',type:'gate',label:'2 Applet Gates',
-   blurb:'APPLET_RESEARCH_BRIEF is SOFT. APPLET_IDEAL_SCREENS is HARD (blocks scoring). Must approve screens before Phase B-D. Refine actions trigger optional Haiku LLM calls.',
+  {id:'a3_gates',agent:'app_review',type:'gate',label:'2 Applet Gates',
+   blurb:'APPLET_KB_SYNTHESIS is SOFT. REFERENCE_APPLET_SCREENS is HARD (blocks scoring). Must approve screens before Phase B-D. Refine actions trigger optional Haiku LLM calls.',
    inp:['2 gate HTMLs'],proc:['Accept / Refine / Comment per entry','Approve / Rework page-level','Refine calls refine_gate_entry — Haiku LLM'],
    out:['*.gate.json','GATE_REFINE_LOG.jsonl (if refined)'],model:'haiku',gate:'hard',cost:'~$0.02 per refine',
-   caveats:'APPLET_IDEAL_SCREENS is the 2nd hard gate in the system. Refine = optional Haiku LLM call per entry.',
+   caveats:'REFERENCE_APPLET_SCREENS is the 2nd hard gate in the system. Refine = optional Haiku LLM call per entry.',
    schema:null,constraints:['Hard gate blocks resume_applet_reviewer()','Refine log written to GATE_REFINE_LOG.jsonl']},
 
-  {id:'a3_scoring',agent:'A3',type:'skill',label:'S5-S7: Score Applet',
-   blurb:'Same scoring pipeline as A2: gate scores, 4 quadrant scores (with kb_mismatches), antipatterns. S22: handoff checks at S5→S6→S7 boundaries, validated_api_call on every call.',
-   inp:['T2/T3 extract','research_brief','ideal_screens','KB','prior trace'],
-   proc:['score_gates(gate_set="applet") + handoff check','score_quadrant x4 + handoff check each','scan_antipatterns(pattern_set="applet") + handoff check'],
-   out:['S5_gates.json','S6_P/D/X/L.json (with kb_mismatches)','S7_antipatterns.json'],
+  {id:'a3_scoring',agent:'app_review',type:'skill',label:'score_gates / score_rubric_domain / scan_design_pitfalls: Score Applet',
+   blurb:'Same scoring pipeline as mod_review: gate scores, 4 domain scores (with kb_mismatches), design_pitfalls. S22: handoff checks at score_gates→score_rubric_domain→scan_design_pitfalls boundaries, validated_api_call on every call.',
+   inp:['topic/text extract','kb_synthesis','reference_screens','KB','prior trace'],
+   proc:['score_gates(gate_set="applet") + handoff check','score_rubric_domain x4 + handoff check each','scan_design_pitfalls(pattern_set="applet") + handoff check'],
+   out:['score_gates.json','score_P/D/X/L.json (with kb_mismatches)','scan_design_pitfalls.json'],
    model:'sonnet',gate:null,cost:'~$0.20-0.50 (6 calls)',
-   caveats:'Applet antipatterns include AP1-AP9 (broader than module AP1-AP3)',
-   schema:null,constraints:['validated_api_call: fix→validate→retry→halt on every call','Handoff checks at 3 boundaries (S5, S6×4, S7)'],
-   prompts:[{title:'Prompts — S4+S5+S6 (applet scope)',body:`<h4>S4 scan_antipatterns (applet)</h4>
+   caveats:'Applet design_pitfalls include AP1-AP9 (broader than module AP1-AP3)',
+   schema:null,constraints:['validated_api_call: fix→validate→retry→halt on every call','Handoff checks at 3 boundaries (score_gates, score_rubric_domain×4, scan_design_pitfalls)'],
+   prompts:[{title:'Prompts — scan_design_pitfalls + score_gates + score_rubric_domain (applet scope)',body:`<h4>scan_design_pitfalls (applet)</h4>
 <div class="rule">Uses <code>pattern_set="applet"</code> — AP1-AP9 (broader than module AP1-AP3).</div>
 <div class="rule critical">Animation detection: adjacent similar slides = one screen. <code>&raquo;</code> alone ≠ tap affordance.</div>
 <div class="rule mandatory">Tropes are module-level only — do NOT flag absence inside applet.</div>
-<h4>S5 score_gates (applet)</h4>
+<h4>score_gates (applet)</h4>
 <div class="rule critical">Use <code>screen_map</code> to group slides into logical screens before evaluating G5-G7.</div>
 <div class="rule">Evaluate per entire logical screen, not per slide.</div>
-<h4>S6 score_quadrant x4 (applet)</h4>
+<h4>score_rubric_domain x4 (applet)</h4>
 <div class="rule critical">Score against rubric criteria only. Blueprint is a reference, not a checklist.</div>
 <div class="rule mandatory">Do NOT penalise applet for missing module-level behaviours (tropes, Practice-column items).</div>
 <div class="rule">Verdicts: Ship &ge;90%, Upgrade &ge;75%, Rework &lt;75%.</div>`}]},
 
-  {id:'a3_final',agent:'A3',type:'finalize',label:'T7+S8+S9+T9+T8: Compile',
-   blurb:'Compile review (with S22 bug fixes), assess mastery (with handoff check), generate per-slide action blurbs (S9, Haiku), write applet trace entry (with prerequisites from S2), render HTML.',
-   inp:['All score files (with kb_mismatches)','research_brief (with prerequisites_to_reactivate)','ideal_screens'],
-   proc:['compile_review() [S22: bug fixes, kb_mismatches populated]','assess_mastery() + handoff check','generate_blurbs() [S21: wired for applets]','write_trace() [S22: prerequisites flow through]','render_html(blurbs=blurbs)'],
-   out:['APPLET_REVIEW.json (with kb_mismatches, translation_notes, slide_roles)','S8_mastery.json','S9_blurbs.json','APPLET_REVIEW.html','KNOWLEDGE_TRACE.jsonl (applet entry)'],
-   model:'sonnet + haiku (S9)',gate:null,cost:'~$0.40',
-   caveats:'S22: compile.py guards all .get() accesses. kb_mismatches aggregated from S6 criteria. Advisory gate names rendered correctly.',
-   schema:null,constraints:['Trace entry appended — applet entries live alongside module entries','S22: validated_api_call on S8, handoff check before compile','compile.py: applicable_to gates on applet_type (S20 FIX-H), max_score default 3 (S22)']},
+  {id:'a3_final',agent:'app_review',type:'finalize',label:'integrate_review + assess_learning_coverage + generate_action_summaries + write_trace + render_html',
+   blurb:'Integrate review (with S22 bug fixes), assess learning coverage (with handoff check), generate per-slide action summaries (generate_action_summaries, Haiku), write applet trace entry (with prerequisites from research_deep), render HTML.',
+   inp:['All score files (with kb_mismatches)','kb_synthesis (with prerequisites_to_reactivate)','reference_screens'],
+   proc:['integrate_review() [S22: bug fixes, kb_mismatches populated]','assess_learning_coverage() + handoff check','generate_action_summaries() [S21: wired for applets]','write_trace() [S22: prerequisites flow through]','render_html(action_summaries=action_summaries)'],
+   out:['APPLET_REVIEW.json (with kb_mismatches, translation_notes, slide_roles)','assess_learning_coverage.json','generate_action_summaries.json','APPLET_REVIEW.html','KNOWLEDGE_TRACE.jsonl (applet entry)'],
+   model:'sonnet + haiku (generate_action_summaries)',gate:null,cost:'~$0.40',
+   caveats:'S22: compile.py guards all .get() accesses. kb_mismatches aggregated from score_rubric_domain criteria. Advisory gate names rendered correctly.',
+   schema:null,constraints:['Trace entry appended — applet entries live alongside module entries','S22: validated_api_call on assess_learning_coverage, handoff check before compile','compile.py: applicable_to gates on applet_type (S20 FIX-H), max_score default 3 (S22)']},
+];
+
+/* ── Rubric node data ────────────────────────────────────────────── */
+const RUBRIC_NODES = [
+  // Module Rubrics
+  {id:'rub_module_P',agent:'rubrics',type:'rubric',label:'module_P',group:'Module Rubrics',
+   blurb:'Pedagogy rubric — 25 pts. Evaluates learning-objective alignment, scaffolding, cognitive load, formative checks.',
+   detail:'5 criteria, max 5 pts each. Used by score_rubric_domain for module-level pedagogy scoring.'},
+  {id:'rub_module_D',agent:'rubrics',type:'rubric',label:'module_D',group:'Module Rubrics',
+   blurb:'Design rubric — 25 pts. Evaluates slide layout, visual hierarchy, typography, whitespace, consistency.',
+   detail:'5 criteria, max 5 pts each. Used by score_rubric_domain for module-level design scoring.'},
+  {id:'rub_module_X',agent:'rubrics',type:'rubric',label:'module_X',group:'Module Rubrics',
+   blurb:'Experience rubric — 25 pts. Evaluates engagement, interactivity, pacing, narrative flow, multimedia use.',
+   detail:'5 criteria, max 5 pts each. Used by score_rubric_domain for module-level experience scoring.'},
+  {id:'rub_module_L',agent:'rubrics',type:'rubric',label:'module_L',group:'Module Rubrics',
+   blurb:'Accessibility rubric — 25 pts. Evaluates contrast, alt-text, reading level, navigation, inclusivity.',
+   detail:'5 criteria, max 5 pts each. Used by score_rubric_domain for module-level accessibility scoring.'},
+  {id:'rub_module_gates',agent:'rubrics',type:'rubric',label:'module_gates',group:'Module Rubrics',
+   blurb:'Module gate criteria — 8 gate checks for structural and pedagogical compliance at module level.',
+   detail:'8 gate criteria. Used by score_gates for module-level pass/fail decisions.'},
+  // Applet Rubrics
+  {id:'rub_applet_P',agent:'rubrics',type:'rubric',label:'applet_P',group:'Applet Rubrics',
+   blurb:'Pedagogy rubric — 25 pts. Evaluates applet-level objective alignment, interaction design, feedback loops.',
+   detail:'5 criteria, max 5 pts each. Used by score_rubric_domain for applet-level pedagogy scoring.'},
+  {id:'rub_applet_D',agent:'rubrics',type:'rubric',label:'applet_D',group:'Applet Rubrics',
+   blurb:'Design rubric — 25 pts. Evaluates screen layout, component consistency, visual polish, responsiveness.',
+   detail:'5 criteria, max 5 pts each. Used by score_rubric_domain for applet-level design scoring.'},
+  {id:'rub_applet_X',agent:'rubrics',type:'rubric',label:'applet_X',group:'Applet Rubrics',
+   blurb:'Experience rubric — 25 pts. Evaluates engagement hooks, gamification, flow state, reward mechanisms.',
+   detail:'5 criteria, max 5 pts each. Used by score_rubric_domain for applet-level experience scoring.'},
+  {id:'rub_applet_L',agent:'rubrics',type:'rubric',label:'applet_L',group:'Applet Rubrics',
+   blurb:'Accessibility rubric — 25 pts. Evaluates touch targets, screen reader support, color independence, timing.',
+   detail:'5 criteria, max 5 pts each. Used by score_rubric_domain for applet-level accessibility scoring.'},
+  {id:'rub_applet_gates',agent:'rubrics',type:'rubric',label:'applet_gates',group:'Applet Rubrics',
+   blurb:'Applet gate criteria — 8 gate checks for structural and interaction compliance at applet level.',
+   detail:'8 gate criteria. Used by score_gates for applet-level pass/fail decisions.'},
+  // Shared
+  {id:'rub_design_pitfalls',agent:'rubrics',type:'rubric',label:'design_pitfalls',group:'Shared',
+   blurb:'9 pitfall patterns — common anti-patterns in slide and screen design that trigger reviewer flags.',
+   detail:'9 patterns. Used by scan_design_pitfalls to detect wall-of-text, orphan media, missing CTA, etc.'},
+  {id:'rub_lo_criteria',agent:'rubrics',type:'rubric',label:'lo_criteria',group:'Shared',
+   blurb:'LO quality criteria — rubric for evaluating learning objective clarity, measurability, and alignment.',
+   detail:'Used by derive_module_lo and derive_applet_lo for LO quality validation.'},
+  // Guides
+  {id:'rub_blueprint_guide',agent:'rubrics',type:'rubric',label:'blueprint_guide',group:'Guides',
+   blurb:'Blueprint construction guide — structured instructions for building multi-pass module blueprints.',
+   detail:'Reference guide for build_blueprint skill. Covers 5-pass construction, context anchors, delivery changes.'},
+  {id:'rub_chapter_seq_guide',agent:'rubrics',type:'rubric',label:'chapter_sequence_guide',group:'Guides',
+   blurb:'Sequence construction guide — rules for ordering modules within a chapter sequence.',
+   detail:'Reference guide for derive_chapter_sequence. Covers prerequisite chaining, spiral curriculum, pacing.'},
+  {id:'rub_research_synth_guide',agent:'rubrics',type:'rubric',label:'research_synthesis_guide',group:'Guides',
+   blurb:'Research synthesis guide — how to combine KB data, textbook content, and curriculum scope into research output.',
+   detail:'Reference guide for research_deep. Covers source triangulation, gap identification, confidence scoring.'},
+  {id:'rub_recommendation_protocol',agent:'rubrics',type:'rubric',label:'recommendation_protocol',group:'Guides',
+   blurb:'Recommendation framing — how to frame actionable recommendations in review outputs.',
+   detail:'Shared protocol for generate_action_summaries. Covers priority levels, specificity, implementability.'},
+  {id:'rub_trace_guide',agent:'rubrics',type:'rubric',label:'trace_guide',group:'Guides',
+   blurb:'Knowledge trace guide — how to build and validate the concept-to-slide knowledge trace.',
+   detail:'Reference guide for trace construction. Covers concept tagging, coverage verification, gap detection.'},
+];
+
+/* ── Domain Rule injection map ──────────────────────────────────── */
+const RULE_INJECTION_MAP = {
+  'scope_discipline': ['research_deep','build_blueprint','build_spine','enrich_concepts','enrich_experience','build_applet_screens','score_gates','score_rubric_domain','scan_design_pitfalls','assess_learning_coverage'],
+  'delivery_language': ['research_deep','build_blueprint','build_applet_screens','score_gates','score_rubric_domain','scan_design_pitfalls','assess_learning_coverage','generate_action_summaries'],
+  'module_level_tropes': ['research_deep','build_blueprint','build_spine','build_applet_screens','score_gates','score_rubric_domain','scan_design_pitfalls'],
+  'lo_code_alignment': ['derive_chapter_sequence','derive_module_lo','derive_applet_lo'],
+  'module_sequencing_rules': ['derive_chapter_sequence'],
+  'module_annotation_schema': ['derive_chapter_sequence'],
+  'textbook_floor_principle': ['derive_chapter_sequence'],
+  'vocabulary_status_protocol': ['research_deep'],
+  'vocabulary_tracking': ['build_blueprint','enrich_concepts'],
+  'visual_model_protocol': ['build_blueprint','enrich_engagement','build_applet_screens','score_rubric_domain'],
+  'media_insertion_heuristics': ['build_blueprint','enrich_engagement','score_rubric_domain'],
+  'slide_tagging_protocol': ['build_blueprint','build_spine'],
+  'convention_requirements': ['build_blueprint','enrich_concepts'],
+  'kb_gap_handling': ['build_blueprint','enrich_engagement','build_applet_screens'],
+  'applet_conventions': ['score_gates','score_rubric_domain','scan_design_pitfalls','assess_learning_coverage'],
+  'storyboard_read_rules': ['score_gates','score_rubric_domain','scan_design_pitfalls'],
+  'visual_hierarchy_rules': ['score_gates','score_rubric_domain','scan_design_pitfalls'],
+  'advisory_gate_protocol': ['score_gates'],
+  'slide_role_observations': ['score_rubric_domain','scan_design_pitfalls'],
+  'concept_attribution': ['score_rubric_domain'],
+  'applicable_field_protocol': ['score_rubric_domain'],
+  'dev_note_anchoring': ['score_rubric_domain'],
+  'applet_scope_discipline': ['assess_learning_coverage'],
+  'coverage_audit_protocol': ['assess_learning_coverage'],
+};
+
+const RULE_NODES = [
+  // JSON rules (structured)
+  {id:'rule_advisory_gate_protocol',agent:'rules',type:'rule',label:'advisory_gate_protocol',format:'json',
+   blurb:'Protocol for advisory (soft) gate evaluation and escalation logic.'},
+  {id:'rule_applet_scope_discipline',agent:'rules',type:'rule',label:'applet_scope_discipline',format:'json',
+   blurb:'Scope boundaries for applet-level review — what to evaluate vs. ignore.'},
+  {id:'rule_applicable_field_protocol',agent:'rules',type:'rule',label:'applicable_field_protocol',format:'json',
+   blurb:'Rules for determining which rubric fields apply to a given applet type.'},
+  {id:'rule_concept_attribution',agent:'rules',type:'rule',label:'concept_attribution',format:'json',
+   blurb:'How to attribute concepts to source materials (KB, textbook, curriculum).'},
+  {id:'rule_coverage_audit_protocol',agent:'rules',type:'rule',label:'coverage_audit_protocol',format:'json',
+   blurb:'Protocol for auditing LO coverage completeness across module/applet.'},
+  {id:'rule_module_annotation_schema',agent:'rules',type:'rule',label:'module_annotation_schema',format:'json',
+   blurb:'Schema for module-level annotations attached during sequence derivation.'},
+  {id:'rule_slide_role_observations',agent:'rules',type:'rule',label:'slide_role_observations',format:'json',
+   blurb:'Observation framework for classifying slide roles (intro, content, practice, summary).'},
+  {id:'rule_slide_tagging_protocol',agent:'rules',type:'rule',label:'slide_tagging_protocol',format:'json',
+   blurb:'Protocol for tagging slides with pedagogical and structural metadata.'},
+  {id:'rule_vocabulary_status_protocol',agent:'rules',type:'rule',label:'vocabulary_status_protocol',format:'json',
+   blurb:'Status tracking for vocabulary terms — introduced, reinforced, assessed.'},
+  {id:'rule_vocabulary_tracking',agent:'rules',type:'rule',label:'vocabulary_tracking',format:'json',
+   blurb:'Tracking vocabulary across blueprint and concept enrichment phases.'},
+  // Markdown rules (prose)
+  {id:'rule_applet_conventions',agent:'rules',type:'rule',label:'applet_conventions',format:'md',
+   blurb:'Conventions for applet structure, naming, screen flow, and interaction patterns.'},
+  {id:'rule_convention_requirements',agent:'rules',type:'rule',label:'convention_requirements',format:'md',
+   blurb:'General convention requirements for blueprint and concept enrichment outputs.'},
+  {id:'rule_delivery_language',agent:'rules',type:'rule',label:'delivery_language',format:'md',
+   blurb:'Rules for delivery language handling — bilingual references vs. delivery mandate.'},
+  {id:'rule_dev_note_anchoring',agent:'rules',type:'rule',label:'dev_note_anchoring',format:'md',
+   blurb:'How to anchor developer notes to specific slides/screens for actionability.'},
+  {id:'rule_kb_gap_handling',agent:'rules',type:'rule',label:'kb_gap_handling',format:'md',
+   blurb:'Handling KB gaps — when data is missing, how to flag and work around it.'},
+  {id:'rule_lo_code_alignment',agent:'rules',type:'rule',label:'lo_code_alignment',format:'md',
+   blurb:'Aligning LO codes between chapter sequence, module LOs, and applet LOs.'},
+  {id:'rule_media_insertion_heuristics',agent:'rules',type:'rule',label:'media_insertion_heuristics',format:'md',
+   blurb:'Heuristics for when and where to insert media (images, video, diagrams) in blueprints.'},
+  {id:'rule_module_level_tropes',agent:'rules',type:'rule',label:'module_level_tropes',format:'md',
+   blurb:'Module-level trope definitions (Snapshot, Math_Vault, etc.) and their structural implications.'},
+  {id:'rule_module_sequencing_rules',agent:'rules',type:'rule',label:'module_sequencing_rules',format:'md',
+   blurb:'Rules for ordering modules within a chapter — prerequisite chains, spiral curriculum.'},
+  {id:'rule_scope_discipline',agent:'rules',type:'rule',label:'scope_discipline',format:'md',
+   blurb:'Scope discipline — what is in-scope vs. out-of-scope for each skill and agent.'},
+  {id:'rule_storyboard_read_rules',agent:'rules',type:'rule',label:'storyboard_read_rules',format:'md',
+   blurb:'How to read and interpret PPTX storyboards for review scoring.'},
+  {id:'rule_textbook_floor_principle',agent:'rules',type:'rule',label:'textbook_floor_principle',format:'md',
+   blurb:'Textbook as floor principle — textbook content is minimum, not maximum.'},
+  {id:'rule_visual_hierarchy_rules',agent:'rules',type:'rule',label:'visual_hierarchy_rules',format:'md',
+   blurb:'Rules for evaluating visual hierarchy in slide and screen designs.'},
+  {id:'rule_visual_model_protocol',agent:'rules',type:'rule',label:'visual_model_protocol',format:'md',
+   blurb:'Protocol for visual model references in blueprints and applet screens.'},
 ];
 
 /* ── Pipeline structure: which nodes go in which lanes ───────────── */
 const LANES = [
-  {id:'lane_a1', label:'A1 Chapter Researcher', agent:'A1', color:'#3b82f6',
+  {id:'lane_ch_research', label:'ch_research — Chapter Researcher', agent:'ch_research', color:'#3b82f6',
    nodes:['a1_trigger','a1_preflight','a1_confirm','a1_t6_struct','a1_t6_sem','a1_s1a1','a1_s2','a1_s1a2','a1_render','a1_gates','a1_finalize']},
-  {id:'lane_a2', label:'A2 Module Reviewer (per module)', agent:'A2', color:'#8b5cf6',
+  {id:'lane_mod_review', label:'mod_review — Module Reviewer (per module)', agent:'mod_review', color:'#8b5cf6',
    iter:'For each module in approved sequence',
    nodes:['a2_preflight','a2_confirm','a2_t2','a2_t6','a2_s1b','a2_s2','a2_s3','a2_render_gates','a2_gates','a2_s4','a2_s5','a2_s6','a2_t7','a2_s8','a2_t8t9']},
-  {id:'lane_a3', label:'A3 Applet Reviewer (per applet)', agent:'A3', color:'#f59e0b',
+  {id:'lane_app_review', label:'app_review — Applet Reviewer (per applet)', agent:'app_review', color:'#f59e0b',
    iter:'For each applet storyboard in module',
    nodes:['a3_preflight','a3_confirm','a3_extract','a3_t6','a3_s1c','a3_s2','a3_s3','a3_render_gates','a3_gates','a3_scoring','a3_final']},
+  {id:'lane_rubrics', label:'Rubrics — Scoring Rubrics & Guides', agent:'rubrics', color:'#ec4899',
+   nodes: RUBRIC_NODES.map(n => n.id)},
+  {id:'lane_rules', label:'Domain Rules — 24 Rule Files', agent:'rules', color:'#14b8a6',
+   nodes: RULE_NODES.map(n => n.id)},
 ];
 
 const NODE_MAP = {};
 NODES.forEach(n => NODE_MAP[n.id] = n);
+RUBRIC_NODES.forEach(n => NODE_MAP[n.id] = n);
+RULE_NODES.forEach(n => NODE_MAP[n.id] = n);
 
 /* ── Render ───────────────────────────────────────────────────────── */
 function renderPipeline() {
@@ -868,12 +1037,30 @@ function renderPipeline() {
     const flow = document.createElement('div');
     flow.className = 'lane-flow';
 
+    // Track group headers for rubric lanes
+    let lastGroup = null;
+
     lane.nodes.forEach((nid, i) => {
       const n = NODE_MAP[nid];
       if (!n) return;
 
-      // Arrow between nodes
-      if (i > 0) {
+      const isRubric = n.type === 'rubric';
+      const isRule = n.type === 'rule';
+
+      // Group separator for rubric lane
+      if (isRubric && n.group && n.group !== lastGroup) {
+        lastGroup = n.group;
+        if (i > 0) {
+          const sep = document.createElement('div');
+          sep.style.cssText = 'flex-shrink:0;width:1px;background:#334155;align-self:stretch;margin:0 4px';
+          flow.appendChild(sep);
+        }
+        const grpLabel = document.createElement('div');
+        grpLabel.style.cssText = 'writing-mode:vertical-lr;text-orientation:mixed;font-size:9px;font-weight:700;color:#64748b;letter-spacing:.5px;text-transform:uppercase;align-self:center;flex-shrink:0;padding:0 2px';
+        grpLabel.textContent = n.group;
+        flow.appendChild(grpLabel);
+      } else if (!isRubric && !isRule && i > 0) {
+        // Arrow between pipeline nodes
         const arrow = document.createElement('div');
         arrow.className = 'arrow flow';
         flow.appendChild(arrow);
@@ -896,16 +1083,35 @@ function renderPipeline() {
       lbl.className = 'node-label';
       lbl.textContent = n.label;
       head.appendChild(lbl);
-      const agentBadge = document.createElement('span');
-      agentBadge.className = 'node-agent';
-      agentBadge.style.background = lane.color + '44';
-      agentBadge.textContent = n.agent;
-      head.appendChild(agentBadge);
-      if (n.model) {
-        const modelBadge = document.createElement('span');
-        modelBadge.className = 'node-model ' + n.model;
-        modelBadge.textContent = n.model === 'sonnet' ? 'Sonnet' : 'Haiku';
-        head.appendChild(modelBadge);
+
+      if (isRubric) {
+        // Group badge for rubrics
+        const grpBadge = document.createElement('span');
+        grpBadge.className = 'node-agent';
+        grpBadge.style.background = '#ec489944';
+        grpBadge.style.color = '#ec4899';
+        grpBadge.textContent = n.group || 'rubric';
+        head.appendChild(grpBadge);
+      } else if (isRule) {
+        // Format badge for rules
+        const fmtBadge = document.createElement('span');
+        fmtBadge.className = 'node-model';
+        fmtBadge.style.background = n.format === 'json' ? '#14b8a633' : '#6366f133';
+        fmtBadge.style.color = n.format === 'json' ? '#5eead4' : '#a5b4fc';
+        fmtBadge.textContent = n.format === 'json' ? 'JSON' : 'MD';
+        head.appendChild(fmtBadge);
+      } else {
+        const agentBadge = document.createElement('span');
+        agentBadge.className = 'node-agent';
+        agentBadge.style.background = lane.color + '44';
+        agentBadge.textContent = n.agent;
+        head.appendChild(agentBadge);
+        if (n.model) {
+          const modelBadge = document.createElement('span');
+          modelBadge.className = 'node-model ' + n.model;
+          modelBadge.textContent = n.model === 'sonnet' ? 'Sonnet' : 'Haiku';
+          head.appendChild(modelBadge);
+        }
       }
       card.appendChild(head);
 
@@ -915,47 +1121,68 @@ function renderPipeline() {
       body.textContent = n.blurb;
       card.appendChild(body);
 
-      // I/P/O strip
-      const ipo = document.createElement('div');
-      ipo.className = 'node-ipo';
-      if (n.inp && n.inp.length) {
-        ipo.innerHTML += `<div class="ipo-row"><span class="ipo-key">IN:</span><span class="ipo-val">${esc(n.inp.join(', '))}</span></div>`;
+      if (isRule) {
+        // Show consuming skills for rules
+        const consumers = RULE_INJECTION_MAP[n.label] || [];
+        if (consumers.length) {
+          const ipo = document.createElement('div');
+          ipo.className = 'node-ipo';
+          ipo.innerHTML = `<div class="ipo-row"><span class="ipo-key" style="width:auto;color:#14b8a6">USED BY:</span><span class="ipo-val">${esc(consumers.join(', '))}</span></div>`;
+          card.appendChild(ipo);
+        }
+      } else if (isRubric) {
+        // Show detail line for rubrics
+        if (n.detail) {
+          const ipo = document.createElement('div');
+          ipo.className = 'node-ipo';
+          ipo.innerHTML = `<div class="ipo-row"><span class="ipo-val" style="color:#94a3b8;font-style:italic">${esc(n.detail)}</span></div>`;
+          card.appendChild(ipo);
+        }
+      } else {
+        // I/P/O strip for pipeline nodes
+        const ipo = document.createElement('div');
+        ipo.className = 'node-ipo';
+        if (n.inp && n.inp.length) {
+          ipo.innerHTML += `<div class="ipo-row"><span class="ipo-key">IN:</span><span class="ipo-val">${esc(n.inp.join(', '))}</span></div>`;
+        }
+        if (n.proc && n.proc.length) {
+          ipo.innerHTML += `<div class="ipo-row"><span class="ipo-key">DO:</span><span class="ipo-val">${esc(n.proc.join(' > '))}</span></div>`;
+        }
+        if (n.out && n.out.length) {
+          ipo.innerHTML += `<div class="ipo-row"><span class="ipo-key">OUT:</span><span class="ipo-val">${esc(n.out.join(', '))}</span></div>`;
+        }
+        card.appendChild(ipo);
       }
-      if (n.proc && n.proc.length) {
-        ipo.innerHTML += `<div class="ipo-row"><span class="ipo-key">DO:</span><span class="ipo-val">${esc(n.proc.join(' > '))}</span></div>`;
-      }
-      if (n.out && n.out.length) {
-        ipo.innerHTML += `<div class="ipo-row"><span class="ipo-key">OUT:</span><span class="ipo-val">${esc(n.out.join(', '))}</span></div>`;
-      }
-      card.appendChild(ipo);
 
-      // Footer
-      const foot = document.createElement('div');
-      foot.className = 'node-foot';
-      if (n.cost) {
-        const cp = document.createElement('span');
-        cp.className = 'cost-pill';
-        cp.textContent = n.cost;
-        foot.appendChild(cp);
+      // Footer (pipeline nodes only)
+      if (!isRubric && !isRule) {
+        const foot = document.createElement('div');
+        foot.className = 'node-foot';
+        if (n.cost) {
+          const cp = document.createElement('span');
+          cp.className = 'cost-pill';
+          cp.textContent = n.cost;
+          foot.appendChild(cp);
+        }
+        if (n.gate === 'hard' || (n.gate === 'mixed' && n.id.includes('gate'))) {
+          const gp = document.createElement('span');
+          gp.className = 'gate-pill hard';
+          gp.textContent = n.gate === 'mixed' ? 'HARD+SOFT' : 'HARD GATE';
+          foot.appendChild(gp);
+        } else if (n.gate === 'soft') {
+          const gp = document.createElement('span');
+          gp.className = 'gate-pill soft';
+          gp.textContent = 'SOFT GATE';
+          foot.appendChild(gp);
+        }
+        if (n.caveats) {
+          const cv = document.createElement('span');
+          cv.className = 'caveat';
+          cv.textContent = n.caveats;
+          foot.appendChild(cv);
+        }
+        card.appendChild(foot);
       }
-      if (n.gate === 'hard' || (n.gate === 'mixed' && n.id.includes('gate'))) {
-        const gp = document.createElement('span');
-        gp.className = 'gate-pill hard';
-        gp.textContent = n.gate === 'mixed' ? 'HARD+SOFT' : 'HARD GATE';
-        foot.appendChild(gp);
-      } else if (n.gate === 'soft') {
-        const gp = document.createElement('span');
-        gp.className = 'gate-pill soft';
-        gp.textContent = 'SOFT GATE';
-        foot.appendChild(gp);
-      }
-      if (n.caveats) {
-        const cv = document.createElement('span');
-        cv.className = 'caveat';
-        cv.textContent = n.caveats;
-        foot.appendChild(cv);
-      }
-      card.appendChild(foot);
 
       flow.appendChild(card);
     });
@@ -994,49 +1221,100 @@ function applyFilter(f) {
 /* ── Modal ────────────────────────────────────────────────────────── */
 function openModal(n) {
   const el = document.getElementById('modalContent');
-  let html = `<h2>${esc(n.label)}</h2>`;
-  html += `<p>${esc(n.blurb)}</p>`;
+  let html = '';
 
-  html += '<h3>Metadata</h3>';
-  html += `<div class="meta-row"><span class="meta-key">Agent</span><span class="meta-val">${n.agent}</span></div>`;
-  html += `<div class="meta-row"><span class="meta-key">Type</span><span class="meta-val">${n.type}</span></div>`;
-  html += `<div class="meta-row"><span class="meta-key">Model</span><span class="meta-val">${n.model || 'None (no LLM)'}</span></div>`;
-  html += `<div class="meta-row"><span class="meta-key">Gate</span><span class="meta-val">${n.gate || 'None'}</span></div>`;
-  html += `<div class="meta-row"><span class="meta-key">Est. Cost</span><span class="meta-val">${n.cost || '—'}</span></div>`;
+  if (n.type === 'rubric') {
+    // Rubric modal
+    html += `<h2 style="color:#ec4899">${esc(n.label)}</h2>`;
+    html += `<p>${esc(n.blurb)}</p>`;
+    html += '<h3>Details</h3>';
+    html += `<div class="meta-row"><span class="meta-key">Group</span><span class="meta-val">${esc(n.group || '—')}</span></div>`;
+    if (n.detail) {
+      html += `<div class="meta-row"><span class="meta-key">Summary</span><span class="meta-val">${esc(n.detail)}</span></div>`;
+    }
+    html += `<div class="meta-row"><span class="meta-key">File</span><span class="meta-val" style="font-family:monospace;color:#93c5fd">${esc(n.label)}.json</span></div>`;
 
-  if (n.inp && n.inp.length) {
-    html += '<h3>Inputs</h3>';
-    n.inp.forEach(i => { html += `<p>- ${esc(i)}</p>`; });
-  }
-  if (n.proc && n.proc.length) {
-    html += '<h3>Process</h3>';
-    n.proc.forEach(p => { html += `<p>- ${esc(p)}</p>`; });
-  }
-  if (n.out && n.out.length) {
-    html += '<h3>Outputs</h3>';
-    n.out.forEach(o => { html += `<p>- ${esc(o)}</p>`; });
-  }
+  } else if (n.type === 'rule') {
+    // Rule modal
+    html += `<h2 style="color:#14b8a6">${esc(n.label)}</h2>`;
+    html += `<p>${esc(n.blurb)}</p>`;
+    html += '<h3>Details</h3>';
+    html += `<div class="meta-row"><span class="meta-key">Format</span><span class="meta-val">${n.format === 'json' ? 'JSON (structured)' : 'Markdown (prose)'}</span></div>`;
+    html += `<div class="meta-row"><span class="meta-key">File</span><span class="meta-val" style="font-family:monospace;color:#93c5fd">${esc(n.label)}.${n.format === 'json' ? 'json' : 'md'}</span></div>`;
+    const consumers = RULE_INJECTION_MAP[n.label] || [];
+    if (consumers.length) {
+      html += `<h3>Consuming Skills (${consumers.length})</h3>`;
+      html += '<div style="display:flex;flex-wrap:wrap;gap:6px;margin:8px 0">';
+      consumers.forEach(c => {
+        html += `<span style="background:#14b8a622;border:1px solid #14b8a644;border-radius:4px;padding:2px 8px;font-size:11px;color:#5eead4;font-family:monospace">${esc(c)}</span>`;
+      });
+      html += '</div>';
+    } else {
+      html += '<h3>Consuming Skills</h3><p style="color:#64748b">No mapped consumers in injection map.</p>';
+    }
+    // Show which other rules share the same consumers
+    if (consumers.length) {
+      const coRules = [];
+      Object.entries(RULE_INJECTION_MAP).forEach(([rule, skills]) => {
+        if (rule !== n.label && skills.some(s => consumers.includes(s))) coRules.push(rule);
+      });
+      if (coRules.length) {
+        html += `<h3>Co-injected Rules</h3>`;
+        html += `<p style="font-size:11px;color:#94a3b8">Other rules that share at least one consuming skill:</p>`;
+        html += '<div style="display:flex;flex-wrap:wrap;gap:4px;margin:6px 0">';
+        coRules.forEach(r => {
+          html += `<span style="background:#0f172a;border:1px solid #334155;border-radius:3px;padding:1px 6px;font-size:10px;color:#cbd5e1;font-family:monospace">${esc(r)}</span>`;
+        });
+        html += '</div>';
+      }
+    }
 
-  if (n.schema) {
-    html += '<h3>Schema</h3>';
-    html += `<div class="schema-block">${esc(n.schema)}</div>`;
-  }
+  } else {
+    // Pipeline node modal (original)
+    html += `<h2>${esc(n.label)}</h2>`;
+    html += `<p>${esc(n.blurb)}</p>`;
 
-  if (n.constraints && n.constraints.length) {
-    html += '<h3>Constraints</h3>';
-    n.constraints.forEach(c => { html += `<div class="constraint">${esc(c)}</div>`; });
-  }
+    html += '<h3>Metadata</h3>';
+    html += `<div class="meta-row"><span class="meta-key">Agent</span><span class="meta-val">${n.agent}</span></div>`;
+    html += `<div class="meta-row"><span class="meta-key">Type</span><span class="meta-val">${n.type}</span></div>`;
+    html += `<div class="meta-row"><span class="meta-key">Model</span><span class="meta-val">${n.model || 'None (no LLM)'}</span></div>`;
+    html += `<div class="meta-row"><span class="meta-key">Gate</span><span class="meta-val">${n.gate || 'None'}</span></div>`;
+    html += `<div class="meta-row"><span class="meta-key">Est. Cost</span><span class="meta-val">${n.cost || '—'}</span></div>`;
 
-  if (n.caveats) {
-    html += '<h3>Caveats</h3>';
-    html += `<p>${esc(n.caveats)}</p>`;
-  }
+    if (n.inp && n.inp.length) {
+      html += '<h3>Inputs</h3>';
+      n.inp.forEach(i => { html += `<p>- ${esc(i)}</p>`; });
+    }
+    if (n.proc && n.proc.length) {
+      html += '<h3>Process</h3>';
+      n.proc.forEach(p => { html += `<p>- ${esc(p)}</p>`; });
+    }
+    if (n.out && n.out.length) {
+      html += '<h3>Outputs</h3>';
+      n.out.forEach(o => { html += `<p>- ${esc(o)}</p>`; });
+    }
 
-  if (n.prompts && n.prompts.length) {
-    html += '<h3>Skill Prompts &amp; Rubric Emphasis</h3>';
-    n.prompts.forEach(p => {
-      html += `<details class="prompt-section"><summary>${esc(p.title)}</summary><div class="prompt-body">${p.body}</div></details>`;
-    });
+    if (n.schema) {
+      html += '<h3>Schema</h3>';
+      html += `<div class="schema-block">${esc(n.schema)}</div>`;
+    }
+
+    if (n.constraints && n.constraints.length) {
+      html += '<h3>Constraints</h3>';
+      n.constraints.forEach(c => { html += `<div class="constraint">${esc(c)}</div>`; });
+    }
+
+    if (n.caveats) {
+      html += '<h3>Caveats</h3>';
+      html += `<p>${esc(n.caveats)}</p>`;
+    }
+
+    if (n.prompts && n.prompts.length) {
+      html += '<h3>Skill Prompts &amp; Rubric Emphasis</h3>';
+      n.prompts.forEach(p => {
+        html += `<details class="prompt-section"><summary>${esc(p.title)}</summary><div class="prompt-body">${p.body}</div></details>`;
+      });
+    }
   }
 
   el.innerHTML = html;
@@ -1064,17 +1342,19 @@ function switchLane(agent) {
     b.classList.toggle('active', b.dataset.agent === agent);
   });
 }
-// Default to A1 on mobile
+// Default to ch_research on mobile
 if (window.innerWidth <= 1024) {
-  setTimeout(() => switchLane('A1'), 50);
+  setTimeout(() => switchLane('ch_research'), 50);
 }
 </script>
 
 <!-- ── Bottom Agent Nav (mobile only) ───────────────────────────── -->
 <nav class="agent-nav">
-  <button class="agent-nav-btn active" data-agent="A1" style="--nav-color:#3b82f6" onclick="switchLane('A1')">A1 Chapter</button>
-  <button class="agent-nav-btn" data-agent="A2" style="--nav-color:#8b5cf6" onclick="switchLane('A2')">A2 Module</button>
-  <button class="agent-nav-btn" data-agent="A3" style="--nav-color:#f59e0b" onclick="switchLane('A3')">A3 Applet</button>
+  <button class="agent-nav-btn active" data-agent="ch_research" style="--nav-color:#3b82f6" onclick="switchLane('ch_research')">ch_research</button>
+  <button class="agent-nav-btn" data-agent="mod_review" style="--nav-color:#8b5cf6" onclick="switchLane('mod_review')">mod_review Module</button>
+  <button class="agent-nav-btn" data-agent="app_review" style="--nav-color:#f59e0b" onclick="switchLane('app_review')">app_review Applet</button>
+  <button class="agent-nav-btn" data-agent="rubrics" style="--nav-color:#ec4899" onclick="switchLane('rubrics')">Rubrics</button>
+  <button class="agent-nav-btn" data-agent="rules" style="--nav-color:#14b8a6" onclick="switchLane('rules')">Rules</button>
 </nav>
 
 </body>
