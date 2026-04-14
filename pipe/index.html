@@ -566,12 +566,12 @@ const NODES = [
 <h4>S22: Domain Rules Injection</h4>
 <div class="rule">Template slimmed from 162→42 lines. 4 domain rules injected: scope_discipline, delivery_language, module_level_tropes, vocabulary_status_protocol.</div>`}]},
 
-  {id:'a2_s3',agent:'A2',type:'skill',label:'S3: Blueprint (Module)',
-   blurb:'Slide-by-slide blueprint: sections (ATGAR), CPA phases, tropes, applet placements, video placements, visual models, conventions. S22: 9 domain rules injected, template 267→104 lines.',
-   inp:['T2 extract + thumbnails','MODULE_RESEARCH_BRIEF','curriculum_context','screen_map'],
-   proc:['LLM tool_use + VISION: build_blueprint, level="module"','Thumbnails sent as base64 images','Handoff check after output'],
-   out:['IDEAL_MODULE_BLUEPRINT.json'],model:'sonnet',gate:null,cost:'~$0.15-0.40',
-   caveats:'Only skill that uses VISION (thumbnails). Most expensive single call.',
+  {id:'a2_s3',agent:'A2',type:'skill',label:'S3: Blueprint (Module) [Multi-Pass]',
+   blurb:'S25: Decomposed into 5 focused passes — S3a spine (structure), S3b1 concepts (WHAT), S3b2 engagement (HOW), S3b3 experience (FLOW + delivery mode), S3c compile (deterministic). context_anchor limits to 1-2 contexts. delivery_changes[] can escalate dense slides to applets, insert segues, add setup-reveal.',
+   inp:['MODULE_RESEARCH_BRIEF','MODULE_LO_BRIEF','curriculum_context','sibling_scopes','module_trace'],
+   proc:['S3a: build_spine (structure only, ~$0.10)','S3b1: enrich_concepts (~$0.15)','S3b2: enrich_engagement (~$0.15)','S3b3: enrich_experience + delivery_changes (~$0.15)','S3c: deterministic compile + validate_blueprint_structure()','Per-pass checkpointing: S3a_spine.json, S3b1_concepts.json, S3b2_engagement.json, S3b3_experience.json','Handoff check after output'],
+   out:['IDEAL_MODULE_BLUEPRINT.json','S3a_spine.json','S3b1_concepts.json','S3b2_engagement.json','S3b3_experience.json'],model:'sonnet',gate:null,cost:'~$0.40-0.70',
+   caveats:'4 LLM calls (was 1). No context bleed between passes. Spine validated immediately — bad spines retried at ~$0.05. delivery_changes applied deterministically in S3c.',
    schema:'{\n  slides: [{position, section, purpose,\n    cpa_phase, tropes[], visual_model_vir_id,\n    applet_placement_ref}],\n  applet_placements: [{label, after_slide,\n    pedagogical_stage, lo_served,\n    recommended_ias_archetype}],\n  video_placements: [...],\n  visual_models: [...],\n  trope_map: {math_vault:[], exit_question:[], ...},\n  cpa_summary: {concrete_slides:[], ...},\n  convention_requirements: [...]\n}',
    constraints:['vision_enabled must be true in infrastructure.json','Thumbnails max 400px width','validated_api_call: fix→validate→retry→halt','Handoff check after output'],
    prompts:[{title:'System Prompt — build_blueprint (module)',body:`<h4>Scoping — Use Module's Assignments, NOT Full KB</h4>
